@@ -1,0 +1,72 @@
+.ui-page-theme-a .ui-btn:focus {
+  outline: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+.ui-focus:not(.ui-input-text, .ui-input-search) {
+  outline: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.picker-color-smell-1 {
+  display: inline-block;
+  width: 2em;
+  min-height: 1em;
+  height: 100%;
+  background-color: rgb(0,255,0);
+}
+.picker-color-smell-2 {
+  display: inline-block;
+  width: 2em;
+  min-height: 1em;
+  height: 100%;
+  background-color: rgb(248,229,64);
+}
+.picker-color-smell-3 {
+  display: inline-block;
+  width: 2em;
+  min-height: 1em;
+  height: 100%;
+  background-color: rgb(218,136,0);
+}
+.picker-color-smell-4 {
+  display: inline-block;
+  width: 2em;
+  min-height: 1em;
+  height: 100%;
+  background-color: rgb(235,38,103);
+}
+.picker-color-smell-5 {
+  display: inline-block;
+  width: 2em;
+  min-height: 1em;
+  height: 100%;
+  background-color: rgb(95,14,54);
+}
+div[data-role="panel"] {
+  background-color: #f9f9f9 !important;
+}
+
+/* Remove title restriction on modal headers */
+.modal-title {
+  margin: 0 10% 0 !important;
+}
+
+/* Remove radio/checkbox glitch in android */
+.ui-page-theme-a .ui-btn:hover,html .ui-bar-a .ui-btn:hover,html .ui-body-a .ui-btn:hover,html body .ui-group-theme-a .ui-btn:hover,html head+body .ui-btn.ui-btn-a:hover {
+  background-color: #f6f6f6 !important;
+  border-color: #ddd !important;
+  color: inherit !important;
+  text-shadow: none !important;
+}
+.close-button{
+  position:absolute;
+  left:0px;
+}
+.back-x{
+  height:30px;
+  width:30px
+}

@@ -1,0 +1,17 @@
+/platforms
+/plugins
+/.vs
+/bin
+/bld
+SMELL-PITTSBURGH-CERTIFICATE.txt
+SMELL-MY-CITY-CERTIFICATE.txt
+smell-my-city.jks
+smell-my-city.jsproj
+smell-my-city.jsproj.user
+smell-my-city-cordova.sln
+taco.json
+*.DS_Store
+/www/img/ios-*
+node_modules/
+package-lock.json
+package.json

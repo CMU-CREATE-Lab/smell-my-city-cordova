@@ -1,0 +1,12 @@
+label.settings-description {
+  font-size: 14px;
+}
+
+label.settings-description-smaller {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.ui-input-text.missing-recommended {
+   border-color: red;
+}

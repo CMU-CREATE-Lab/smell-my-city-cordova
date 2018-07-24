@@ -1,0 +1,26 @@
+div.submission-disclaimer {
+  text-align: justify;
+  text-justify: inter-word;
+  font-style: italic;
+  font-size: 10px;
+}
+
+div.homepage-section {
+  padding: 5px 0 5px 0;
+}
+
+div.homepage-section-top {
+  padding: 0 0 5px 0;
+}
+
+div.no-top {
+  padding-top: 0;
+}
+
+div.textfield-disabled {
+  background-color: #ddd !important;
+}
+
+textarea {
+  height: 104px !important;
+}
