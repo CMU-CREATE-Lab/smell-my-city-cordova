@@ -20,13 +20,15 @@ var LocalStorage = {
     firsttime_prediction: true,
     // JSON
     smell_notification_values: {"4": true, "5": true},
+    home_city:{name:"",lat:null,lng:null,},
     // strings
     user_hash: "",
     email: "",
     name: "",
     phone: "",
     address: "",
-    langauge:"english"
+    langauge:"english",
+    current_city:"",
   },
 
 

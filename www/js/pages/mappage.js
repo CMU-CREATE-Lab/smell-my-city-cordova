@@ -3,6 +3,9 @@
   centerLocation: [],
   maxTimeForPlaces:24*60*60,
   text:null, //the text for the page's template
+  inNewCity:false,
+  zipcode:"",
+  popupTimer:undefined,
 
   initialize: function () {
     //load template
@@ -10,6 +13,7 @@
     var mapTpl=Handlebars.compile($("#map-tpl").html());
     $('#map').html(mapTpl(this.text));
     $('#map').trigger('create');
+    MapPage.refreshCityName(LocalStorage.get("current_city"));
     console.log("MapPage.initialize");
 
     // first-time map modals
@@ -21,8 +25,11 @@
     // don't perform this when you redirect from submitting a smell report
     if (MapPage.centerLocation.length != 2) {
       Location.requestLocation(function(latitude,longitude) {
-        console.log("got latlong: "+latitude+","+longitude);
         $('#iframe-map').attr('src', Constants.URL_SMELLPGH+"/visualization?user_hash="+LocalStorage.get("user_hash")+"&latLng="+latitude+","+longitude);
+        if(MapPage.inNewCity){
+          MapPage.makePopup(LocalStorage.get("current_city"));
+          MapPage.inNewCity=false;
+        }
       },function (error){
         console.log(error);
         //if unable to get location use this src to at display something
@@ -51,4 +58,55 @@
   showMapModal: function() {
     showModal("modal-map-firsttime");
   },
+
+  getCity:function(lat,lng,callback){
+    var geocoder = new google.maps.Geocoder;
+    var latlng={lat:lat,lng:lng};
+    var city2;
+    geocoder.geocode({'location': latlng}, function(results, status) {
+      console.log(results)
+      for(var i=0;i<results.length;i++){
+        if(results[i].types[0]==="locality"){
+          city2=results[i].address_components[0].long_name;
+        }
+      }
+      if(results.length>0&&results[0].address_components.length>6){
+     MapPage.zipcode=results[0].address_components[7].long_name;
+      }
+     callback(city2)
+    });
+  },
+
+  updateCity:function(newCity){
+    var oldCity=LocalStorage.get("current_city");
+    return oldCity===newCity;
+  },
+
+  makePopup:function(){
+    MapPage.getAQI(MapPage.zipcode,function(aqi){
+      $(".aqi").text(aqi);
+      //$("#new-city-popup")[0].setAttribute("style","position:absolute;top:-110px");
+      $("#new-city-popup")[0].setAttribute("style","position:absolute;top:-0px");
+     // $("#new-city-popup").animate({})
+      $("#close-popup").click(MapPage.closePopup);
+      MapPage.popupTimer=setTimeout(MapPage.closePopup, 1000*10);
+    });
+
+  },
+
+  refreshCityName:function(city){
+    $(".your-city").text(city);
+  },
+  closePopup:function(){
+    console.log("closed")
+    clearTimeout(MapPage.popupTimer);
+    $("#new-city-popup")[0].setAttribute("style","display:none");
+  },
+  getAQI:function(zip,callback){
+    let data="test"
+    var url=Constants.URL_SMELLPGH+"/api/v2/get_aqi?zipcode="+zip;
+    //$.getJSON(url,function(data){
+      callback(data);
+    //});
+  }
 }

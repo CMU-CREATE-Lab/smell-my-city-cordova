@@ -10,13 +10,17 @@
   request: null,
   location: {"lat": 0, "lng": 0},
   openedPredictionNotification: false,
-   text:null, //the text for the page's template
+  text:null, //the text for the page's template
+  cityRecieved:false,
 
-
+//maybe recursive to deal with async maybe with spinner
   initialize: function () {
     //load template
     this.text=App.text.home;
     var homeTpl=Handlebars.compile($("#home-tpl").html());
+    if(!HomePage.cityRecieved){
+      HomePage.refreshCity(HomePage.initialize);
+    }else{
     $('#home').html(homeTpl(this.text));
     $('#home').trigger('create');
     if (HomePage.returningFromLocationSelectPage) {
@@ -63,12 +67,13 @@
 
     // browser compatibility issues (Yay?)
     $("#home-panel").find(".ui-btn-active").removeClass("ui-btn-active");
+    HomePage.cityRecieved=false;
+    }
   },
 
 
   onDeviceReady: function() {
     console.log("HomePage.onDeviceReady");
-
     // click listeners
     $("#button_submit_report").click(HomePage.onClickSubmit);
     $("#button_smell_location").click(HomePage.onClickLocation);
@@ -357,6 +362,32 @@
     App.htmlElementToScrollAfterKeyboard = label;
     App.htmlElementToBlurAfterKeyboardCloses = element;
     label.scrollIntoView();
+  },
+
+  refreshCity:function(callback){
+    var referanceStr=HomePage.text.rating.h3;
+    var stashedCit=LocalStorage.get("current_city");
+     Location.requestLocation(function(latitude,longitude) {
+       MapPage.getCity(latitude,longitude,function(city){
+         var oldCityLen=0;
+          if(!MapPage.updateCity(city)){
+            MapPage.inNewCity=true;
+            LocalStorage.set("current_city",city);
+        }//want jquery first time and all subsiquent times to use template
+        oldCityLen=stashedCit.length+1;
+        if(referanceStr.indexOf("<span class='your-city'>")>-1){
+           HomePage.text.rating.h3=referanceStr.substring(0,referanceStr.indexOf("<span class='your-city'>"))+city+"?";
+          }else{
+            HomePage.text.rating.h3=referanceStr.substring(0,referanceStr.length-oldCityLen)+city+"?";
+          }
+           HomePage.cityRecieved=true;
+           callback()
+       });
+      },function (error){
+        console.log(error);
+        callback()
+      });
   }
+
 
 }
