@@ -86,8 +86,8 @@
     MapPage.getAQI(MapPage.zipcode,function(aqi){
       $(".aqi").text(aqi);
       //$("#new-city-popup")[0].setAttribute("style","position:absolute;top:-110px");
-      $("#new-city-popup")[0].setAttribute("style","position:absolute;top:-0px");
-     // $("#new-city-popup").animate({})
+      $("#new-city-popup")[0].setAttribute("style","position:absolute;top:0px");
+      $("#new-city-popup").animate({top:"-110px"},1250)
       $("#close-popup").click(MapPage.closePopup);
       MapPage.popupTimer=setTimeout(MapPage.closePopup, 1000*10);
     });
