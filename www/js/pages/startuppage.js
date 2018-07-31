@@ -8,6 +8,7 @@
     $('#startup').html(startupTpl(this.text));
     $('#startup').trigger('create');
     console.log("StartupPage.initialize");
+    $(".langSelect").change(SettingsPage.langSelect);
   },
 
 

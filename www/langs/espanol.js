@@ -112,8 +112,8 @@ var español={
 		lang:{
 			h3:"Lengua",
 			label:"Selecciona tu idioma preferido",
-			l0:langs[0],
-			l1:langs[1]
+			l0:Constants.LANGUAGES[0],
+			l1:Constants.LANGUAGES[1]
 		},
 		footer:constantes.defaultFooter
 	},
@@ -123,7 +123,13 @@ var español={
 		p1:"¡Gracias por instalar Smell MyCity App!",
 		p2:"Esta app es creada por el CMU CREATE Lab y está diseñado para rastrear los olores de la contaminación en todo el mundo. Si usted detecta un olor fétido mientras está fuera, por favor informe a través de esta aplicación.",
 		p3:"Todos Smell MyCity se pone a disposición del Departamento de salud local informes de participación.",
-		footer:"Fin"
+		footer:"Fin",
+		lang:{
+			h3:"Lengua",
+			label:"Selecciona tu idioma preferido",
+			l0:Constants.LANGUAGES[0],
+			l1:Constants.LANGUAGES[1]
+		},
 	},
 	about:{//needs redone
 		panel:constantes.defaultPanel,
@@ -181,4 +187,3 @@ var español={
 		footer:constantes.defaultFooter
 	}
 }
-Constants.APP_TEXT.push(español)

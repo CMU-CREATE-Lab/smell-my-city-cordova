@@ -10,7 +10,7 @@
     $('#settings').html(this.settingsTpl(this.text));
     $('#settings').trigger('create');
     $(".back-x").click(function(){App.navToPageID(App.pastPage)});
-    $("#langSelect").change(SettingsPage.langSelect);
+    $(".langSelect").change(SettingsPage.langSelect);
     this.refreshNotifications();
     this.populateFormSettings();
     this.expandTabs();
@@ -165,7 +165,7 @@
   },
 
   langSelect:function(){
-    var newLang = getText($("#langSelect :selected")[0].value);
+    var newLang = getText($(".langSelect :selected")[0].value);
     App.text=newLang;
     LocalStorage.set("langauge",newLang);
     App.navToPageID("home");
