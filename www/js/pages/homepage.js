@@ -2,9 +2,9 @@
 
   smellValueSelected: false,
   smellValue: 0,
-  smellDescriptionPlaceholder: english.home.describe.placeholder,
-  smellFeelingsSymptomsPlaceholder: english.home.symptoms.placeholder,
-  additionalCommentsPlaceholder: english.home.note.placeholder,
+  smellDescriptionPlaceholder: null,
+  smellFeelingsSymptomsPlaceholder: null,
+  additionalCommentsPlaceholder: null,
   isLatLngDefined: false,
   returningFromLocationSelectPage: false,
   request: null,
@@ -17,10 +17,15 @@
   initialize: function () {
     //load template
     this.text=App.text.home;
+    HomePage.smellDescriptionPlaceholder= this.text.describe.placeholder;
+    HomePage.smellFeelingsSymptomsPlaceholder= this.text.symptoms.placeholder;
+    HomePage.additionalCommentsPlaceholder= this.text.note.placeholder;
     var homeTpl=Handlebars.compile($("#home-tpl").html());
     if(!HomePage.cityRecieved){
+		console.log("if")
       HomePage.refreshCity(HomePage.initialize);
     }else{
+		console.log("else")
     $('#home').html(homeTpl(this.text));
     $('#home').trigger('create');
     if (HomePage.returningFromLocationSelectPage) {
@@ -54,9 +59,11 @@
       LocalStorage.set("firsttime_home",false);
     }
   // set placeholder text
+  console.log(":::::::::::::::")
     $("#textfield_smell_description").attr("placeholder",HomePage.smellValue == 1 ? "N/A" : HomePage.smellDescriptionPlaceholder);
     $("#textfield_feelings_symptoms").attr("placeholder",HomePage.smellValue == 1 ? "N/A" : HomePage.smellFeelingsSymptomsPlaceholder);
     $("#textfield_additional_comments").attr("placeholder",HomePage.additionalCommentsPlaceholder);
+	console.log(HomePage.additionalCommentsPlaceholder)
 
     $("#checkbox_current_time_location").prop("checked", true);
     $("#checkbox_current_time_location").checkboxradio("refresh", true);

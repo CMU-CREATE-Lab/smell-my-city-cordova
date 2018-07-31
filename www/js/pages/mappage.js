@@ -77,15 +77,16 @@
     });
   },
 
+//returns if the new city is the same as the old one
   updateCity:function(newCity){
     var oldCity=LocalStorage.get("current_city");
     return oldCity===newCity;
   },
 
+//Creats and animates new city pop up
   makePopup:function(){
     MapPage.getAQI(MapPage.zipcode,function(aqi){
       $(".aqi").text(aqi);
-      //$("#new-city-popup")[0].setAttribute("style","position:absolute;top:-110px");
       $("#new-city-popup")[0].setAttribute("style","position:absolute;top:0px");
       $("#new-city-popup").animate({top:"-110px"},1250)
       $("#close-popup").click(MapPage.closePopup);
@@ -94,19 +95,23 @@
 
   },
 
+//updates text instances of new city
   refreshCityName:function(city){
     $(".your-city").text(city);
   },
+
+  //hides the new city popup
   closePopup:function(){
     console.log("closed")
     clearTimeout(MapPage.popupTimer);
     $("#new-city-popup")[0].setAttribute("style","display:none");
   },
+
+  //returns the aqi for a zip code
   getAQI:function(zip,callback){
-    let data="test"
-    var url=Constants.URL_SMELLPGH+"/api/v2/get_aqi?zipcode="+zip;
-    //$.getJSON(url,function(data){
+    var url="http://staging.api.smellpittsburgh.org"+"/api/v2/get_aqi?zipcode="+zip;
+    $.getJSON(url,function(data){
       callback(data);
-    //});
+    });
   }
 }

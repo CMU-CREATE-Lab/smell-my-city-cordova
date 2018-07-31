@@ -24,6 +24,7 @@
     });
   },
 
+//gets and stores home city on first launch
   storeCity:function(Lat,lng){
     MapPage.getCity(Lat,Lng,function(city){
       var cityObj={
@@ -33,6 +34,6 @@
       }
       LocalStorage.set("home_city",cityObj)
     })
-  }
+  },
 
 }

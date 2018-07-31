@@ -3,9 +3,10 @@
  * in the future the parameter will determin the language returned
  */
 function getText(language){
-	return english;
+	return this[langs[parseInt(language+"")]];
 }
-
+//array of all languages supported
+var langs=["english","español"];
 
 //The object keys are the names of the html element they correspond to. This is just to help show how  they line up. 
 //Changing these will not change the element but it will break things
@@ -25,6 +26,7 @@ var constants={
 		li2:"Map",
 	}
 }
+
 var english={
 	home:{
 		firstModal:{
@@ -118,6 +120,12 @@ var english={
 			label4:"Air Quality Index Changes",
 			label5:"(notifications about pgh air quality conditions)"//???
 		},
+		lang:{
+			h3:"Language",
+			label:"Select your prefered language",
+			l0:langs[0],
+			l1:langs[1]
+		},
 		footer:constants.defaultFooter
 	},
 	startup:{
@@ -185,3 +193,4 @@ var english={
 	}
 }
 //~~~~
+//start spanish

@@ -27,7 +27,7 @@ var LocalStorage = {
     name: "",
     phone: "",
     address: "",
-    langauge:"english",
+    language:0,
     current_city:"",
   },
 

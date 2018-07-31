@@ -6,11 +6,11 @@
     //load template
     this.text=App.text.settings;
     console.log("SettingsPage.initialize");
-    var settingsTpl=Handlebars.compile($("#settings-tpl").html());
-    $('#settings').html(settingsTpl(this.text));
+    this.settingsTpl=Handlebars.compile($("#settings-tpl").html());
+    $('#settings').html(this.settingsTpl(this.text));
     $('#settings').trigger('create');
     $(".back-x").click(function(){App.navToPageID(App.pastPage)});
-    
+    $("#langSelect").change(SettingsPage.langSelect);
     this.refreshNotifications();
     this.populateFormSettings();
     this.expandTabs();
@@ -67,6 +67,7 @@
   expandTabs: function() {
     $("#notificationsCollapsible").collapsible({collapsed: false});
     $("#reportsCollapsible").collapsible({collapsed: false});
+    $("#langsCollapsible").collapsible({collapsed: false});
   },
 
 
@@ -161,6 +162,14 @@
     App.htmlElementToScrollAfterKeyboard = element;
     App.htmlElementToBlurAfterKeyboardCloses = element;
     element.scrollIntoView();
-  }
+  },
+
+  langSelect:function(){
+    var newLang = getText($("#langSelect :selected")[0].value);
+    App.text=newLang;
+    LocalStorage.set("langauge",newLang);
+    App.navToPageID("home");
+  },
+
 
 }
