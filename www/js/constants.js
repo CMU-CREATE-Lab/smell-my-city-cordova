@@ -44,6 +44,10 @@ var Constants = {
   AccuracyEnum: {
     ENABLED: "enabled",
     DISABLED: "disabled"
-  }
+  },
+  
+  //languages
+  LANGUAGES:["English","español"],
+  APP_TEXT:[]
 
 }

@@ -1,13 +1,4 @@
-//handles language selection and hold language text
-/*currently always returns english
- * in the future the parameter will determin the language returned
- */
-function getText(language){
-	return this[langs[parseInt(language+"")]];
-}
-//array of all languages supported
-var langs=["english","español"];
-
+//english text
 //The object keys are the names of the html element they correspond to. This is just to help show how  they line up. 
 //Changing these will not change the element but it will break things
 var constants={
@@ -192,5 +183,4 @@ var english={
 		footer:constants.defaultFooter
 	}
 }
-//~~~~
-//start spanish
+Constants.APP_TEXT.push(english)

@@ -116,3 +116,12 @@ function disableUnwantedFastClickElements() {
   $("#checkbox_smell_notifications").addClass("needsclick");
   $(".checkbox-smell-subscribe").addClass("needsclick");
 }
+
+//text handling
+
+/*Parse int from param and returns the template text object 
+ * for that language
+ */
+function getText(language){
+	return Constants.APP_TEXT[parseInt(language+"")];
+}
