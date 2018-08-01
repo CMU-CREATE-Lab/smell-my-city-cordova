@@ -28,12 +28,7 @@ var App = {
    */
   initialize: function () {
     console.log("onInitialize");
-    if (LocalStorage.get("firsttime_startup")) {
-      $.mobile.pageContainer.pagecontainer("change", "#startup", { changeHash: true, transition: "none" });
-      StartupPage.onDeviceReady();
-    } else {
       document.addEventListener("deviceready", this.onDeviceReady, false);
-    }
   },
 
 
@@ -141,8 +136,13 @@ var App = {
     // listen for keyboard events
     window.addEventListener("native.keyboardshow", onKeyboardShowInHomePage);
     window.addEventListener('native.keyboardhide', onKeyboardHide);
-
+    if(LocalStorage.get("firsttime_startup")){
+      App.navToPageID(Constants.STARTUP_PAGE);
+    }else{
     if ($.mobile.pageContainer.pagecontainer("getActivePage")[0].id == Constants.HOME_PAGE) HomePage.initialize();
+
+    }
+
   },
 
 
