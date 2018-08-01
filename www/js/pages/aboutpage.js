@@ -9,6 +9,7 @@
     var aboutTpl=Handlebars.compile($("#about-tpl").html());
     $('#about').html(aboutTpl(this.text));
     $('#about').trigger('create');
+    //add back (x) button functionality
     $(".back-x").click(function(){App.navToPageID(App.pastPage)});
   },
 

@@ -27,14 +27,14 @@
 
 //gets and stores home city on first launch
   storeCity:function(Lat,Lng){
-    MapPage.getCity(Lat,Lng,function(city){
+    App.getCity(Lat,Lng,function(city){
       var cityObj={
         name:city,
         lat:Lat,
         lng:Lng
       }
       LocalStorage.set("home_city",cityObj)
-    })
+    });
   },
 
 }

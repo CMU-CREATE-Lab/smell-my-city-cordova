@@ -11,7 +11,7 @@
   location: {"lat": 0, "lng": 0},
   openedPredictionNotification: false,
   text:null, //the text for the page's template
-  cityRecieved:false,
+  cityRecieved:false,//boolean if have completed geocode to get current city
 
 //maybe recursive to deal with async maybe with spinner
   initialize: function () {
@@ -21,60 +21,63 @@
     HomePage.smellFeelingsSymptomsPlaceholder= this.text.symptoms.placeholder;
     HomePage.additionalCommentsPlaceholder= this.text.note.placeholder;
     var homeTpl=Handlebars.compile($("#home-tpl").html());
+
     if(!HomePage.cityRecieved){
-		console.log("if")
+      //if we havent completed the needed geocoding request do so and call initialize after
       HomePage.refreshCity(HomePage.initialize);
     }else{
-		console.log("else")
-    $('#home').html(homeTpl(this.text));
-    $('#home').trigger('create');
-    if (HomePage.returningFromLocationSelectPage) {
-      console.log("HomePage.initialize: returningFromLocationSelectPage");
-      HomePage.returningFromLocationSelectPage = false;
-      return;
-    }
-    console.log("HomePage.initialize");
+      //if we have completed the geocoding request execute the below to display the home page
+      $('#home').html(homeTpl(this.text));
+      $('#home').trigger('create');
+      //^ loading template
 
-    Location.hasLocation = false;
-    if (HomePage.request != null) {
-      HomePage.request.abort();
-      HomePage.request = null;
-    }
-    HomePage.checkSubmitStatus();
-
-    // TODO hide location/time select for now; remove later
-    $("#current_time_location").hide();
-
-    // first-time predict modal
-    if (HomePage.openedPredictionNotification) {
-      if (LocalStorage.get("firsttime_prediction")) {
-        HomePage.showPredictModal();
-        LocalStorage.set("firsttime_prediction",false);
+      if (HomePage.returningFromLocationSelectPage) {
+        console.log("HomePage.initialize: returningFromLocationSelectPage");
+        HomePage.returningFromLocationSelectPage = false;
+        return;
       }
-      HomePage.openedPredictionNotification = false;
-    }
-    // first-time modal
-    if (LocalStorage.get("firsttime_home")) {
-      HomePage.showHomeModal();
-      LocalStorage.set("firsttime_home",false);
-    }
-  // set placeholder text
-  console.log(":::::::::::::::")
-    $("#textfield_smell_description").attr("placeholder",HomePage.smellValue == 1 ? "N/A" : HomePage.smellDescriptionPlaceholder);
-    $("#textfield_feelings_symptoms").attr("placeholder",HomePage.smellValue == 1 ? "N/A" : HomePage.smellFeelingsSymptomsPlaceholder);
-    $("#textfield_additional_comments").attr("placeholder",HomePage.additionalCommentsPlaceholder);
-	console.log(HomePage.additionalCommentsPlaceholder)
+      console.log("HomePage.initialize");
 
-    $("#checkbox_current_time_location").prop("checked", true);
-    $("#checkbox_current_time_location").checkboxradio("refresh", true);
-    // hide/show time/location options
-    HomePage.onClickCurrentTimeLocation();
-    // generate options for custom time
-    HomePage.populateOptionsForSelectReportTime();
+      Location.hasLocation = false;
+      if (HomePage.request != null) {
+        HomePage.request.abort();
+        HomePage.request = null;
+      }
+      HomePage.checkSubmitStatus();
 
-    // browser compatibility issues (Yay?)
-    $("#home-panel").find(".ui-btn-active").removeClass("ui-btn-active");
-    HomePage.cityRecieved=false;
+      // TODO hide location/time select for now; remove later
+      $("#current_time_location").hide();
+
+      // first-time predict modal
+      if (HomePage.openedPredictionNotification) {
+        if (LocalStorage.get("firsttime_prediction")) {
+          HomePage.showPredictModal();
+          LocalStorage.set("firsttime_prediction",false);
+        }
+        HomePage.openedPredictionNotification = false;
+      }
+      // first-time modal
+      if (LocalStorage.get("firsttime_home")) {
+        HomePage.showHomeModal();
+        LocalStorage.set("firsttime_home",false);
+      }
+      // set placeholder text
+
+      $("#textfield_smell_description").attr("placeholder",HomePage.smellValue == 1 ? "N/A" : HomePage.smellDescriptionPlaceholder);
+      $("#textfield_feelings_symptoms").attr("placeholder",HomePage.smellValue == 1 ? "N/A" : HomePage.smellFeelingsSymptomsPlaceholder);
+      $("#textfield_additional_comments").attr("placeholder",HomePage.additionalCommentsPlaceholder);
+	    console.log(HomePage.additionalCommentsPlaceholder)
+
+      $("#checkbox_current_time_location").prop("checked", true);
+      $("#checkbox_current_time_location").checkboxradio("refresh", true);
+      // hide/show time/location options
+      HomePage.onClickCurrentTimeLocation();
+      // generate options for custom time
+      HomePage.populateOptionsForSelectReportTime();
+
+      // browser compatibility issues (Yay?)
+      $("#home-panel").find(".ui-btn-active").removeClass("ui-btn-active");
+      HomePage.cityRecieved=false;//need to do new geocode request
     }
   },
 
@@ -371,29 +374,56 @@
     label.scrollIntoView();
   },
 
+/**gets the city the user is in
+ *@param {function} callback - should be HomePage.initialize
+ *callback takes no parameters
+ *city will be auto loaded into the template text
+ */ 
   refreshCity:function(callback){
-    var referanceStr=HomePage.text.rating.h3;
-    var stashedCit=LocalStorage.get("current_city");
+    //request users lat lng
      Location.requestLocation(function(latitude,longitude) {
-       MapPage.getCity(latitude,longitude,function(city){
-         var oldCityLen=0;
-          if(!MapPage.updateCity(city)){
-            MapPage.inNewCity=true;
-            LocalStorage.set("current_city",city);
-        }//want jquery first time and all subsiquent times to use template
-        oldCityLen=stashedCit.length+1;
-        if(referanceStr.indexOf("<span class='your-city'>")>-1){
-           HomePage.text.rating.h3=referanceStr.substring(0,referanceStr.indexOf("<span class='your-city'>"))+city+"?";
-          }else{
-            HomePage.text.rating.h3=referanceStr.substring(0,referanceStr.length-oldCityLen)+city+"?";
-          }
-           HomePage.cityRecieved=true;
-           callback()
+       //get the city name as string
+      App.getCity(latitude,longitude,function(city){
+        HomePage.updateTemplateText(city)
+        callback();
        });
       },function (error){
         console.log(error);
-        callback()
+        callback()//always do callback or app wont load
       });
+  },
+
+/**
+ * Changes template text to reflect current city
+ * @param {string} city -name of city as string
+ * no call back no return basicly a setter
+ */
+  updateTemplateText:function(city){
+    //this string will be frequently used and updated
+    var referanceStr=HomePage.text.rating.h3;
+
+    //the users past city
+    var stashedCit=LocalStorage.get("current_city");
+     //length of the old city string
+    var oldCityLen=0;
+    // is oldcity the same as new city
+    if(!MapPage.updateCity(city)){
+      //tell map page to do new city popup
+      MapPage.inNewCity=true;
+      //update current city
+      LocalStorage.set("current_city",city);
+    }//want jquery first time and all subsiquent times to use template
+     oldCityLen=stashedCit.length+1;
+      //by default all specific cities are in span tags with class your-city for jquery access
+      //instead we want to only use the template str and delet the span
+      if(referanceStr.indexOf("<span class='your-city'>")>-1){
+        //first replace
+        HomePage.text.rating.h3=referanceStr.substring(0,referanceStr.indexOf("<span class='your-city'>"))+city+"?";
+      }else{
+        //subsequent replaces
+        HomePage.text.rating.h3=referanceStr.substring(0,referanceStr.length-oldCityLen)+city+"?";
+      }
+      HomePage.cityRecieved=true;
   }
 
 

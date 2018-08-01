@@ -164,6 +164,7 @@
     element.scrollIntoView();
   },
 
+//Get store city based on slection
   langSelect:function(){
     var langVal=$(".langSelect :selected")[0].value;
     var newLang = getText(langVal);

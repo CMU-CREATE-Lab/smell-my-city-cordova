@@ -181,9 +181,39 @@ var App = {
     console.log("onPageContainerShow: " + pageId);
     App.initializePage(pageId, App.CallbackType.CREATE);
   },
+
+
   navToPageID: function(pageId){
     window.location="#"+pageId;
-  }
+  },
+  /**
+   * gets city based on user location
+   * @param {float} lat - latitude as float
+   * @param {float} lng - longitude as float
+   * @param {function} callback
+   */
+  getCity:function(lat,lng,callback){
+    var geocoder = new google.maps.Geocoder;
+    var latlng={lat:lat,lng:lng};
+    var city2;
+    geocoder.geocode({'location': latlng}, function(results, status) {
+      //find city name
+      for(var i=0;i<results.length;i++){
+        if(results[i].types[0]==="locality"){
+          city2=results[i].address_components[0].long_name;
+        }
+      }
+      //find zipcode 
+      if(results.length>0){
+        for(var j=0;j<results[0].address_components;j++){
+          if(results[0].address_components[j].types[0]==="postal_code"){
+             MapPage.zipcode=results[0].address_components[j].long_name;
+          }
+        }
+      }
+     callback(city2)
+    });
+  },
 
 }
 
