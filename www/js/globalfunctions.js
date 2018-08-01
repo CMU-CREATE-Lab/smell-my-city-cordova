@@ -125,6 +125,6 @@ function disableUnwantedFastClickElements() {
 function getText(language){
   Constants.APP_TEXT=[];
   Constants.APP_TEXT.push(english);
-  Constants.APP_TEXT.push(español);
+  Constants.APP_TEXT.push(espanol);
 	return Constants.APP_TEXT[parseInt(language+"")];
 }

@@ -14,6 +14,7 @@
 
   onDeviceReady: function() {
     console.log("StartupPage.onDeviceReady");
+    StartupPage.initialize();
     Location.requestLocation(function(latitude,longitude) {
       StartupPage.storeCity(latitude,longitude);
       },function (error){

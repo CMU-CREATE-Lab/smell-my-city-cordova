@@ -165,10 +165,12 @@
   },
 
   langSelect:function(){
-    var newLang = getText($(".langSelect :selected")[0].value);
+    var langVal=$(".langSelect :selected")[0].value;
+    var newLang = getText(langVal);
     App.text=newLang;
-    LocalStorage.set("langauge",newLang);
+    LocalStorage.set("langauge",langVal);
     App.navToPageID("home");
+    LocalStorage.set("firsttime_startup", false);
   },
 
 

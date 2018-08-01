@@ -16,7 +16,7 @@ var constantes={
 	}
 }
 
-var español={
+var espanol={
 	home:{
 		firstModal:{
 			a1:"Cierre",
