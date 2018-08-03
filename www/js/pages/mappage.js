@@ -103,7 +103,7 @@
   /**
    * returns the aqi for a zip code
    * @param {string} zip -zipcode as string
-   * @param {function} callback 
+   * @param {function} callback -takes aqi as string
    */
   getAQI:function(zip,callback){
     //TODO when the zipcode aqi goes live change this from staging to actual api

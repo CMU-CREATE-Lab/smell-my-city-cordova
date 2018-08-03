@@ -55,6 +55,7 @@ var App = {
       break;
     case Constants.HOME_PAGE:
       HomePage.initialize();
+      //change pastPage so the x sends the user here
       App.pastPage=Constants.HOME_PAGE;
       // listen for keyboard events
       window.addEventListener("native.keyboardshow", onKeyboardShowInHomePage);
@@ -64,6 +65,7 @@ var App = {
       if (callbackType == App.CallbackType.CREATE) {
         MapPage.initialize();
       }
+      //change pastPage so the x sends the user here
       App.pastPage=Constants.MAP_PAGE;
       break;
     case Constants.SETTINGS_PAGE:
@@ -78,6 +80,7 @@ var App = {
     case "howitworks":
        var howitworksTpl=Handlebars.compile($("#howitworks-tpl").html());
        //initialization for howitworks page
+       //mostly the page's template but also the x button
        $('#howitworks').html(howitworksTpl(App.text.howitworks));
        $('#howitworks').trigger('create');
        $(".back-x").click(function(){App.navToPageID(App.pastPage)});
@@ -182,31 +185,41 @@ var App = {
     App.initializePage(pageId, App.CallbackType.CREATE);
   },
 
-
+/**
+ * changes view (window.location) to the page with the supplied id
+ * @param {string} pageId -id of the page to go to
+ */
   navToPageID: function(pageId){
     window.location="#"+pageId;
   },
+
   /**
    * gets city based on user location
    * @param {float} lat - latitude as float
    * @param {float} lng - longitude as float
-   * @param {function} callback
+   * @param {function} callback - takes new city name as string
    */
   getCity:function(lat,lng,callback){
     var geocoder = new google.maps.Geocoder;
-    var latlng={lat:lat,lng:lng};
-    var city2;
+    var latlng={lat:lat,lng:lng};//reformat params into google style LatLng object
+    var city2;// the 2 at the end of the variable name, dont worry about it
     geocoder.geocode({'location': latlng}, function(results, status) {
       //find city name
       for(var i=0;i<results.length;i++){
+        //google geocoding returns a object where cities are objets with type locality
         if(results[i].types[0]==="locality"){
           city2=results[i].address_components[0].long_name;
         }
       }
       //find zipcode 
+      //zip code only exists inside lower levels of the return object unlike city
+      //want to use address_components of first part of the object so it must exist
       if(results.length>0){
+        //results[0] usually has the fullest address of a place and therefore has the zip code
         for(var j=0;j<results[0].address_components.length;j++){
+          //in the returned object zipc codes are objects with type of postal_code
           if(results[0].address_components[j].types[0]==="postal_code"){
+            //stored in MapPage as it is only use there. Used to get aqi
              MapPage.zipcode=results[0].address_components[j].long_name;
           }
         }

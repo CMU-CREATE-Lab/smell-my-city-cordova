@@ -26,13 +26,20 @@
   },
 
 //gets and stores home city on first launch
+//home city is not currently being used 
+//the user should be made aware that this is happening
+//also it should be changable in settings
   storeCity:function(Lat,Lng){
+    //get city 
     App.getCity(Lat,Lng,function(city){
+      //store retrived city 
+      //the city object has lat lng so it can be substitute for user location
       var cityObj={
         name:city,
         lat:Lat,
         lng:Lng
       }
+      //the stores in local storage 
       LocalStorage.set("home_city",cityObj)
     });
   },

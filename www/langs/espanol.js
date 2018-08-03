@@ -1,4 +1,8 @@
 //spanish text
+/*NOTE: translation not complete about page and howitworks not translated as
+they are likely to change*/
+/*NOTE: translation is not perfect the text reads literally correctly however
+sentance structure and idioms may not be correct*/
 var constantes={
 	defaultPanel:{
 		li1:"Configuración",

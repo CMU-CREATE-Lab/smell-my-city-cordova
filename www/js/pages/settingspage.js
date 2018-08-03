@@ -167,10 +167,14 @@
 //Get store city based on slection
   langSelect:function(){
     var langVal=$(".langSelect :selected")[0].value;
+    //get the value of the selected value from the list
+    //reset language to the new thing selected
     var newLang = getText(langVal);
     App.text=newLang;
     LocalStorage.set("langauge",langVal);
-    App.navToPageID("home");
+    //nav back to home once lang has been reset
+    App.navToPageID(Constants.HOME_PAGE);
+    //set first time startup to false so startup page doesnt keep showing up
     LocalStorage.set("firsttime_startup", false);
   },
 

@@ -13,13 +13,16 @@
   text:null, //the text for the page's template
   cityRecieved:false,//boolean if have completed geocode to get current city
 
-//maybe recursive to deal with async maybe with spinner
+/*NOTE: this displays some what inconsistent behavior as the home page seems to be 
+  initialized 90% of the time the user loads it but not 100%*/
   initialize: function () {
     //load template
     this.text=App.text.home;
+    //placeholder set up
     HomePage.smellDescriptionPlaceholder= this.text.describe.placeholder;
     HomePage.smellFeelingsSymptomsPlaceholder= this.text.symptoms.placeholder;
     HomePage.additionalCommentsPlaceholder= this.text.note.placeholder;
+    //~~
     var homeTpl=Handlebars.compile($("#home-tpl").html());
 
     if(!HomePage.cityRecieved){
@@ -66,7 +69,6 @@
       $("#textfield_smell_description").attr("placeholder",HomePage.smellValue == 1 ? "N/A" : HomePage.smellDescriptionPlaceholder);
       $("#textfield_feelings_symptoms").attr("placeholder",HomePage.smellValue == 1 ? "N/A" : HomePage.smellFeelingsSymptomsPlaceholder);
       $("#textfield_additional_comments").attr("placeholder",HomePage.additionalCommentsPlaceholder);
-	    console.log(HomePage.additionalCommentsPlaceholder)
 
       $("#checkbox_current_time_location").prop("checked", true);
       $("#checkbox_current_time_location").checkboxradio("refresh", true);
@@ -234,7 +236,6 @@
       var smell_description = $("#textfield_smell_description")[0].value;
       var feelings_symptoms = $("#textfield_feelings_symptoms")[0].value;
       var additional_comments = $("#textfield_additional_comments")[0].value;
-      var submitACHD = Constants.SUBMIT_TO_ACHD;
       var email = LocalStorage.get("email");
       var name = LocalStorage.get("name");
       var phone_number = LocalStorage.get("phone");
@@ -249,13 +250,10 @@
         "additional_comments": additional_comments
       };
 
-      if (submitACHD) {
-        data["submit_achd_form"] = Boolean(submitACHD);
-        if (email != "") data["email"] = email;
-        if (name != "") data["name"] = name;
-        if (phone_number != "") data["phone_number"] = phone_number;
-        if (address != "") data["address"] = address;
-      }
+     if (email != "") data["email"] = email;
+     if (name != "") data["name"] = name;
+     if (phone_number != "") data["phone_number"] = phone_number;
+     if (address != "") data["address"] = address;
 
       // set custom location flag, custom time flag
       var usesCustomTime  = !$("#checkbox_current_time_location").prop("checked") && $("#select-report-time").val() != "0";
