@@ -407,7 +407,7 @@
      //length of the old city string
     var oldCityLen=0;
     // is oldcity the same as new city
-    if(!MapPage.updateCity(city)){
+    if(!MapPage.cityEquality(city)){
       //tell map page to do new city popup
       MapPage.inNewCity=true;
       //update current city

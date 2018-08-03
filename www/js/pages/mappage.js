@@ -64,7 +64,7 @@
  * returns if the new city is the same as the old one
  * @param {string} newCity -name of city as string
  */
-  updateCity:function(newCity){
+  cityEquality:function(newCity){
     var oldCity=LocalStorage.get("current_city");
     return oldCity===newCity;
   },
@@ -107,7 +107,7 @@
    */
   getAQI:function(zip,callback){
     //TODO when the zipcode aqi goes live change this from staging to actual api
-    var url="http://staging.api.smellpittsburgh.org"+"/api/v2/get_aqi?zipcode="+zip;
+    var url=Constants.STAGING+"/api/v2/get_aqi?zipcode="+zip;
     $.getJSON(url,function(data){
       callback(data);
     });

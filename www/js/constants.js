@@ -10,6 +10,7 @@ var Constants = {
   PLATFORM_CALLBACK_ONREADY: true,
   APP_VERSION: "2.1.6",
   URL_SMELLPGH: "http://localhost",
+  STAGING:"http://staging.api.smellpittsburgh.org",
 
   // Page Ids
   STARTUP_PAGE: "startup",

@@ -9,7 +9,7 @@ var App = {
   accuracyStatus: Constants.AccuracyEnum.DISABLED,
   htmlElementToScrollAfterKeyboard: null, // this is the HTML element you want to scroll to after the keyboard has been opened
   htmlElementToBlurAfterKeyboardCloses: null, // this is the HTML element you need to blur after the keyboard has been closed to avoid weird glitches on using checkboxradio widgets
-  pastPage:"home",//The page one was on before switching used for x button
+  pastPage:Constants.HOME_PAGE,//The page one was on before switching used for x button
   text:getText(LocalStorage.get("language")),//parameter doesnt matter until more languages and method of selecting and getting them is desided
 
   /**
@@ -205,7 +205,7 @@ var App = {
       }
       //find zipcode 
       if(results.length>0){
-        for(var j=0;j<results[0].address_components;j++){
+        for(var j=0;j<results[0].address_components.length;j++){
           if(results[0].address_components[j].types[0]==="postal_code"){
              MapPage.zipcode=results[0].address_components[j].long_name;
           }
