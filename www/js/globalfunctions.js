@@ -119,12 +119,22 @@ function disableUnwantedFastClickElements() {
 
 //text handling
 
-/*Parse int from param and returns the template text object 
+/**Parse int from param and returns the template text object 
  * for that language
+ * @param {language} int -the index of the language object in Constants.APP_TEXT
  */
 function getText(language){
+  if(Constants.APP_TEXT.length>0){
+    return Constants.APP_TEXT[language];
+  }else{
+    populateLangs();
+    return getText(language);
+  }
+}
+
+//populates Constants.APP_TEXT
+function populateLangs(){
   Constants.APP_TEXT=[];
   Constants.APP_TEXT.push(english);
   Constants.APP_TEXT.push(espanol);
-	return Constants.APP_TEXT[parseInt(language+"")];
 }
