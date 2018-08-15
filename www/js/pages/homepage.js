@@ -13,7 +13,7 @@
   text:null, //the text for the page's template
   cityRecieved:false,//boolean if have completed geocode to get current city
 
-/*NOTE: this displays some what inconsistent behavior as the home page seems to be 
+/*NOTE: this displays some what inconsistent behavior as the home page seems to be
   initialized 90% of the time the user loads it but not 100%*/
   initialize: function () {
     //load template
@@ -26,6 +26,7 @@
     var homeTpl=Handlebars.compile($("#home-tpl").html());
 
     if(!HomePage.cityRecieved){
+      console.log("HomePage.refreshCity");
       //if we havent completed the needed geocoding request do so and call initialize after
       HomePage.refreshCity(HomePage.initialize);
     }else{
@@ -376,12 +377,13 @@
  *@param {function} callback - should be HomePage.initialize
  *callback takes no parameters
  *city will be auto loaded into the template text
- */ 
+ */
   refreshCity:function(callback){
     //request users lat lng
      Location.requestLocation(function(latitude,longitude) {
        //get the city name as string
       App.getCity(latitude,longitude,function(city){
+        console.log("refreshCity success");
         HomePage.updateTemplateText(city)
         callback();
        });

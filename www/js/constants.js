@@ -9,8 +9,8 @@ var Constants = {
   LOCATION_SERVICES: true,
   PLATFORM_CALLBACK_ONREADY: true,
   APP_VERSION: "2.1.6",
-  URL_SMELLPGH: "http://localhost",
-  STAGING:"http://staging.api.smellpittsburgh.org",
+  URL_SMELLPGH: "https://api.smellpittsburgh.org",
+  STAGING:"https://staging.api.smellpittsburgh.org",
 
   // Page Ids
   STARTUP_PAGE: "startup",
@@ -46,9 +46,9 @@ var Constants = {
     ENABLED: "enabled",
     DISABLED: "disabled"
   },
-  
+
   //languages
-  LANGUAGES:["English","español"],
+  LANGUAGES:["english","español"],
   APP_TEXT:[]
 
 }

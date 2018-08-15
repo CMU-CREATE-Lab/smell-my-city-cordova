@@ -92,7 +92,7 @@ var App = {
       break;
     }
   },
-     
+
 
 
   // callbacks
@@ -203,7 +203,13 @@ var App = {
     var geocoder = new google.maps.Geocoder;
     var latlng={lat:lat,lng:lng};//reformat params into google style LatLng object
     var city2;// the 2 at the end of the variable name, dont worry about it
+
+    // TODO We need to have a fall back if this does not return properly (without a callback the home page never loads)
+    // city2 = "pittsburgh";
+    // callback(city2)
+
     geocoder.geocode({'location': latlng}, function(results, status) {
+      console.log("geocoder.geocode response");
       //find city name
       for(var i=0;i<results.length;i++){
         //google geocoding returns a object where cities are objets with type locality
@@ -211,7 +217,7 @@ var App = {
           city2=results[i].address_components[0].long_name;
         }
       }
-      //find zipcode 
+      //find zipcode
       //zip code only exists inside lower levels of the return object unlike city
       //want to use address_components of first part of the object so it must exist
       if(results.length>0){
