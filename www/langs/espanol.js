@@ -169,7 +169,7 @@ var espanol={
 			a:constantes.defaultHeader.a
 		},
 		h3:"How It Works",
-		p1:"We take every precaution to protect any personally identifiable data. All information shown on the public map visualization for Smell PGH is anonymous and location data is skewed to protect your privacy. Personal contact information you enter in the settings tab is only made available to the local health department. Our backend database only contains anonymous User ID's created by your app service (Apple or Google Play).",
+		p1:"We take every precaution to protect any personally identifiable data. All information shown on the public map visualization for Smell MyCity is anonymous and location data is skewed to protect your privacy. Personal contact information you enter in the settings tab is only made available to the local health department. Our backend database only contains anonymous User ID's created by your app service (Apple or Google Play).",
 		p2:"The basic function of the Smell MyCity app is as follows:",
 		li1:"When you experience a pollution odor outdoors, you launch the app and pick a rating for the smell you experience (from 1 through 5)",
 		li2:"Adding a description of the smell (e.g. \"Industrial\", \"Woodsmoke\", etc.) is highly encouraged, since this can help the county isolate the source",
