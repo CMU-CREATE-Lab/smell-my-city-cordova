@@ -24,6 +24,8 @@
     HomePage.additionalCommentsPlaceholder= this.text.note.placeholder;
     //~~
     var homeTpl=Handlebars.compile($("#home-tpl").html());
+    $('#home').html(homeTpl(this.text));
+    $('#home').trigger('create');
 
     if(!HomePage.cityRecieved){
       console.log("HomePage.refreshCity");
@@ -277,6 +279,7 @@
           data["longitude"] = longitude;
           HomePage.submitAjaxWithData(data);
         });
+        // NOTE no error for failed request location
       }
 
     } else {
@@ -349,6 +352,7 @@
         $.mobile.pageContainer.pagecontainer("change", "#map", { changeHash: false, transition: "none" });
       },
 
+      // TODO ajax timeout vs. server 500 error
       error: function (msg) {
         hideSpinner();
         HomePage.request = null;
@@ -373,24 +377,24 @@
     label.scrollIntoView();
   },
 
-/**gets the city the user is in
- *@param {function} callback - should be HomePage.initialize
- *callback takes no parameters
- *city will be auto loaded into the template text
- */
-  refreshCity:function(callback){
+  /**gets the city the user is in
+   *@param {function} callback - should be HomePage.initialize
+   *callback takes no parameters
+   *city will be auto loaded into the template text
+   */
+  refreshCity: function(callback) {
     //request users lat lng
-     Location.requestLocation(function(latitude,longitude) {
-       //get the city name as string
+    Location.requestLocation(function(latitude,longitude) {
+      //get the city name as string
       App.getCity(latitude,longitude,function(city){
         console.log("refreshCity success");
         HomePage.updateTemplateText(city)
         callback();
-       });
-      },function (error){
-        console.log(error);
-        callback()//always do callback or app wont load
       });
+    },function (error){
+      console.log(error);
+      callback()//always do callback or app wont load
+    });
   },
 
 /**

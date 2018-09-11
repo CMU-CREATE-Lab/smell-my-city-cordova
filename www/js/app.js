@@ -41,6 +41,7 @@ var App = {
    * @param {callbackType} callbackType
    */
   initializePage: function(pageId, callbackType) {
+    console.log("initializePage");
     // remove listener for keyboard events
     window.removeEventListener("native.keyboardshow", onKeyboardShowInHomePage);
     window.removeEventListener('native.keyboardhide', onKeyboardHide);
@@ -139,11 +140,12 @@ var App = {
     // listen for keyboard events
     window.addEventListener("native.keyboardshow", onKeyboardShowInHomePage);
     window.addEventListener('native.keyboardhide', onKeyboardHide);
-    if(LocalStorage.get("firsttime_startup")){
+    if (LocalStorage.get("firsttime_startup")) {
       App.navToPageID(Constants.STARTUP_PAGE);
-    }else{
-    if ($.mobile.pageContainer.pagecontainer("getActivePage")[0].id == Constants.HOME_PAGE) HomePage.initialize();
-
+    } else {
+      if ($.mobile.pageContainer.pagecontainer("getActivePage")[0].id == Constants.HOME_PAGE) {
+        HomePage.initialize();
+      }
     }
 
   },
