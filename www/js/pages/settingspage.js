@@ -102,13 +102,11 @@
 
     if (LocalStorage.get("receive_smell_notifications")) {
       LocalStorage.set("receive_smell_notifications",false);
-      window.FirebasePlugin.unsubscribe(topicName);
-      console.log("unsubscribed from "+topicName);
+      Firebase.unsubscribe(topicName);
       Analytics.logOnUnsubscribeEvent(topicName);
     } else {
       LocalStorage.set("receive_smell_notifications",true);
-      window.FirebasePlugin.subscribe(topicName);
-      console.log("subscribed to "+topicName);
+      Firebase.subscribe(topicName);
       Analytics.logOnSubscribeEvent(topicName);
     }
   },
@@ -119,13 +117,11 @@
 
     if (LocalStorage.get("receive_pghaqi_notifications")) {
       LocalStorage.set("receive_pghaqi_notifications",false);
-      window.FirebasePlugin.unsubscribe(topicName);
-      console.log("unsubscribed from "+topicName);
+      Firebase.unsubscribe(topicName);
       Analytics.logOnUnsubscribeEvent(topicName);
     } else {
       LocalStorage.set("receive_pghaqi_notifications",true);
-      window.FirebasePlugin.subscribe(topicName);
-      console.log("subscribed to "+topicName);
+      Firebase.subscribe(topicName);
       Analytics.logOnSubscribeEvent(topicName);
     }
   },

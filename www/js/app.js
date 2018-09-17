@@ -118,20 +118,7 @@ var App = {
     LocationSelectPage.onDeviceReady();
     App.isDeviceReady = true;
 
-    initializeFCM();
-    // subscribe to topics
-    window.FirebasePlugin.subscribe(Constants.GLOBAL_TOPIC);
-    console.log("subcribed to: " + Constants.GLOBAL_TOPIC);
-    if (LocalStorage.get("receive_pghaqi_notifications")) {
-      window.FirebasePlugin.subscribe(Constants.PITTSBURGH_AQI_TOPIC);
-      console.log("subcribed to: " + Constants.PITTSBURGH_AQI_TOPIC);
-    }
-    if (LocalStorage.get("receive_smell_notifications")) {
-      window.FirebasePlugin.subscribe(Constants.SMELL_REPORT_TOPIC);
-      console.log("subcribed to: " + Constants.SMELL_REPORT_TOPIC);
-    }
-
-    window.FirebasePlugin.grantPermission();
+    Firebase.initialize();
     Location.requestLocationPermission();
 
     // start Analytics

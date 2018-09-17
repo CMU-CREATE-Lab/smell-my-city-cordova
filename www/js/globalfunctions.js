@@ -53,25 +53,6 @@ function openWithPage(pageName, notificationType) {
 }
 
 
-function initializeFCM() {
-  console.log("onInitializeFCM");
-  window.FirebasePlugin.getToken(function(token) {
-      console.log("Your firebaseInstanceID is "+token);
-    }, function(error) {
-      console.error(error);
-  });
-  window.FirebasePlugin.onNotificationOpen(function(notification) {
-      console.log(JSON.stringify(notification));
-      Analytics.logOnClickNotificationEvent(notification["notification_type"]);
-      if (notification["open_with_page"]) {
-        openWithPage(notification["open_with_page"], notification["notification_type"]);
-      }
-    }, function(error) {
-      console.error(error);
-  });
-}
-
-
 // App-wide Callbacks
 
 
@@ -119,7 +100,7 @@ function disableUnwantedFastClickElements() {
 
 //text handling
 
-/**Parse int from param and returns the template text object 
+/**Parse int from param and returns the template text object
  * for that language
  * @param {language} int -the index of the language object in Constants.APP_TEXT
  */
