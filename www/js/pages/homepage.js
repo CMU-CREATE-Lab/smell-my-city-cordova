@@ -10,32 +10,33 @@
   request: null,
   location: {"lat": 0, "lng": 0},
   openedPredictionNotification: false,
-  text:null, //the text for the page's template
-  cityRecieved:false,//boolean if have completed geocode to get current city
+  text: null, //the text for the page's template
+  cityRecieved: false,//boolean if have completed geocode to get current city
 
-/*NOTE: this displays some what inconsistent behavior as the home page seems to be
-  initialized 90% of the time the user loads it but not 100%*/
+
+   // NOTE: this displays some what inconsistent behavior as the home page seems to be initialized 90% of the time the user loads it but not 100%
   initialize: function () {
-    //load template
-    this.text=App.text.home;
-    //placeholder set up
-    HomePage.smellDescriptionPlaceholder= this.text.describe.placeholder;
-    HomePage.smellFeelingsSymptomsPlaceholder= this.text.symptoms.placeholder;
-    HomePage.additionalCommentsPlaceholder= this.text.note.placeholder;
-    //~~
+    console.log("HomePage.initialize");
+    // load template
+    this.text = App.text.home;
+    // placeholder set up
+    HomePage.smellDescriptionPlaceholder = this.text.describe.placeholder;
+    HomePage.smellFeelingsSymptomsPlaceholder = this.text.symptoms.placeholder;
+    HomePage.additionalCommentsPlaceholder = this.text.note.placeholder;
     var homeTpl=Handlebars.compile($("#home-tpl").html());
     $('#home').html(homeTpl(this.text));
     $('#home').trigger('create');
+    HomePage.onDeviceReady();
 
-    if(!HomePage.cityRecieved){
+    if (!HomePage.cityRecieved) {
       console.log("HomePage.refreshCity");
-      //if we havent completed the needed geocoding request do so and call initialize after
+      // if we havent completed the needed geocoding request do so and call initialize after
       HomePage.refreshCity(HomePage.initialize);
-    }else{
-      //if we have completed the geocoding request execute the below to display the home page
+    } else {
+      // if we have completed the geocoding request execute the below to display the home page
       $('#home').html(homeTpl(this.text));
       $('#home').trigger('create');
-      //^ loading template
+      HomePage.onDeviceReady();
 
       if (HomePage.returningFromLocationSelectPage) {
         console.log("HomePage.initialize: returningFromLocationSelectPage");
@@ -67,11 +68,11 @@
         HomePage.showHomeModal();
         LocalStorage.set("firsttime_home",false);
       }
-      // set placeholder text
 
-      $("#textfield_smell_description").attr("placeholder",HomePage.smellValue == 1 ? "N/A" : HomePage.smellDescriptionPlaceholder);
-      $("#textfield_feelings_symptoms").attr("placeholder",HomePage.smellValue == 1 ? "N/A" : HomePage.smellFeelingsSymptomsPlaceholder);
-      $("#textfield_additional_comments").attr("placeholder",HomePage.additionalCommentsPlaceholder);
+      // set placeholder text
+      $("#textfield_smell_description").attr("placeholder", HomePage.smellValue == 1 ? "N/A" : HomePage.smellDescriptionPlaceholder);
+      $("#textfield_feelings_symptoms").attr("placeholder", HomePage.smellValue == 1 ? "N/A" : HomePage.smellFeelingsSymptomsPlaceholder);
+      $("#textfield_additional_comments").attr("placeholder", HomePage.additionalCommentsPlaceholder);
 
       $("#checkbox_current_time_location").prop("checked", true);
       $("#checkbox_current_time_location").checkboxradio("refresh", true);
@@ -82,7 +83,7 @@
 
       // browser compatibility issues (Yay?)
       $("#home-panel").find(".ui-btn-active").removeClass("ui-btn-active");
-      HomePage.cityRecieved=false;//need to do new geocode request
+      HomePage.cityRecieved = false;//need to do new geocode request
     }
   },
 
@@ -95,9 +96,9 @@
     $(".radio-smell").click(function() {HomePage.onClickSmell(this);});
     $("#checkbox_current_time_location").click(HomePage.onClickCurrentTimeLocation);
     // focus (textbox) listeners
-    $("#textfield_smell_description").focus(function(){HomePage.onFocusTextboxWithLabel( this, $("label[for="+this.id+"]")[0] )});
-    $("#textfield_feelings_symptoms").focus(function(){HomePage.onFocusTextboxWithLabel( this, $("label[for="+this.id+"]")[0] )});
-    $("#textfield_additional_comments").focus(function(){HomePage.onFocusTextboxWithLabel( this, $("label[for="+this.id+"]")[0] )});
+    $("#textfield_smell_description").focus(function(){HomePage.onFocusTextboxWithLabel(this, $("label[for="+this.id+"]")[0] )});
+    $("#textfield_feelings_symptoms").focus(function(){HomePage.onFocusTextboxWithLabel(this, $("label[for="+this.id+"]")[0] )});
+    $("#textfield_additional_comments").focus(function(){HomePage.onFocusTextboxWithLabel(this, $("label[for="+this.id+"]")[0] )});
     $("#select-report-time").change(HomePage.onChangeReportTime);
   },
 
@@ -124,7 +125,7 @@
       }
       var text = hour + ":00 " + meridiem;
       // TODO check for character escapes
-      var str = "<option value='"+value+"'>"+text+"</option>";
+      var str = "<option value='" + value + "'>" + text + "</option>";
       $("#select-report-time").append(str);
     });
 
@@ -157,7 +158,7 @@
     HomePage.isLatLngDefined = true;
     HomePage.location = location;
     // TODO geocoder?
-    $("#button_smell_location").text(location["lat"]+", "+location["lng"]);
+    $("#button_smell_location").text(location["lat"] + ", " + location["lng"]);
     HomePage.returningFromLocationSelectPage = true;
   },
 
@@ -209,8 +210,8 @@
     HomePage.isLatLngDefined = false;
     HomePage.location = {"lat": 0, "lng": 0};
     // set placeholder text
-    $("#textfield_smell_description").attr("placeholder",HomePage.smellDescriptionPlaceholder);
-    $("#textfield_feelings_symptoms").attr("placeholder",HomePage.smellFeelingsSymptomsPlaceholder);
+    $("#textfield_smell_description").attr("placeholder", HomePage.smellDescriptionPlaceholder);
+    $("#textfield_feelings_symptoms").attr("placeholder", HomePage.smellFeelingsSymptomsPlaceholder);
     $("#button_smell_location").text("Current Location (default)");
     // reset custom time/location
     $("#checkbox_current_time_location").prop("checked",true).checkboxradio("refresh");
@@ -320,13 +321,13 @@
       "navigator.userAgent": userAgent,
     };
     data["client_token"] = Constants.CLIENT_ID;
-    var url = Constants.URL_SMELLPGH+"/api/v2/smell_reports";
+    var url = Constants.URL_SMELLPGH + "/api/v2/smell_reports";
     HomePage.submitAjaxToUrlWithData(url,data);
   },
 
 
   submitAjaxWithDataToV1Api: function(data) {
-    var url = Constants.URL_SMELLPGH+"/api/v1/smell_reports";
+    var url = Constants.URL_SMELLPGH + "/api/v1/smell_reports";
     HomePage.submitAjaxToUrlWithData(url,data);
   },
 
@@ -357,12 +358,13 @@
         hideSpinner();
         HomePage.request = null;
         alert("There was a problem submitting this report.");
-      }
+      },
     });
   },
 
 
   onClickSmell: function(item) {
+    console.log("onClickSmell");
     HomePage.smellValueSelected = true;
     HomePage.smellValue = item.value;
     HomePage.fieldsDisabled((HomePage.smellValue == 1));
@@ -377,58 +379,61 @@
     label.scrollIntoView();
   },
 
-  /**gets the city the user is in
-   *@param {function} callback - should be HomePage.initialize
-   *callback takes no parameters
-   *city will be auto loaded into the template text
+
+  /**
+   * gets the city the user is in
+   * @param {function} callback - should be HomePage.initialize
+   * callback takes no parameters
+   * city will be auto loaded into the template text
    */
   refreshCity: function(callback) {
     //request users lat lng
-    Location.requestLocation(function(latitude,longitude) {
+    Location.requestLocation(function(latitude, longitude) {
       //get the city name as string
-      App.getCity(latitude,longitude,function(city){
+      App.getCity(latitude, longitude, function(city) {
         console.log("refreshCity success");
         HomePage.updateTemplateText(city)
         callback();
       });
-    },function (error){
+    }, function(error) {
       console.log(error);
       callback()//always do callback or app wont load
     });
   },
 
-/**
- * Changes template text to reflect current city
- * @param {string} city -name of city as string
- * no call back no return basicly a setter
- */
-  updateTemplateText:function(city){
+
+  /**
+   * Changes template text to reflect current city
+   * @param {string} city -name of city as string
+   * no call back no return basicly a setter
+   */
+  updateTemplateText: function(city) {
     //this string will be frequently used and updated
-    var referanceStr=HomePage.text.rating.h3;
+    var referanceStr = HomePage.text.rating.h3;
 
     //the users past city
-    var stashedCit=LocalStorage.get("current_city");
+    var stashedCit = LocalStorage.get("current_city");
      //length of the old city string
-    var oldCityLen=0;
+    var oldCityLen = 0;
     // is oldcity the same as new city
-    if(!MapPage.cityEquality(city)){
+    if (!MapPage.cityEquality(city)) {
       //tell map page to do new city popup
       MapPage.inNewCity=true;
       //update current city
       LocalStorage.set("current_city",city);
     }//want jquery first time and all subsiquent times to use template
-     oldCityLen=stashedCit.length+1;
-      //by default all specific cities are in span tags with class your-city for jquery access
-      //instead we want to only use the template str and delet the span
-      if(referanceStr.indexOf("<span class='your-city'>")>-1){
-        //first replace
-        HomePage.text.rating.h3=referanceStr.substring(0,referanceStr.indexOf("<span class='your-city'>"))+city+"?";
-      }else{
-        //subsequent replaces
-        HomePage.text.rating.h3=referanceStr.substring(0,referanceStr.length-oldCityLen)+city+"?";
-      }
-      HomePage.cityRecieved=true;
-  }
 
+    oldCityLen = stashedCit.length+1;
+    //by default all specific cities are in span tags with class your-city for jquery access
+    //instead we want to only use the template str and delet the span
+    if (referanceStr.indexOf("<span class='your-city'>") > -1) {
+      //first replace
+      HomePage.text.rating.h3 = referanceStr.substring(0, referanceStr.indexOf("<span class='your-city'>")) + city + "?";
+    } else {
+      //subsequent replaces
+      HomePage.text.rating.h3 = referanceStr.substring(0, referanceStr.length - oldCityLen) + city + "?";
+    }
+    HomePage.cityRecieved=true;
+  }
 
 }

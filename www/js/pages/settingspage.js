@@ -1,15 +1,17 @@
 ﻿var SettingsPage = {
 
-  text:null, //the text for the page's template
+  text: null, //the text for the page's template
 
-  initialize: function () {
-    //load template
-    this.text=App.text.settings;
+
+  initialize: function() {
+    // load template
+    this.text = App.text.settings;
     console.log("SettingsPage.initialize");
-    this.settingsTpl=Handlebars.compile($("#settings-tpl").html());
+    this.settingsTpl = Handlebars.compile($("#settings-tpl").html());
     $('#settings').html(this.settingsTpl(this.text));
     $('#settings').trigger('create');
-    $(".back-x").click(function(){App.navToPageID(App.pastPage)});
+
+    $(".back-x").click(function() {App.navToPageID(App.pastPage)});
     $(".langSelect").change(SettingsPage.langSelect);
     this.refreshNotifications();
     this.populateFormSettings();
@@ -33,10 +35,10 @@
     $("#textfield_phone").change(SettingsPage.onPhoneChange);
     $("#textfield_address").change(SettingsPage.onAddressChange);
     // focus (textbox) listeners
-    $("#textfield_email").focus(function(){SettingsPage.onFocusTextbox(this)});
-    $("#textfield_name").focus(function(){SettingsPage.onFocusTextbox(this)});
-    $("#textfield_phone").focus(function(){SettingsPage.onFocusTextbox(this)});
-    $("#textfield_address").focus(function(){SettingsPage.onFocusTextbox(this)});
+    $("#textfield_email").focus(function() {SettingsPage.onFocusTextbox(this)});
+    $("#textfield_name").focus(function() {SettingsPage.onFocusTextbox(this)});
+    $("#textfield_phone").focus(function() {SettingsPage.onFocusTextbox(this)});
+    $("#textfield_address").focus(function() {SettingsPage.onFocusTextbox(this)});
   },
 
 
@@ -101,11 +103,11 @@
     var topicName = Constants.SMELL_REPORT_TOPIC;
 
     if (LocalStorage.get("receive_smell_notifications")) {
-      LocalStorage.set("receive_smell_notifications",false);
+      LocalStorage.set("receive_smell_notifications", false);
       Firebase.unsubscribe(topicName);
       Analytics.logOnUnsubscribeEvent(topicName);
     } else {
-      LocalStorage.set("receive_smell_notifications",true);
+      LocalStorage.set("receive_smell_notifications", true);
       Firebase.subscribe(topicName);
       Analytics.logOnSubscribeEvent(topicName);
     }
@@ -116,20 +118,20 @@
     var topicName = Constants.PITTSBURGH_AQI_TOPIC;
 
     if (LocalStorage.get("receive_pghaqi_notifications")) {
-      LocalStorage.set("receive_pghaqi_notifications",false);
+      LocalStorage.set("receive_pghaqi_notifications", false);
       Firebase.unsubscribe(topicName);
       Analytics.logOnUnsubscribeEvent(topicName);
     } else {
-      LocalStorage.set("receive_pghaqi_notifications",true);
+      LocalStorage.set("receive_pghaqi_notifications", true);
       Firebase.subscribe(topicName);
       Analytics.logOnSubscribeEvent(topicName);
     }
   },
 
 
-  onEmailChange: function (event) {
+  onEmailChange: function(event) {
     if (SettingsPage.validateEmail(this.value) || this.value == "") {
-      LocalStorage.set("email",this.value);
+      LocalStorage.set("email", this.value);
     } else {
       this.value = LocalStorage.get("email");
       alert("Enter a valid email address.", null, "Invalid Email Entry", "Ok");
@@ -139,18 +141,18 @@
 
 
   onNameChange: function(event) {
-    LocalStorage.set("name",this.value);
+    LocalStorage.set("name", this.value);
     SettingsPage.highlightMissingRecommended();
   },
 
 
-  onPhoneChange: function (event) {
-    LocalStorage.set("phone",this.value);
+  onPhoneChange: function(event) {
+    LocalStorage.set("phone", this.value);
   },
 
 
   onAddressChange: function(event) {
-    LocalStorage.set("address",this.value);
+    LocalStorage.set("address", this.value);
   },
 
 
@@ -160,19 +162,18 @@
     element.scrollIntoView();
   },
 
-//Get store city based on slection
-  langSelect:function(){
-    var langVal=$(".langSelect :selected")[0].value;
-    //get the value of the selected value from the list
-    //reset language to the new thing selected
+  // Get store city based on slection
+  langSelect: function() {
+    var langVal = $(".langSelect :selected")[0].value;
+    // get the value of the selected value from the list
+    // reset language to the new thing selected
     var newLang = getText(langVal);
-    App.text=newLang;
-    LocalStorage.set("langauge",langVal);
-    //nav back to home once lang has been reset
+    App.text = newLang;
+    LocalStorage.set("langauge", langVal);
+    // nav back to home once lang has been reset
     App.navToPageID(Constants.HOME_PAGE);
-    //set first time startup to false so startup page doesnt keep showing up
+    // set first time startup to false so startup page doesnt keep showing up
     LocalStorage.set("firsttime_startup", false);
   },
-
 
 }

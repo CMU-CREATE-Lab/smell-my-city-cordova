@@ -2,7 +2,6 @@
  * A helper for manipulating and accessing window.localStorage.
  * @namespace Location
  */
-
 var LocalStorage = {
 
   /**
@@ -20,15 +19,15 @@ var LocalStorage = {
     firsttime_prediction: true,
     // JSON
     smell_notification_values: {"4": true, "5": true},
-    home_city:{name:"",lat:null,lng:null,},
+    home_city: {name: "", lat: null, lng: null},
     // strings
     user_hash: "",
     email: "",
     name: "",
     phone: "",
     address: "",
-    language:0,
-    current_city:"",
+    language: 0,
+    current_city: "",
   },
 
 
@@ -73,10 +72,9 @@ var LocalStorage = {
    */
   generateUserHash: function() {
     var userHash;
-
     var random = Math.floor(Math.random()*9007199254740991);
     var date = new Date();
-    var epoch = ((date.getTime()-date.getMilliseconds())/1000);
+    var epoch = ((date.getTime() - date.getMilliseconds()) / 1000);
     var input = "" + random + " " + epoch;
     userHash = md5(input);
 

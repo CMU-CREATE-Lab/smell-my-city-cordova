@@ -2,7 +2,6 @@
  * Namespace for all constants in the application.
  * @namespace Constants
  */
-
 var Constants = {
 
   CLIENT_ID: "KEEP-IT-SECRET",
@@ -10,7 +9,7 @@ var Constants = {
   PLATFORM_CALLBACK_ONREADY: true,
   APP_VERSION: "2.1.6",
   URL_SMELLPGH: "https://api.smellpittsburgh.org",
-  STAGING:"https://staging.api.smellpittsburgh.org",
+  STAGING: "https://staging.api.smellpittsburgh.org",
 
   // Page Ids
   STARTUP_PAGE: "startup",
@@ -48,7 +47,7 @@ var Constants = {
   },
 
   //languages
-  LANGUAGES:["english","español"],
-  APP_TEXT:[]
+  LANGUAGES: ["english","español"],
+  APP_TEXT: [],
 
 }

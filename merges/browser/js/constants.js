@@ -5,7 +5,7 @@ var Constants = {
   PLATFORM_CALLBACK_ONREADY: false,
   APP_VERSION: "2.1.6",
   URL_SMELLPGH: "https://api.smellpittsburgh.org",
-  STAGING:"https://staging.api.smellpittsburgh.org",
+  STAGING: "https://staging.api.smellpittsburgh.org",
 
   // Page Ids
   STARTUP_PAGE: "startup",
@@ -14,7 +14,7 @@ var Constants = {
   SETTINGS_PAGE: "settings",
   ABOUT_PAGE: "about",
   LOCATION_SELECT_PAGE: "locationselect",
-  HOW_IT_WORKS_PAGE:"howitworks",
+  HOW_IT_WORKS_PAGE: "howitworks",
 
   // Local Storage keys
   USER_HASH_KEY: "user_hash",
@@ -35,15 +35,15 @@ var Constants = {
   AuthorizationEnum: {
     NOT_REQUESTED: "not requested",
     GRANTED: "granted",
-    DENIED: "denied"
+    DENIED: "denied",
   },
   AccuracyEnum: {
     ENABLED: "enabled",
-    DISABLED: "disabled"
+    DISABLED: "disabled",
   },
 
   //languages
-  LANGUAGES:["english","español"],
-  APP_TEXT:[]
+  LANGUAGES: ["english","español"],
+  APP_TEXT: [],
 
 }

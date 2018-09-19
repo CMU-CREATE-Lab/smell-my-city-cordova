@@ -10,7 +10,7 @@ var Location = {
   requestLocationPermission: function() {
     console.log("requestLocationPermission");
     var requestAuth = function(status) {
-      switch(status) {
+      switch (status) {
         case cordova.plugins.diagnostic.permissionStatus.GRANTED:
           console.log("Permission granted");
           App.authorizationStatus = Constants.AuthorizationEnum.GRANTED;
@@ -25,7 +25,7 @@ var Location = {
       console.log("error in requesting location authorization");
     };
     var authorizationStatus = function(status){
-      switch(status){
+      switch (status) {
         case cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED:
           console.log("Permission not requested");
           cordova.plugins.diagnostic.requestLocationAuthorization(requestAuth, requestAuthError);
@@ -45,28 +45,23 @@ var Location = {
   },
 
 
-  // request the users location
-  //now takes two callbacks the second fires on failure to get location
   requestLocation: function(afterSuccess, afterFailure) {
     console.log("requestLocation");
-
     if (isConnected()) {
       if (!Location.isRequestingLocation) {
-        console.log("in requestLocation");
         Location.isRequestingLocation = true;
-
         var onSuccess = function(position) {
           Location.coords = position.coords;
           Location.hasLocation = true;
-          console.log("got coords: " + Location.coords.latitude + ", " + Location.coords.longitude);
+          console.log("requestLocation got coords: " + Location.coords.latitude + ", " + Location.coords.longitude);
           Location.stopRequestLocation();
           var latitude = (Location.coords != null) ? Location.coords.latitude : 0;
           var longitude = (Location.coords != null) ? Location.coords.longitude : 0;
           afterSuccess(latitude,longitude);
         };
         var onError = function (error) {
-          console.log("error code: " + error.code);
-          console.log("error message: " + error.message);
+          console.log("requestLocation error code: " + error.code);
+          console.log("requestLocation error message: " + error.message);
           Location.stopRequestLocation();
           navigator.notification.confirm("Would you like to retry?", onConfirm, "Failure Requesting Location", ["Retry", "Cancel"]);
           function onConfirm(index) {
@@ -83,7 +78,7 @@ var Location = {
           Location.watchIds.push(navigator.geolocation.watchPosition(onSuccess, onError, { maximumAge: 3000, timeout: 60000, enableHighAccuracy: true }));
         }
 
-        // change settings if we need to
+        // request change settings if we need to
         cordova.plugins.locationAccuracy.request(
           function(success) {
             App.accuracyStatus = Constants.AccuracyEnum.ENABLED;

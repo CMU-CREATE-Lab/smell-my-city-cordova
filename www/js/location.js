@@ -2,7 +2,6 @@
  * Handles requests for current location and permissions. Each platform should create its own file in the merges directory.
  * @namespace Location
  */
-
 var Location = {
 
   hasLocation: false,

@@ -2,7 +2,6 @@
  * Helper for all calls to Firebase; makes it easier to remove/add package
  * @namespace Firebase
  */
-
 var Firebase = {
 
   // NOTE: this is a constant value and should be true iff the firebase plugin is included
@@ -21,7 +20,7 @@ var Firebase = {
     }
 
     window.FirebasePlugin.getToken(function(token) {
-        console.log("Your firebaseInstanceID is "+token);
+        console.log("Your firebaseInstanceID is " + token);
       }, function(error) {
         console.error(error);
     });
@@ -56,7 +55,7 @@ var Firebase = {
 
   setUserId: function(userHash) {
     if (Firebase.isEnabled) {
-      window.FirebasePlugin.setUserId(userHash)
+      window.FirebasePlugin.setUserId(userHash);
     }
     if (Firebase.verboseLogging) {
       console.log("Firebase.setUserId: "+userHash);
@@ -109,7 +108,7 @@ var Firebase = {
       window.FirebasePlugin.logEvent(eventName, params);
     }
     if (Firebase.verboseLogging) {
-      console.log("Firebase.logEvent: "+eventName+","+params);
+      console.log("Firebase.logEvent: " + eventName + "," + params);
     }
   },
 
