@@ -1,4 +1,4 @@
-﻿var MapPage = {
+var MapPage = {
 
   centerLocation: [],
   maxTimeForPlaces: 24 * 60 * 60,

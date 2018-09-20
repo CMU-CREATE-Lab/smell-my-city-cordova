@@ -1,4 +1,4 @@
-﻿var AboutPage = {
+var AboutPage = {
 
   text: null, //the text for the page's template
 

@@ -1,4 +1,4 @@
-﻿var SettingsPage = {
+var SettingsPage = {
 
   text: null, //the text for the page's template
 

@@ -1,4 +1,4 @@
-﻿var StartupPage = {
+var StartupPage = {
 
   text: null, //the text for the page's template
 

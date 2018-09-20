@@ -1,4 +1,4 @@
-﻿var LocationSelectPage = {
+var LocationSelectPage = {
 
   map: null,
 

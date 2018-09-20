@@ -1,4 +1,4 @@
-﻿var HomePage = {
+var HomePage = {
 
   smellValueSelected: false,
   smellValue: 0,
