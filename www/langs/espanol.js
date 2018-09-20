@@ -86,7 +86,7 @@ var espanol={
 			h3: "Bienvenido a <span class='your-city'>su ciudad</span>",
 			p: "AQI actual es: <span class='aqi'>desconocido</span>",
 		},
-		panel constants.defaultPanel,
+		panel: constants.defaultPanel,
 		header: constants.defaultHeader,
 		p_iframe: "Su navegador no soporta iframes.",
 		footer: constants.defaultFooter,
