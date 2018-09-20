@@ -292,7 +292,7 @@ var HomePage = {
 
 
   onClickLocation: function() {
-    $.mobile.pageContainer.pagecontainer("change", "#locationselect", { changeHash: false, transition: "none" });
+    App.navigateToPage(Constants.LOCATION_SELECT_PAGE);
   },
 
 
@@ -350,7 +350,7 @@ var HomePage = {
         HomePage.clearForm();
         HomePage.request = null;
         MapPage.centerLocation = [ data["latitude"], data["longitude"] ];
-        $.mobile.pageContainer.pagecontainer("change", "#map", { changeHash: false, transition: "none" });
+        App.navigateToPage(Constants.MAP_PAGE);
       },
 
       // TODO ajax timeout vs. server 500 error

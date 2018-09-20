@@ -11,7 +11,7 @@ var SettingsPage = {
     $('#settings').html(this.settingsTpl(this.text));
     $('#settings').trigger('create');
 
-    $(".back-x").click(function() {App.navToPageID(App.pastPage)});
+    $(".back-x").click(function() {App.navigateToPastPage()});
     $(".langSelect").change(SettingsPage.langSelect);
     this.refreshNotifications();
     this.populateFormSettings();
@@ -171,7 +171,7 @@ var SettingsPage = {
     App.text = newLang;
     LocalStorage.set("langauge", langVal);
     // nav back to home once lang has been reset
-    App.navToPageID(Constants.HOME_PAGE);
+    App.navigateToPage(Constants.HOME_PAGE);
     // set first time startup to false so startup page doesnt keep showing up
     LocalStorage.set("firsttime_startup", false);
   },

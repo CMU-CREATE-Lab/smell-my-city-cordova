@@ -84,7 +84,7 @@ var LocationSelectPage = {
     console.log("onClickDone: found center " + JSON.stringify(result));
 
     HomePage.useLocation(result);
-    $.mobile.pageContainer.pagecontainer("change", "#home", { changeHash: false, transition: "none" });
+    App.navigateToPage(Constants.HOME_PAGE);
   },
 
 }

@@ -11,7 +11,7 @@ var AboutPage = {
     $('#about').html(aboutTpl(this.text));
     $('#about').trigger('create');
     // add back (x) button functionality
-    $(".back-x").click(function() {App.navToPageID(App.pastPage)});
+    $(".back-x").click(function() {App.navigateToPastPage()});
   },
 
 

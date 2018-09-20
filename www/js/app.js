@@ -84,7 +84,7 @@ var App = {
        //mostly the page's template but also the x button
        $('#howitworks').html(howitworksTpl(App.text.howitworks));
        $('#howitworks').trigger('create');
-       $(".back-x").click(function(){App.navToPageID(App.pastPage)});
+       $(".back-x").click(function() {App.navigateToPastPage()});
       break;
     case Constants.LOCATION_SELECT_PAGE:
       if (callbackType == App.CallbackType.CREATE) {
@@ -128,7 +128,7 @@ var App = {
     window.addEventListener("native.keyboardshow", onKeyboardShowInHomePage);
     window.addEventListener('native.keyboardhide', onKeyboardHide);
     if (LocalStorage.get("firsttime_startup")) {
-      App.navToPageID(Constants.STARTUP_PAGE);
+      App.navigateToPage(Constants.STARTUP_PAGE);
     } else {
       if ($.mobile.pageContainer.pagecontainer("getActivePage")[0].id == Constants.HOME_PAGE) {
         HomePage.initialize();
@@ -174,12 +174,20 @@ var App = {
 
 
   /**
-   * changes view (window.location) to the page with the supplied id
+   * changes current page through the jquery mobile framework.
    * @param {string} pageId -id of the page to go to
    */
-  navToPageID: function(pageId) {
-    window.location="#" + pageId;
+  navigateToPage: function(pageId) {
+    $.mobile.pageContainer.pagecontainer("change", "#" + pageId, { changeHash: true, transition: "none" });
   },
+
+
+  /**
+   * goes back to the previous page, most likely called when back/X button is clicked.
+   */
+  navigateToPastPage: function() {
+    App.navigateToPage(App.pastPage);
+  }
 
 
   /**

@@ -39,11 +39,11 @@ function openWithPage(pageName, notificationType) {
       if (notificationType == "prediction") {
         HomePage.openedPredictionNotification = true;
       }
-      $.mobile.pageContainer.pagecontainer("change", "#home", { changeHash: false, transition: "none" });
+      App.navigateToPage(Constants.HOME_PAGE);
       break;
     case "map":
       pageId = Constants.MAP_PAGE;
-      $.mobile.pageContainer.pagecontainer("change", "#map", { changeHash: false, transition: "none" });
+      App.navigateToPage(Constants.MAP_PAGE);
       break;
     default:
       pageId = Constants.HOME_PAGE;
