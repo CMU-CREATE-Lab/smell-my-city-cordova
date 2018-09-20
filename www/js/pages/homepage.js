@@ -23,7 +23,7 @@ var HomePage = {
     HomePage.smellDescriptionPlaceholder = this.text.describe.placeholder;
     HomePage.smellFeelingsSymptomsPlaceholder = this.text.symptoms.placeholder;
     HomePage.additionalCommentsPlaceholder = this.text.note.placeholder;
-    var homeTpl=Handlebars.compile($("#home-tpl").html());
+    var homeTpl = Handlebars.compile($("#home-tpl").html());
     $('#home').html(homeTpl(this.text));
     $('#home').trigger('create');
     HomePage.onDeviceReady();
@@ -59,14 +59,14 @@ var HomePage = {
       if (HomePage.openedPredictionNotification) {
         if (LocalStorage.get("firsttime_prediction")) {
           HomePage.showPredictModal();
-          LocalStorage.set("firsttime_prediction",false);
+          LocalStorage.set("firsttime_prediction", false);
         }
         HomePage.openedPredictionNotification = false;
       }
       // first-time modal
       if (LocalStorage.get("firsttime_home")) {
         HomePage.showHomeModal();
-        LocalStorage.set("firsttime_home",false);
+        LocalStorage.set("firsttime_home", false);
       }
 
       // set placeholder text

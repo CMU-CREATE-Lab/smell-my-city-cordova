@@ -107,7 +107,7 @@ function disableUnwantedFastClickElements() {
  * @param {language} int -the index of the language object in Constants.APP_TEXT
  */
 function getText(language) {
-  if (Constants.APP_TEXT.length>0) {
+  if (Constants.APP_TEXT.length > 0) {
     return Constants.APP_TEXT[language];
   } else {
     populateLangs();
@@ -115,9 +115,10 @@ function getText(language) {
   }
 }
 
+
 // populates Constants.APP_TEXT
-function populateLangs(){
-  Constants.APP_TEXT=[];
+function populateLangs() {
+  Constants.APP_TEXT = [];
   Constants.APP_TEXT.push(english);
   Constants.APP_TEXT.push(espanol);
 }
