@@ -8,8 +8,9 @@ var Constants = {
   LOCATION_SERVICES: true,
   PLATFORM_CALLBACK_ONREADY: true,
   APP_VERSION: "2.1.6",
-  URL_SMELLPGH: "https://api.smellpittsburgh.org",
-  STAGING: "https://staging.api.smellpittsburgh.org",
+  URL_SMELLPGH: "https://localhost",
+  STAGING: "https://localhost",
+  URL_MAP: "https://localhost/visualization/v2",
 
   // Page Ids
   STARTUP_PAGE: "startup",
