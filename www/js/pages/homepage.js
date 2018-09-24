@@ -388,37 +388,38 @@ var HomePage = {
   // },
 
 
-  /**
-   * Changes template text to reflect current city
-   * @param {string} city -name of city as string
-   * no call back no return basicly a setter
-   */
-  updateTemplateText: function(city) {
-    //this string will be frequently used and updated
-    var referanceStr = HomePage.text.rating.h3;
-
-    //the users past city
-    var stashedCit = LocalStorage.get("current_city");
-     //length of the old city string
-    var oldCityLen = 0;
-    // is oldcity the same as new city
-    if (!MapPage.cityEquality(city)) {
-      //tell map page to do new city popup
-      MapPage.inNewCity=true;
-      //update current city
-      LocalStorage.set("current_city",city);
-    }//want jquery first time and all subsiquent times to use template
-
-    oldCityLen = stashedCit.length+1;
-    //by default all specific cities are in span tags with class your-city for jquery access
-    //instead we want to only use the template str and delet the span
-    if (referanceStr.indexOf("<span class='your-city'>") > -1) {
-      //first replace
-      HomePage.text.rating.h3 = referanceStr.substring(0, referanceStr.indexOf("<span class='your-city'>")) + city + "?";
-    } else {
-      //subsequent replaces
-      HomePage.text.rating.h3 = referanceStr.substring(0, referanceStr.length - oldCityLen) + city + "?";
-    }
-  }
+  // // NOTE: this is also disabled since we do not ever update the template (since we aren't requesting location/getting new cities)
+  // /**
+  //  * Changes template text to reflect current city
+  //  * @param {string} city -name of city as string
+  //  * no call back no return basicly a setter
+  //  */
+  // updateTemplateText: function(city) {
+  //   //this string will be frequently used and updated
+  //   var referanceStr = HomePage.text.rating.h3;
+  //
+  //   //the users past city
+  //   var stashedCit = LocalStorage.get("current_city");
+  //    //length of the old city string
+  //   var oldCityLen = 0;
+  //   // is oldcity the same as new city
+  //   if (!MapPage.cityEquality(city)) {
+  //     //tell map page to do new city popup
+  //     MapPage.inNewCity=true;
+  //     //update current city
+  //     LocalStorage.set("current_city",city);
+  //   }//want jquery first time and all subsiquent times to use template
+  //
+  //   oldCityLen = stashedCit.length+1;
+  //   //by default all specific cities are in span tags with class your-city for jquery access
+  //   //instead we want to only use the template str and delet the span
+  //   if (referanceStr.indexOf("<span class='your-city'>") > -1) {
+  //     //first replace
+  //     HomePage.text.rating.h3 = referanceStr.substring(0, referanceStr.indexOf("<span class='your-city'>")) + city + "?";
+  //   } else {
+  //     //subsequent replaces
+  //     HomePage.text.rating.h3 = referanceStr.substring(0, referanceStr.length - oldCityLen) + city + "?";
+  //   }
+  // },
 
 }
