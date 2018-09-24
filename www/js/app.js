@@ -51,46 +51,49 @@ var App = {
 
     // Use this if the page needs initialized everytime the page is viewed
     switch (pageId) {
-    case Constants.STARTUP_PAGE:
-      StartupPage.initialize();
-      break;
-    case Constants.HOME_PAGE:
-      HomePage.initialize();
-      //change pastPage so the x sends the user here
-      App.pastPage=Constants.HOME_PAGE;
-      // listen for keyboard events
-      window.addEventListener("native.keyboardshow", onKeyboardShowInHomePage);
-      window.addEventListener('native.keyboardhide', onKeyboardHide);
-      break;
-    case Constants.MAP_PAGE:
-      if (callbackType == App.CallbackType.CREATE) {
-        MapPage.initialize();
-      }
-      //change pastPage so the x sends the user here
-      App.pastPage = Constants.MAP_PAGE;
-      break;
-    case Constants.SETTINGS_PAGE:
-      SettingsPage.initialize();
-      // listen for keyboard events
-      window.addEventListener("native.keyboardshow", onKeyboardShowInHomePage);
-      window.addEventListener('native.keyboardhide', onKeyboardHide);
-      break;
-    case Constants.ABOUT_PAGE:
-      AboutPage.initialize();
-      break;
-    case "howitworks":
-       var howitworksTpl = Handlebars.compile($("#howitworks-tpl").html());
-       //initialization for howitworks page
-       //mostly the page's template but also the x button
-       $('#howitworks').html(howitworksTpl(App.text.howitworks));
-       $('#howitworks').trigger('create');
-       $(".back-x").click(function() {App.navigateToPastPage()});
-      break;
-    case Constants.LOCATION_SELECT_PAGE:
-      if (callbackType == App.CallbackType.CREATE) {
-        LocationSelectPage.initialize();
-      }
-      break;
+      case Constants.STARTUP_PAGE:
+        StartupPage.initialize();
+        break;
+      case Constants.HOME_PAGE:
+        HomePage.initialize();
+        // change pastPage so the x sends the user here
+        App.pastPage=Constants.HOME_PAGE;
+        // listen for keyboard events
+        window.addEventListener("native.keyboardshow", onKeyboardShowInHomePage);
+        window.addEventListener('native.keyboardhide', onKeyboardHide);
+        break;
+      case Constants.MAP_PAGE:
+        if (callbackType == App.CallbackType.CREATE) {
+          MapPage.initialize();
+        }
+        // change pastPage so the x sends the user here
+        App.pastPage = Constants.MAP_PAGE;
+        break;
+      case Constants.SETTINGS_PAGE:
+        SettingsPage.initialize();
+        // listen for keyboard events
+        window.addEventListener("native.keyboardshow", onKeyboardShowInHomePage);
+        window.addEventListener('native.keyboardhide', onKeyboardHide);
+        break;
+      case Constants.ABOUT_PAGE:
+        AboutPage.initialize();
+        break;
+      case "howitworks":
+         var howitworksTpl = Handlebars.compile($("#howitworks-tpl").html());
+         // initialization for howitworks page
+         // mostly the page's template but also the x button
+         $('#howitworks').html(howitworksTpl(App.text.howitworks));
+         $('#howitworks').trigger('create');
+         $(".back-x").click(function() {App.navigateToPastPage()});
+        break;
+      case Constants.LOCATION_SELECT_PAGE:
+        if (callbackType == App.CallbackType.CREATE) {
+          LocationSelectPage.initialize();
+        }
+        break;
+      default:
+        // TODO some default page?
+        break;
     }
   },
 
@@ -187,7 +190,7 @@ var App = {
    */
   navigateToPastPage: function() {
     App.navigateToPage(App.pastPage);
-  }
+  },
 
 
   /**
@@ -196,7 +199,7 @@ var App = {
    * @param {float} lng - longitude as float
    * @param {function} callback - takes new city name as string
    */
-  getCity: function(lat,lng,callback) {
+  getCity: function(lat, lng, callback) {
     var geocoder = new google.maps.Geocoder;
     var latlng = {lat:lat, lng:lng};//reformat params into google style LatLng object
     var city2;// the 2 at the end of the variable name, dont worry about it
