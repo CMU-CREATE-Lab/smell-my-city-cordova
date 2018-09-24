@@ -11,7 +11,6 @@ var HomePage = {
   location: {"lat": 0, "lng": 0},
   openedPredictionNotification: false,
   text: null, //the text for the page's template
-  cityRecieved: false,//boolean if have completed geocode to get current city
 
 
    // NOTE: this displays some what inconsistent behavior as the home page seems to be initialized 90% of the time the user loads it but not 100%
@@ -28,63 +27,49 @@ var HomePage = {
     $('#home').trigger('create');
     HomePage.onDeviceReady();
 
-    if (!HomePage.cityRecieved) {
-      console.log("HomePage.refreshCity");
-      // if we havent completed the needed geocoding request do so and call initialize after
-      HomePage.refreshCity(HomePage.initialize);
-    } else {
-      // if we have completed the geocoding request execute the below to display the home page
-      $('#home').html(homeTpl(this.text));
-      $('#home').trigger('create');
-      HomePage.onDeviceReady();
-
-      if (HomePage.returningFromLocationSelectPage) {
-        console.log("HomePage.initialize: returningFromLocationSelectPage");
-        HomePage.returningFromLocationSelectPage = false;
-        return;
-      }
-      console.log("HomePage.initialize");
-
-      Location.hasLocation = false;
-      if (HomePage.request != null) {
-        HomePage.request.abort();
-        HomePage.request = null;
-      }
-      HomePage.checkSubmitStatus();
-
-      // TODO hide location/time select for now; remove later
-      $("#current_time_location").hide();
-
-      // first-time predict modal
-      if (HomePage.openedPredictionNotification) {
-        if (LocalStorage.get("firsttime_prediction")) {
-          HomePage.showPredictModal();
-          LocalStorage.set("firsttime_prediction", false);
-        }
-        HomePage.openedPredictionNotification = false;
-      }
-      // first-time modal
-      if (LocalStorage.get("firsttime_home")) {
-        HomePage.showHomeModal();
-        LocalStorage.set("firsttime_home", false);
-      }
-
-      // set placeholder text
-      $("#textfield_smell_description").attr("placeholder", HomePage.smellValue == 1 ? "N/A" : HomePage.smellDescriptionPlaceholder);
-      $("#textfield_feelings_symptoms").attr("placeholder", HomePage.smellValue == 1 ? "N/A" : HomePage.smellFeelingsSymptomsPlaceholder);
-      $("#textfield_additional_comments").attr("placeholder", HomePage.additionalCommentsPlaceholder);
-
-      $("#checkbox_current_time_location").prop("checked", true);
-      $("#checkbox_current_time_location").checkboxradio("refresh", true);
-      // hide/show time/location options
-      HomePage.onClickCurrentTimeLocation();
-      // generate options for custom time
-      HomePage.populateOptionsForSelectReportTime();
-
-      // browser compatibility issues (Yay?)
-      $("#home-panel").find(".ui-btn-active").removeClass("ui-btn-active");
-      HomePage.cityRecieved = false;//need to do new geocode request
+    if (HomePage.returningFromLocationSelectPage) {
+      console.log("HomePage.initialize: returningFromLocationSelectPage");
+      HomePage.returningFromLocationSelectPage = false;
+      return;
     }
+
+    if (HomePage.request != null) {
+      HomePage.request.abort();
+      HomePage.request = null;
+    }
+    HomePage.checkSubmitStatus();
+
+    // TODO hide location/time select for now; remove later
+    $("#current_time_location").hide();
+
+    // first-time predict modal
+    if (HomePage.openedPredictionNotification) {
+      if (LocalStorage.get("firsttime_prediction")) {
+        HomePage.showPredictModal();
+        LocalStorage.set("firsttime_prediction", false);
+      }
+      HomePage.openedPredictionNotification = false;
+    }
+    // first-time modal
+    if (LocalStorage.get("firsttime_home")) {
+      HomePage.showHomeModal();
+      LocalStorage.set("firsttime_home", false);
+    }
+
+    // set placeholder text
+    $("#textfield_smell_description").attr("placeholder", HomePage.smellValue == 1 ? "N/A" : HomePage.smellDescriptionPlaceholder);
+    $("#textfield_feelings_symptoms").attr("placeholder", HomePage.smellValue == 1 ? "N/A" : HomePage.smellFeelingsSymptomsPlaceholder);
+    $("#textfield_additional_comments").attr("placeholder", HomePage.additionalCommentsPlaceholder);
+
+    $("#checkbox_current_time_location").prop("checked", true);
+    $("#checkbox_current_time_location").checkboxradio("refresh", true);
+    // hide/show time/location options
+    HomePage.onClickCurrentTimeLocation();
+    // generate options for custom time
+    HomePage.populateOptionsForSelectReportTime();
+
+    // browser compatibility issues (Yay?)
+    $("#home-panel").find(".ui-btn-active").removeClass("ui-btn-active");
   },
 
 
@@ -380,26 +365,27 @@ var HomePage = {
   },
 
 
-  /**
-   * gets the city the user is in
-   * @param {function} callback - should be HomePage.initialize
-   * callback takes no parameters
-   * city will be auto loaded into the template text
-   */
-  refreshCity: function(callback) {
-    //request users lat lng
-    Location.requestLocation(function(latitude, longitude) {
-      //get the city name as string
-      App.getCity(latitude, longitude, function(city) {
-        console.log("refreshCity success");
-        HomePage.updateTemplateText(city)
-        callback();
-      });
-    }, function(error) {
-      console.log(error);
-      callback()//always do callback or app wont load
-    });
-  },
+  // // NOTE: refreshes city name (and is disabled for now)
+  // /**
+  //  * gets the city the user is in
+  //  * @param {function} callback - should be HomePage.initialize
+  //  * callback takes no parameters
+  //  * city will be auto loaded into the template text
+  //  */
+  // refreshCity: function(callback) {
+  //   //request users lat lng
+  //   Location.requestLocation(function(latitude, longitude) {
+  //     //get the city name as string
+  //     App.getCity(latitude, longitude, function(city) {
+  //       console.log("refreshCity success");
+  //       HomePage.updateTemplateText(city)
+  //       callback();
+  //     });
+  //   }, function(error) {
+  //     console.log(error);
+  //     callback()//always do callback or app wont load
+  //   });
+  // },
 
 
   /**
@@ -433,7 +419,6 @@ var HomePage = {
       //subsequent replaces
       HomePage.text.rating.h3 = referanceStr.substring(0, referanceStr.length - oldCityLen) + city + "?";
     }
-    HomePage.cityRecieved=true;
   }
 
 }

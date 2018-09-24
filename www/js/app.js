@@ -193,46 +193,47 @@ var App = {
   },
 
 
-  /**
-   * gets city based on user location
-   * @param {float} lat - latitude as float
-   * @param {float} lng - longitude as float
-   * @param {function} callback - takes new city name as string
-   */
-  getCity: function(lat, lng, callback) {
-    var geocoder = new google.maps.Geocoder;
-    var latlng = {lat:lat, lng:lng};//reformat params into google style LatLng object
-    var city2;// the 2 at the end of the variable name, dont worry about it
-
-    // TODO We need to have a fall back if this does not return properly (without a callback the home page never loads)
-    // city2 = "pittsburgh";
-    // callback(city2)
-
-    geocoder.geocode({'location': latlng}, function(results, status) {
-      console.log("geocoder.geocode response");
-      //find city name
-      for (var i=0; i<results.length; i++) {
-        //google geocoding returns a object where cities are objets with type locality
-        if (results[i].types[0] === "locality") {
-          city2 = results[i].address_components[0].long_name;
-        }
-      }
-      //find zipcode
-      //zip code only exists inside lower levels of the return object unlike city
-      //want to use address_components of first part of the object so it must exist
-      if (results.length>0) {
-        //results[0] usually has the fullest address of a place and therefore has the zip code
-        for (var j=0; j<results[0].address_components.length; j++) {
-          //in the returned object zipc codes are objects with type of postal_code
-          if (results[0].address_components[j].types[0] === "postal_code") {
-            //stored in MapPage as it is only use there. Used to get aqi
-             MapPage.zipcode = results[0].address_components[j].long_name;
-          }
-        }
-      }
-      callback(city2)
-    });
-  },
+  // // NOTE: disabled for now. eventually we want to perform geocoding on the server instead.
+  // /**
+  //  * gets city based on user location
+  //  * @param {float} lat - latitude as float
+  //  * @param {float} lng - longitude as float
+  //  * @param {function} callback - takes new city name as string
+  //  */
+  // getCity: function(lat, lng, callback) {
+  //   var geocoder = new google.maps.Geocoder;
+  //   var latlng = {lat:lat, lng:lng};//reformat params into google style LatLng object
+  //   var city2;// the 2 at the end of the variable name, dont worry about it
+  //
+  //   // TODO We need to have a fall back if this does not return properly (without a callback the home page never loads)
+  //   // city2 = "pittsburgh";
+  //   // callback(city2)
+  //
+  //   geocoder.geocode({'location': latlng}, function(results, status) {
+  //     console.log("geocoder.geocode response");
+  //     //find city name
+  //     for (var i=0; i<results.length; i++) {
+  //       //google geocoding returns a object where cities are objets with type locality
+  //       if (results[i].types[0] === "locality") {
+  //         city2 = results[i].address_components[0].long_name;
+  //       }
+  //     }
+  //     //find zipcode
+  //     //zip code only exists inside lower levels of the return object unlike city
+  //     //want to use address_components of first part of the object so it must exist
+  //     if (results.length>0) {
+  //       //results[0] usually has the fullest address of a place and therefore has the zip code
+  //       for (var j=0; j<results[0].address_components.length; j++) {
+  //         //in the returned object zipc codes are objects with type of postal_code
+  //         if (results[0].address_components[j].types[0] === "postal_code") {
+  //           //stored in MapPage as it is only use there. Used to get aqi
+  //            MapPage.zipcode = results[0].address_components[j].long_name;
+  //         }
+  //       }
+  //     }
+  //     callback(city2)
+  //   });
+  // },
 
 }
 
