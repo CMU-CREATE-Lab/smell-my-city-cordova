@@ -260,7 +260,7 @@ var HomePage = {
         data["longitude"] = HomePage.location["lng"];
         HomePage.submitAjaxWithData(data);
       } else {
-        Location.requestLocation(function(latitude,longitude) {
+        Location.requestLocation(function(latitude, longitude) {
           data["latitude"] = latitude;
           data["longitude"] = longitude;
           HomePage.submitAjaxWithData(data);
@@ -307,13 +307,13 @@ var HomePage = {
     };
     data["client_token"] = Constants.CLIENT_ID;
     var url = Constants.URL_SMELLPGH + "/api/v2/smell_reports";
-    HomePage.submitAjaxToUrlWithData(url,data);
+    HomePage.submitAjaxToUrlWithData(url, data);
   },
 
 
   submitAjaxWithDataToV1Api: function(data) {
     var url = Constants.URL_SMELLPGH + "/api/v1/smell_reports";
-    HomePage.submitAjaxToUrlWithData(url,data);
+    HomePage.submitAjaxToUrlWithData(url, data);
   },
 
 
@@ -330,7 +330,7 @@ var HomePage = {
       data: data,
       xhrFields: { withCredentials: false },
 
-      success: function (data) {
+      success: function(data) {
         hideSpinner();
         HomePage.clearForm();
         HomePage.request = null;
@@ -339,7 +339,7 @@ var HomePage = {
       },
 
       // TODO ajax timeout vs. server 500 error
-      error: function (msg) {
+      error: function(msg) {
         hideSpinner();
         HomePage.request = null;
         alert("There was a problem submitting this report.");
@@ -358,7 +358,7 @@ var HomePage = {
 
 
   // Opening keyboard should focus the label, closing the keyboard should blur the textbox
-  onFocusTextboxWithLabel: function(element,label) {
+  onFocusTextboxWithLabel: function(element, label) {
     App.htmlElementToScrollAfterKeyboard = label;
     App.htmlElementToBlurAfterKeyboardCloses = element;
     label.scrollIntoView();
