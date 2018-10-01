@@ -11,6 +11,7 @@ var HomePage = {
   location: {"lat": 0, "lng": 0},
   openedPredictionNotification: false,
   text: null, //the text for the page's template
+  ajaxTimeout: 3000, // the number of milliseconds to wait for the ajax request to timeout (for submitting smell reports)
 
 
   loadTemplate: function() {
@@ -351,6 +352,7 @@ var HomePage = {
       dataType: "json",
       url: url,
       data: data,
+      timeout: HomePage.ajaxTimeout,
       xhrFields: { withCredentials: false },
 
       success: function(data) {
@@ -361,11 +363,23 @@ var HomePage = {
         App.navigateToPage(Constants.MAP_PAGE);
       },
 
-      // TODO ajax timeout vs. server 500 error
       error: function(msg) {
+        // TODO in the future we should run the statusText / error code through to Analytics
         hideSpinner();
         HomePage.request = null;
-        alert("There was a problem submitting this report.");
+        switch(msg.statusText) {
+          case "Internal Server Error":
+            alert("Smell report received but may not have been saved. Please check the map.");
+            MapPage.centerLocation = [ data["latitude"], data["longitude"] ];
+            App.navigateToPage(Constants.MAP_PAGE);
+            break;
+          case "timeout":
+            alert("Request timed out. Please try again.");
+            break;
+          default:
+            alert("There was a problem submitting this report.");
+            break;
+        }
       },
     });
   },
