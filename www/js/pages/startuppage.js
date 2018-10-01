@@ -3,28 +3,38 @@ var StartupPage = {
   text: null, //the text for the page's template
 
 
-  initialize: function() {
-    // load template
+  loadTemplate: function() {
     this.text = App.text.startup;
     var startupTpl = Handlebars.compile($("#startup-tpl").html());
     $('#startup').html(startupTpl(this.text));
     $('#startup').trigger('create');
-    console.log("StartupPage.initialize");
-    $(".langSelect").change(SettingsPage.langSelect);
   },
 
 
-  onDeviceReady: function() {
-    console.log("StartupPage.onDeviceReady");
-    StartupPage.initialize();
+  setListeners: function() {
+    $(".langSelect").change(SettingsPage.langSelect);
+    $("#startup-to-settings").click(function() {
+      LocalStorage.set("firsttime_startup", false);
+    });
+  },
+
+
+  onCreate: function() {
+    this.loadTemplate();
+    this.setListeners();
+
+    // previously in onDeviceReady
     Location.requestLocation( function(latitude, longitude) {
         StartupPage.storeCity(latitude, longitude);
       }, function(error) {
         console.log("Warning: tried to request location on StartupPage but failed.", error);
     });
-    $("#startup-to-settings").click(function() {
-      LocalStorage.set("firsttime_startup", false);
-    });
+  },
+
+
+  initialize: function() {
+    console.log("StartupPage.initialize");
+    StartupPage.onCreate();
   },
 
 

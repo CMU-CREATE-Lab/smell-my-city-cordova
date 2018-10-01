@@ -114,11 +114,6 @@ var App = {
     // remove FastClick glitch from checkboxradio widgets
     disableUnwantedFastClickElements();
 
-    SettingsPage.onDeviceReady();
-    HomePage.onDeviceReady();
-    MapPage.onDeviceReady();
-    AboutPage.onDeviceReady();
-    LocationSelectPage.onDeviceReady();
     App.isDeviceReady = true;
 
     Firebase.initialize();

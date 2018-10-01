@@ -3,21 +3,24 @@ var AboutPage = {
   text: null, //the text for the page's template
 
 
-  initialize: function () {
-    console.log("AboutPage.initialize");
-    // load template
+  loadTemplate: function() {
     this.text = App.text.about;
     var aboutTpl = Handlebars.compile($("#about-tpl").html());
     $('#about').html(aboutTpl(this.text));
     $('#about').trigger('create');
+  },
+
+
+  setListeners: function() {
     // add back (x) button functionality
     $(".back-x").click(function() {App.navigateToPastPage()});
   },
 
 
-  onDeviceReady: function() {
-    console.log("AboutPage.onDeviceReady");
-    AboutPage.displayVersionNumber();
+  onCreate: function() {
+    this.loadTemplate();
+    this.setListeners();
+    this.displayVersionNumber();
   },
 
 

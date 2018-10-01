@@ -8,13 +8,22 @@ var MapPage = {
   popupTimer: undefined, //the timer function for the popups
 
 
-  initialize: function () {
-    // load template
+  loadTemplate: function() {
     this.text = App.text.map;
     var mapTpl = Handlebars.compile($("#map-tpl").html());
     $('#map').html(mapTpl(this.text));
     $('#map').trigger('create');
-    console.log("MapPage.initialize");
+  },
+
+
+  setListeners: function() {
+    // (future listeners will go here)
+  },
+
+
+  onCreate: function() {
+    this.loadTemplate();
+    this.setListeners();
 
     // first-time map modals
     if (LocalStorage.get("firsttime_map")) {
@@ -43,8 +52,9 @@ var MapPage = {
   },
 
 
-  onDeviceReady: function() {
-    console.log("Mappage.onDeviceReady");
+  initialize: function () {
+    console.log("MapPage.initialize");
+    this.onCreate();
   },
 
 

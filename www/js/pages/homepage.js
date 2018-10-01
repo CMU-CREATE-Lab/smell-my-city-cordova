@@ -13,10 +13,7 @@ var HomePage = {
   text: null, //the text for the page's template
 
 
-   // NOTE: this displays some what inconsistent behavior as the home page seems to be initialized 90% of the time the user loads it but not 100%
-  initialize: function () {
-    console.log("HomePage.initialize");
-    // load template
+  loadTemplate: function() {
     this.text = App.text.home;
     // placeholder set up
     HomePage.smellDescriptionPlaceholder = this.text.describe.placeholder;
@@ -25,7 +22,26 @@ var HomePage = {
     var homeTpl = Handlebars.compile($("#home-tpl").html());
     $('#home').html(homeTpl(this.text));
     $('#home').trigger('create');
-    HomePage.onDeviceReady();
+  },
+
+
+  setListeners: function() {
+    // click listeners
+    $("#button_submit_report").click(HomePage.onClickSubmit);
+    $("#button_smell_location").click(HomePage.onClickLocation);
+    $(".radio-smell").click(function() {HomePage.onClickSmell(this);});
+    $("#checkbox_current_time_location").click(HomePage.onClickCurrentTimeLocation);
+    // focus (textbox) listeners
+    $("#textfield_smell_description").focus(function(){HomePage.onFocusTextboxWithLabel(this, $("label[for="+this.id+"]")[0] )});
+    $("#textfield_feelings_symptoms").focus(function(){HomePage.onFocusTextboxWithLabel(this, $("label[for="+this.id+"]")[0] )});
+    $("#textfield_additional_comments").focus(function(){HomePage.onFocusTextboxWithLabel(this, $("label[for="+this.id+"]")[0] )});
+    $("#select-report-time").change(HomePage.onChangeReportTime);
+  },
+
+
+  onCreate: function() {
+    this.loadTemplate();
+    this.setListeners();
 
     if (HomePage.returningFromLocationSelectPage) {
       console.log("HomePage.initialize: returningFromLocationSelectPage");
@@ -70,6 +86,13 @@ var HomePage = {
 
     // browser compatibility issues (Yay?)
     $("#home-panel").find(".ui-btn-active").removeClass("ui-btn-active");
+  },
+
+
+  // NOTE: this displays some what inconsistent behavior as the home page seems to be initialized 90% of the time the user loads it but not 100%
+  initialize: function () {
+    console.log("HomePage.initialize (deprecated; start using onCreate instead)");
+    HomePage.onCreate();
   },
 
 

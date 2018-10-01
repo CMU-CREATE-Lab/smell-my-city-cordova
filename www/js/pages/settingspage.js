@@ -3,26 +3,16 @@ var SettingsPage = {
   text: null, //the text for the page's template
 
 
-  initialize: function() {
-    // load template
+  loadTemplate: function() {
     this.text = App.text.settings;
     console.log("SettingsPage.initialize");
     this.settingsTpl = Handlebars.compile($("#settings-tpl").html());
     $('#settings').html(this.settingsTpl(this.text));
     $('#settings').trigger('create');
-
-    $(".back-x").click(function() {App.navigateToPastPage()});
-    $(".langSelect").change(SettingsPage.langSelect);
-    this.refreshNotifications();
-    this.populateFormSettings();
-    this.expandTabs();
-    // if blank values, highlight in red
-    this.highlightMissingRecommended();
   },
 
 
-  onDeviceReady: function() {
-    console.log("SettingsPage.onDeviceReady");
+  setListeners: function() {
     // avoid seeing the collapsed tabs on the first page transition
     this.expandTabs();
 
@@ -39,6 +29,27 @@ var SettingsPage = {
     $("#textfield_name").focus(function() {SettingsPage.onFocusTextbox(this)});
     $("#textfield_phone").focus(function() {SettingsPage.onFocusTextbox(this)});
     $("#textfield_address").focus(function() {SettingsPage.onFocusTextbox(this)});
+
+    $(".back-x").click(function() {App.navigateToPastPage()});
+    $(".langSelect").change(SettingsPage.langSelect);
+  },
+
+
+  onCreate: function() {
+    this.loadTemplate();
+    this.setListeners();
+
+    this.refreshNotifications();
+    this.populateFormSettings();
+    this.expandTabs();
+    // if blank values, highlight in red
+    this.highlightMissingRecommended();
+  },
+
+
+  initialize: function() {
+    console.log("SettingsPage.initialize");
+    SettingsPage.onCreate();
   },
 
 
