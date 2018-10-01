@@ -17,8 +17,9 @@ var SettingsPage = {
     this.expandTabs();
 
     // click listeners
-    $("#checkbox_smell_notifications").click(SettingsPage.onToggleSmellNotifications);
-    $("#checkbox_pghaqi_notifications").click(SettingsPage.onTogglePittsburghAqiNotifications);
+    // // TODO enable notifications
+    // $("#checkbox_smell_notifications").click(SettingsPage.onToggleSmellNotifications);
+    // $("#checkbox_pghaqi_notifications").click(SettingsPage.onTogglePittsburghAqiNotifications);
     // change (text) listeners
     $("#textfield_email").change(SettingsPage.onEmailChange);
     $("#textfield_name").change(SettingsPage.onNameChange);
@@ -44,6 +45,9 @@ var SettingsPage = {
     this.expandTabs();
     // if blank values, highlight in red
     this.highlightMissingRecommended();
+
+    // NOTE hide notifications options (for now)
+    $("#notificationsCollapsible").hide();
   },
 
 
@@ -110,34 +114,34 @@ var SettingsPage = {
   // callbacks
 
 
-  onToggleSmellNotifications: function() {
-    var topicName = Constants.SMELL_REPORT_TOPIC;
-
-    if (LocalStorage.get("receive_smell_notifications")) {
-      LocalStorage.set("receive_smell_notifications", false);
-      Firebase.unsubscribe(topicName);
-      Analytics.logOnUnsubscribeEvent(topicName);
-    } else {
-      LocalStorage.set("receive_smell_notifications", true);
-      Firebase.subscribe(topicName);
-      Analytics.logOnSubscribeEvent(topicName);
-    }
-  },
-
-
-  onTogglePittsburghAqiNotifications: function() {
-    var topicName = Constants.PITTSBURGH_AQI_TOPIC;
-
-    if (LocalStorage.get("receive_pghaqi_notifications")) {
-      LocalStorage.set("receive_pghaqi_notifications", false);
-      Firebase.unsubscribe(topicName);
-      Analytics.logOnUnsubscribeEvent(topicName);
-    } else {
-      LocalStorage.set("receive_pghaqi_notifications", true);
-      Firebase.subscribe(topicName);
-      Analytics.logOnSubscribeEvent(topicName);
-    }
-  },
+  // onToggleSmellNotifications: function() {
+  //   var topicName = Constants.SMELL_REPORT_TOPIC;
+  //
+  //   if (LocalStorage.get("receive_smell_notifications")) {
+  //     LocalStorage.set("receive_smell_notifications", false);
+  //     // Firebase.unsubscribe(topicName);
+  //     // Analytics.logOnUnsubscribeEvent(topicName);
+  //   } else {
+  //     LocalStorage.set("receive_smell_notifications", true);
+  //     // Firebase.subscribe(topicName);
+  //     // Analytics.logOnSubscribeEvent(topicName);
+  //   }
+  // },
+  //
+  //
+  // onTogglePittsburghAqiNotifications: function() {
+  //   var topicName = Constants.PITTSBURGH_AQI_TOPIC;
+  //
+  //   if (LocalStorage.get("receive_pghaqi_notifications")) {
+  //     LocalStorage.set("receive_pghaqi_notifications", false);
+  //     // Firebase.unsubscribe(topicName);
+  //     // Analytics.logOnUnsubscribeEvent(topicName);
+  //   } else {
+  //     LocalStorage.set("receive_pghaqi_notifications", true);
+  //     // Firebase.subscribe(topicName);
+  //     // Analytics.logOnSubscribeEvent(topicName);
+  //   }
+  // },
 
 
   onEmailChange: function(event) {
