@@ -24,6 +24,12 @@ var AboutPage = {
   },
 
 
+  initialize: function () {
+    console.log("AboutPage.initialize (deprecated; start using onCreate instead)");
+    AboutPage.onCreate();
+  },
+
+
   // helper functions
 
 

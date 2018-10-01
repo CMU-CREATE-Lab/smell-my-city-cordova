@@ -48,7 +48,7 @@ var SettingsPage = {
 
 
   initialize: function() {
-    console.log("SettingsPage.initialize");
+    console.log("SettingsPage.initialize (deprecated; start using onCreate instead)");
     SettingsPage.onCreate();
   },
 

@@ -33,7 +33,7 @@ var StartupPage = {
 
 
   initialize: function() {
-    console.log("StartupPage.initialize");
+    console.log("StartupPage.initialize (deprecated; start using onCreate instead)");
     StartupPage.onCreate();
   },
 

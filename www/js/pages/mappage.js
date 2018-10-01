@@ -53,7 +53,7 @@ var MapPage = {
 
 
   initialize: function () {
-    console.log("MapPage.initialize");
+    console.log("MapPage.initialize (deprecated; start using onCreate instead)");
     this.onCreate();
   },
 
