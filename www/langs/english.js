@@ -54,7 +54,7 @@ var english = {
 			placeholder: "e.g. headache, sore throat, eye irritation",
 		},
 		note: {
-			lable: "Add a personal note to the health department",
+			label: "Add a personal note to the health department",
 			placeholder: "e.g. if you submit more than one report in the same day",
 		},
 		custom: {

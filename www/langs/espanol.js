@@ -56,7 +56,7 @@ var espanol={
 			placeholder: "Por ejemplo el dolor de cabeza, el dolor de garganta, irritación ocular",
 		},
 		note: {
-			lable: "Agregar una nota personal al Departamento de salud",
+			label: "Agregar una nota personal al Departamento de salud",
 			placeholder: "Por ejemplo Si envía más de un informe en el mismo día",
 		},
 		custom: {
