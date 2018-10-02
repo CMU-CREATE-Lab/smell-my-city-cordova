@@ -141,7 +141,7 @@ var english = {
 		},
 		h3: "About Smell MyCity",
 		link: {
-			p: "Official Website",
+			p: "Smell PGH Website",
 			url_notDisplayed: "http://smellpgh.org/",//??
 		},
 		p1: "Spinning out of the Smell PGH application, Smell MyCity is a mobile phone app designed to engage local residents in tracking pollution odors. Smell MyCity can be used anywhere in the United States. The map view displays smell reports submitted in the area on a given date. This allows residents to track where odors are frequently concentrated, and link those smell events to poor air quality in, or upwind from, those areas.",
