@@ -3,7 +3,7 @@ var Constants = {
   CLIENT_ID: "KEEP-IT-SECRET",
   LOCATION_SERVICES: false,
   PLATFORM_CALLBACK_ONREADY: false,
-  APP_VERSION: "2.1.6",
+  APP_VERSION: "0.1.0",
   URL_SMELLPGH: "https://localhost",
   STAGING: "https://localhost",
   URL_MAP: "https://localhost/visualization/v2",
