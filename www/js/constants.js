@@ -36,9 +36,6 @@ var Constants = {
   PITTSBURGH_AQI_TOPIC: "pghaqi",
   SMELL_REPORT_TOPIC: "SmellReports",
 
-  DEFAULT_SIDE_MENU_BG: "../img/side-menu-backgrounds/default.png",
-  DEFAULT_SIDE_MENU_BG_COLOR: "#97c93c",
-
   // Location services enums
   AuthorizationEnum: {
     NOT_REQUESTED: "not requested",

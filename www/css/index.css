@@ -95,6 +95,7 @@ div[data-role="panel"] {
 
 .ui-panel-inner .ui-listview a.ui-btn.ui-btn-active, .ui-btn-active {
   background-color: #23373d !important;
+  border-color: #23373d !important;
 }
 
 /* Remove title restriction on modal headers */

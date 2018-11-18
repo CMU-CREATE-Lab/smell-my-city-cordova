@@ -460,7 +460,7 @@ var HomePage = {
       success: function(data) {
         var cityData = data['app_metadata'];
         $('div[data-role="panel"]').css({
-          "background-image": "url(" + Constants.URL_API + cityData["side_menu_background_url"] + ")",
+          "background-image": "url('" + Constants.URL_API + cityData["side_menu_background_url"] + "')",
           "background-color": Constants.URL_API + cityData["side_menu_background_color"]
         });
         $("#textfield_smell_description").attr("placeholder", "e.g. " + cityData["smell_description_placeholder_text"]);
@@ -469,8 +469,8 @@ var HomePage = {
 
       error: function(msg) {
         $('div[data-role="panel"]').css({
-          "background-image": "url(" + Constants.DEFAULT_SIDE_MENU_BG + ")",
-          "background-color": Constants.DEFAULT_SIDE_MENU_BG_COLOR
+          "background-image": "",
+          "background-color": ""
         });
         $("#textfield_smell_description").attr("placeholder", "e.g. " + App.text.home.describe.placeholder);
         $("#textfield_additional_comments").parent().hide();
