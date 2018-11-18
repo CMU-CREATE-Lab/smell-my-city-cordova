@@ -12,7 +12,7 @@ var Location = {
       console.error(msg);
       alert(msg);
       App.authorizationStatus = Constants.AuthorizationEnum.DENIED_ALWAYS;
-      checkState();
+      //checkState();
     }
     var handleSuccess = function(str) {
       App.authorizationStatus = Constants.AuthorizationEnum.GRANTED;
@@ -20,7 +20,7 @@ var Location = {
     }
     var statusAuthorized = function(status) {
       handleSuccess("Requested location authorization: authorization was " + status);
-      checkState();
+      //checkState();
     }
     var checkAuthorized = function(authorized) {
       if (!authorized) {
