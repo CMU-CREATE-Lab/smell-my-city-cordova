@@ -1,3 +1,14 @@
+@font-face {
+  font-family: 'Verdana';
+  src: url('../fonts/verdana.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'Verdana', Helvetica, Arial, sans-serif !important;
+}
+
 .ui-page-theme-a .ui-btn:focus {
   outline: none !important;
   -webkit-box-shadow: none !important;
@@ -11,43 +22,79 @@
   box-shadow: none !important;
 }
 
-.picker-color-smell-1 {
+.picker-color-smell {
   display: inline-block;
   width: 2em;
   min-height: 1em;
   height: 100%;
+  vertical-align: middle;
+  margin-top: -2px;
+}
+
+.picker-color-smell-1 {
   background-color: rgb(0,255,0);
 }
 .picker-color-smell-2 {
-  display: inline-block;
-  width: 2em;
-  min-height: 1em;
-  height: 100%;
   background-color: rgb(248,229,64);
 }
 .picker-color-smell-3 {
-  display: inline-block;
-  width: 2em;
-  min-height: 1em;
-  height: 100%;
   background-color: rgb(218,136,0);
 }
 .picker-color-smell-4 {
-  display: inline-block;
-  width: 2em;
-  min-height: 1em;
-  height: 100%;
   background-color: rgb(235,38,103);
 }
 .picker-color-smell-5 {
-  display: inline-block;
-  width: 2em;
-  min-height: 1em;
-  height: 100%;
   background-color: rgb(95,14,54);
 }
 div[data-role="panel"] {
-  background-color: #f9f9f9 !important;
+  background-image: url("../img/side-menu-backgrounds/default.png");
+  background-color: #97c93c;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.ui-content .ui-listview, .ui-panel-inner>.ui-listview {
+  margin: 0 !important;
+}
+
+.ui-panel-inner {
+  position: absolute !important;
+  width: calc(100% - 60px) !important;
+  padding-left: 30px !important;
+  bottom: 10% !important;
+}
+
+.ui-panel-inner>.ui-listview {
+  border-radius: 5px !important;
+}
+
+.ui-panel-inner .ui-listview>li.ui-first-child, .ui-listview>li.ui-first-child>a.ui-btn {
+  border-top: none !important;
+}
+
+.ui-panel-inner .ui-listview a.ui-btn {
+  border-bottom: none !important;
+  background: #234c5a !important;
+  font-weight: normal !important;
+  color: white !important;
+  text-shadow: none !important;
+  outline: none !important;
+  border-color: #ddd !important;
+}
+
+.ui-footer .ui-navbar .ui-btn {
+  text-align: center !important;
+  padding-top: 20px !important;
+  padding-bottom: 15px !important;
+  font-size: 16px !important;
+}
+
+.ui-page .ui-footer-fixed.ui-fixed-hidden {
+  position: fixed !important;
+}
+
+.ui-panel-inner .ui-listview a.ui-btn.ui-btn-active, .ui-btn-active {
+  background-color: #23373d !important;
 }
 
 /* Remove title restriction on modal headers */
@@ -55,8 +102,8 @@ div[data-role="panel"] {
   margin: 0 10% 0 !important;
 }
 
-/* Remove radio/checkbox glitch in android */
-.ui-page-theme-a .ui-btn:hover,html .ui-bar-a .ui-btn:hover,html .ui-body-a .ui-btn:hover,html body .ui-group-theme-a .ui-btn:hover,html head+body .ui-btn.ui-btn-a:hover {
+/* Tweak hover effect on button classes (except for active buttons), since it glitches on Android otherwise */
+.ui-btn:not(.ui-btn-active):hover, .ui-btn.ui-btn-a:not(.ui-btn-active):hover {
   background-color: #f6f6f6 !important;
   border-color: #ddd !important;
   color: inherit !important;
@@ -65,4 +112,41 @@ div[data-role="panel"] {
 .close-button{
   position:absolute;
   left:0px;
+}
+
+.inlineIcon {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  margin-right: 6px;
+  margin-top: -4px;
+}
+
+.ui-mobile .ui-page-active {
+  overflow: hidden;
+}
+
+body:not(.keyboard-enabled) {
+  overflow: hidden;
+}
+
+.ui-page:not(#map):not(.keyboard-enabled) {
+  height: calc(100% - 16px);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.ui-page:not(.keyboard-enabled) .ui-content.no-top {
+  height: 100%;
+}
+
+#langsCollapsible, #langSelectContainer {
+  display: none !important;
+}
+
+h2 {
+  margin-top: 0px;
 }

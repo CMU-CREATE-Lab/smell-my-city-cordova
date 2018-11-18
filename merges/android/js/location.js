@@ -7,49 +7,72 @@ var Location = {
   watchIds: [],
 
 
+  // Request location permission
   requestLocationPermission: function() {
     console.log("requestLocationPermission");
-    var requestAuth = function(status) {
-      switch (status) {
-        case cordova.plugins.diagnostic.permissionStatus.GRANTED:
-          console.log("Permission granted");
-          App.authorizationStatus = Constants.AuthorizationEnum.GRANTED;
+
+    function onError (error){
+      console.error("The following error occurred when requesting location authorization: " + error);
+    }
+
+    if (App.isFinalPermissionPopupActive) return;
+
+    cordova.plugins.diagnostic.getLocationAuthorizationStatus(function(status){
+      // HACK...
+      // The backstory to DENIED_ALWAYS vs NOT_REQUESTED on Android is an "interesting" one and the diagnostic plugin claims to handle
+      // this, but that does not seem to be the case. So we must use various flags to know when DENIED_ALWAYS was actually selected.
+      // https://github.com/dpa99c/cordova-diagnostic-plugin/issues/52#issuecomment-209273236
+      if (status == cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED && App.didFirstTimeLocationCheck) {
+        status = cordova.plugins.diagnostic.permissionStatus.DENIED_ALWAYS;
+      }
+      App.didFirstTimeLocationCheck = true;
+
+      // Check the Location permission status
+      switch(status){
+        case cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED:
+          console.log("Permission not requested");
+          App.authorizationStatus = Constants.AuthorizationEnum.NOT_REQUESTED;
+          cordova.plugins.diagnostic.requestLocationAuthorization(requestLocationPermission, onError);
           break;
         case cordova.plugins.diagnostic.permissionStatus.DENIED:
           console.log("Permission denied");
           App.authorizationStatus = Constants.AuthorizationEnum.DENIED;
+          cordova.plugins.diagnostic.requestLocationAuthorization(requestLocationPermission, onError);
           break;
-      }
-    };
-    var requestAuthError = function() {
-      console.log("error in requesting location authorization");
-    };
-    var authorizationStatus = function(status){
-      switch (status) {
-        case cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED:
-          console.log("Permission not requested");
-          cordova.plugins.diagnostic.requestLocationAuthorization(requestAuth, requestAuthError);
+        case cordova.plugins.diagnostic.permissionStatus.DENIED_ALWAYS:
+          console.log("Permission denied always");
+          App.authorizationStatus = Constants.AuthorizationEnum.DENIED_ALWAYS;
+          App.isFinalPermissionPopupActive = true;
+          navigator.notification.confirm("Would you like to go to the system settings to manually allow location permissions for this app?", onConfirm, "Location permission is required", ["Yes", "No"]);
+          function onConfirm(index) {
+            if (index === 1) {
+              navigator.notification.alert(
+                "After you enable Location permissions, relaunch the app.",
+                cordova.plugins.diagnostic.switchToSettings,
+                ""
+              );
+            }
+            App.isFinalPermissionPopupActive = false;
+          }
           break;
         case cordova.plugins.diagnostic.permissionStatus.GRANTED:
           console.log("Permission granted");
           App.authorizationStatus = Constants.AuthorizationEnum.GRANTED;
           break;
-        case cordova.plugins.diagnostic.permissionStatus.DENIED:
-          console.log("Permission denied");
-          cordova.plugins.diagnostic.requestLocationAuthorization(requestAuth, requestAuthError);
-          break;
       }
-    };
-
-    cordova.plugins.diagnostic.getLocationAuthorizationStatus(authorizationStatus, function(error){console.error(error);} );
+    }, onError);
   },
 
 
+  // Request the users location
   requestLocation: function(afterSuccess, afterFailure) {
     console.log("requestLocation");
+
     if (isConnected()) {
       if (!Location.isRequestingLocation) {
+        console.log("in requestLocation: " + Location.watchIds.length);
         Location.isRequestingLocation = true;
+
         var onSuccess = function(position) {
           Location.coords = position.coords;
           Location.hasLocation = true;
@@ -63,26 +86,33 @@ var Location = {
           console.log("requestLocation error code: " + error.code);
           console.log("requestLocation error message: " + error.message);
           Location.stopRequestLocation();
-          navigator.notification.confirm("Would you like to retry?", onConfirm, "Failure Requesting Location", ["Retry", "Cancel"]);
+          afterFailure(error);
+          /*navigator.notification.confirm("Would you like to retry?", onConfirm, "Failure Requesting Location", ["Retry", "Cancel"]);
           function onConfirm(index) {
-            if (index == 1){
+            if (index == 1) {
                Location.requestLocation(afterSuccess);
-            }else{
-              //if getting location failed and they do not want to retry then fire afterFailure callback
-              afterFailure(error)
+            } else {
+              // if getting location failed and they do not want to retry, then fire afterFailure callback
+              if (typeof afterFailure === "function") {
+                afterFailure(error);
+              } else {
+                console.log("requestLocation: afterFailure callback not specified");
+              }
             }
-          }
+          }*/
         };
         var pushLocation = function() {
+          console.log('requestLocation pushLocation');
           showSpinner("Requesting Location\nPlease Wait...");
           Location.watchIds.push(navigator.geolocation.watchPosition(onSuccess, onError, { maximumAge: 3000, timeout: 60000, enableHighAccuracy: true }));
         }
 
-        // request change settings if we need to
+        // Request change settings if we need to
         cordova.plugins.locationAccuracy.request(
           function(success) {
             App.accuracyStatus = Constants.AccuracyEnum.ENABLED;
-            pushLocation()
+            console.log("requestLocation accuracy success");
+            pushLocation();
           }, function(error) {
             console.log("error code: " + error.code + "\nerror message: " + error.message);
             App.accuracyStatus = Constants.AccuracyEnum.DISABLED;
@@ -90,17 +120,17 @@ var Location = {
           }, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
       }
     } else {
-      alert("Connect to the internet then click 'Retry' in order to request location.", alertDismissed, "No Internet Connection", "Retry");
+      navigator.notification.confirm("Connect to the Internet then click 'Retry' in order to request location.", alertDismissed, "No Internet Connection", ["Retry"]);
       function alertDismissed() {
-        //Location.requestLocation(afterSuccess);
+        Location.requestLocation(afterSuccess);
       }
     }
   },
 
 
-  // stop requesting the users location
+  // Stop requesting the users location
   stopRequestLocation: function() {
-    console.log("stopRequestLocation");
+    console.log("requestLocation stopRequestLocation: " + Location.watchIds.length);
     Location.isRequestingLocation = false;
     hideSpinner();
     var l = Location.watchIds.length;

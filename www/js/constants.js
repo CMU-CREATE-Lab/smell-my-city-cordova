@@ -4,13 +4,13 @@
  */
 var Constants = {
 
-  CLIENT_ID: "KEEP-IT-SECRET",
+  CLIENT_ID: "e431cd0eb45ae1619d5208410060470c",
   LOCATION_SERVICES: true,
   PLATFORM_CALLBACK_ONREADY: true,
   APP_VERSION: "0.1.0",
-  URL_SMELLPGH: "https://localhost",
+  URL_API: "http://staging.api.smellpittsburgh.org",
   STAGING: "https://localhost",
-  URL_MAP: "https://localhost/visualization/v2",
+  URL_MAP: "http://staging.api.smellpittsburgh.org/visualization",
 
   // Page Ids
   STARTUP_PAGE: "startup",
@@ -19,7 +19,7 @@ var Constants = {
   SETTINGS_PAGE: "settings",
   ABOUT_PAGE: "about",
   LOCATION_SELECT_PAGE: "locationselect",
-  HOW_IT_WORKS_PAGE:"howitworks",
+  HOW_IT_WORKS_PAGE: "howitworks",
 
   // Local Storage keys
   USER_HASH_KEY: "user_hash",
@@ -36,11 +36,15 @@ var Constants = {
   PITTSBURGH_AQI_TOPIC: "pghaqi",
   SMELL_REPORT_TOPIC: "SmellReports",
 
+  DEFAULT_SIDE_MENU_BG: "../img/side-menu-backgrounds/default.png",
+  DEFAULT_SIDE_MENU_BG_COLOR: "#97c93c",
+
   // Location services enums
   AuthorizationEnum: {
     NOT_REQUESTED: "not requested",
     GRANTED: "granted",
-    DENIED: "denied"
+    DENIED: "denied",
+    DENIED_ALWAYS: "denied always",
   },
   AccuracyEnum: {
     ENABLED: "enabled",
@@ -48,7 +52,7 @@ var Constants = {
   },
 
   //languages
-  LANGUAGES: ["english","español"],
+  LANGUAGES: ["English","Español"],
   APP_TEXT: [],
 
 }

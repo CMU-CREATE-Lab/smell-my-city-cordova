@@ -1,7 +1,7 @@
 var AboutPage = {
 
   text: null, //the text for the page's template
-
+  didInitialLoad: false,
 
   loadTemplate: function() {
     this.text = App.text.about;
@@ -18,9 +18,12 @@ var AboutPage = {
 
 
   onCreate: function() {
-    this.loadTemplate();
-    this.setListeners();
-    this.displayVersionNumber();
+    if (!AboutPage.didInitialLoad) {
+      AboutPage.didInitialLoad = true;
+      this.loadTemplate();
+      this.setListeners();
+      this.displayVersionNumber();
+    }
   },
 
 

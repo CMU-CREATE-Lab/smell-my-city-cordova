@@ -11,6 +11,8 @@ var App = {
   htmlElementToBlurAfterKeyboardCloses: null, // this is the HTML element you need to blur after the keyboard has been closed to avoid weird glitches on using checkboxradio widgets
   pastPage: Constants.HOME_PAGE,//The page one was on before switching used for x button
   text: getText(LocalStorage.get("language")),//parameter doesnt matter until more languages and method of selecting and getting them is desided
+  didFirstTimeLocationCheck: false,
+  isFinalPermissionPopupActive: false,
 
   /**
    * The type of callback that is being handled for calls to {@link initializePage}.
@@ -28,7 +30,7 @@ var App = {
    */
   initialize: function() {
     console.log("onInitialize");
-      document.addEventListener("deviceready", this.onDeviceReady, false);
+    document.addEventListener("deviceready", this.onDeviceReady, false);
   },
 
 
@@ -43,8 +45,8 @@ var App = {
   initializePage: function(pageId, callbackType) {
     console.log("initializePage");
     // remove listener for keyboard events
-    window.removeEventListener("native.keyboardshow", onKeyboardShowInHomePage);
-    window.removeEventListener('native.keyboardhide', onKeyboardHide);
+    window.removeEventListener("keyboardDidShow", onKeyboardShowInHomePage);
+    window.removeEventListener('keyboardDidHide', onKeyboardHide);
 
     // set Screen name for Firebase Analytics (NOTE: pageId might be nonsense)
     Analytics.setScreenName(pageId);
@@ -59,8 +61,8 @@ var App = {
         // change pastPage so the x sends the user here
         App.pastPage=Constants.HOME_PAGE;
         // listen for keyboard events
-        window.addEventListener("native.keyboardshow", onKeyboardShowInHomePage);
-        window.addEventListener('native.keyboardhide', onKeyboardHide);
+        window.addEventListener("keyboardDidShow", onKeyboardShowInHomePage);
+        window.addEventListener('keyboardDidHide', onKeyboardHide);
         break;
       case Constants.MAP_PAGE:
         if (callbackType == App.CallbackType.CREATE) {
@@ -72,8 +74,8 @@ var App = {
       case Constants.SETTINGS_PAGE:
         SettingsPage.initialize();
         // listen for keyboard events
-        window.addEventListener("native.keyboardshow", onKeyboardShowInHomePage);
-        window.addEventListener('native.keyboardhide', onKeyboardHide);
+        window.addEventListener("keyboardDidShow", onKeyboardShowInHomePage);
+        window.addEventListener('keyboardDidHide', onKeyboardHide);
         break;
       case Constants.ABOUT_PAGE:
         AboutPage.initialize();
@@ -123,8 +125,8 @@ var App = {
     Analytics.initialize();
 
     // listen for keyboard events
-    window.addEventListener("native.keyboardshow", onKeyboardShowInHomePage);
-    window.addEventListener('native.keyboardhide', onKeyboardHide);
+    window.addEventListener("keyboardDidShow", onKeyboardShowInHomePage);
+    window.addEventListener('keyboardDidHide', onKeyboardHide);
     if (LocalStorage.get("firsttime_startup")) {
       App.navigateToPage(Constants.STARTUP_PAGE);
     } else {
@@ -141,6 +143,7 @@ var App = {
    */
   onResume: function() {
     console.log("onResume");
+    Location.requestLocationPermission();
     Analytics.logOnResumeEvent();
     var pageId = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
     App.initializePage(pageId, App.CallbackType.RESUME);
@@ -188,47 +191,73 @@ var App = {
   },
 
 
-  // // NOTE: disabled for now. eventually we want to perform geocoding on the server instead.
+  reverseGeocode: function(lat, lng, callback) {
+    console.log("reverse geocode");
+    nativegeocoder.reverseGeocode(success, failure, lat, lng, { useLocale: true, maxResults: 1 });
+
+    function success(result) {
+      console.log("SUCCESS REVERSE");
+      callback(result[0]);
+    }
+
+    function failure(err) {
+      console.log("REVERSE_GEOCODE_FAILED");
+    }
+  },
+
   // /**
   //  * gets city based on user location
   //  * @param {float} lat - latitude as float
   //  * @param {float} lng - longitude as float
-  //  * @param {function} callback - takes new city name as string
+  //  * @param {function} callback - city object
   //  */
-  // getCity: function(lat, lng, callback) {
-  //   var geocoder = new google.maps.Geocoder;
-  //   var latlng = {lat:lat, lng:lng};//reformat params into google style LatLng object
-  //   var city2;// the 2 at the end of the variable name, dont worry about it
-  //
-  //   // TODO We need to have a fall back if this does not return properly (without a callback the home page never loads)
-  //   // city2 = "pittsburgh";
-  //   // callback(city2)
-  //
-  //   geocoder.geocode({'location': latlng}, function(results, status) {
-  //     console.log("geocoder.geocode response");
-  //     //find city name
-  //     for (var i=0; i<results.length; i++) {
-  //       //google geocoding returns a object where cities are objets with type locality
-  //       if (results[i].types[0] === "locality") {
-  //         city2 = results[i].address_components[0].long_name;
-  //       }
-  //     }
-  //     //find zipcode
-  //     //zip code only exists inside lower levels of the return object unlike city
-  //     //want to use address_components of first part of the object so it must exist
-  //     if (results.length>0) {
-  //       //results[0] usually has the fullest address of a place and therefore has the zip code
-  //       for (var j=0; j<results[0].address_components.length; j++) {
-  //         //in the returned object zipc codes are objects with type of postal_code
-  //         if (results[0].address_components[j].types[0] === "postal_code") {
-  //           //stored in MapPage as it is only use there. Used to get aqi
-  //            MapPage.zipcode = results[0].address_components[j].long_name;
-  //         }
-  //       }
-  //     }
-  //     callback(city2)
-  //   });
-  // },
+  getCityFromLocation: function(lat, lng, callback) {
+    App.reverseGeocode(lat, lng, function(geocode) {
+      var cityObj = {
+        name: geocode.locality,
+        zip: geocode.postalCode,
+        state: geocode.administrativeArea,
+        lat: lat,
+        lng: lng,
+        lastUpdate: (new Date()).getTime()
+      };
+      LocalStorage.set("current_city", cityObj);
+      console.log("cityObj populated");
+      callback(cityObj);
+    });
+   /*var geocoder = new google.maps.Geocoder;
+   var latlng = {lat:lat, lng:lng};//reformat params into google style LatLng object
+   var city2;// the 2 at the end of the variable name, dont worry about it
+
+   // TODO We need to have a fall back if this does not return properly (without a callback the home page never loads)
+   // city2 = "pittsburgh";
+   // callback(city2)
+
+   geocoder.geocode({'location': latlng}, function(results, status) {
+     console.log("geocoder.geocode response");
+     //find city name
+     for (var i=0; i<results.length; i++) {
+       //google geocoding returns a object where cities are objets with type locality
+       if (results[i].types[0] === "locality") {
+         city2 = results[i].address_components[0].long_name;
+       }
+     }
+     //find zipcode
+     //zip code only exists inside lower levels of the return object unlike city
+     //want to use address_components of first part of the object so it must exist
+     if (results.length>0) {
+       //results[0] usually has the fullest address of a place and therefore has the zip code
+       for (var j=0; j<results[0].address_components.length; j++) {
+         //in the returned object zipc codes are objects with type of postal_code
+         if (results[0].address_components[j].types[0] === "postal_code") {
+           //stored in MapPage as it is only use there. Used to get aqi
+            MapPage.zipcode = results[0].address_components[j].long_name;
+         }
+       }
+     }
+     callback(city2)
+   });*/
+  },
 
 }
 

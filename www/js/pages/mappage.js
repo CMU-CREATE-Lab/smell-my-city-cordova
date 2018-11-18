@@ -32,23 +32,25 @@ var MapPage = {
     }
 
     // don't perform this when you redirect from submitting a smell report
+    var currentCity = LocalStorage.get("current_city");
+    var mapUrl = Constants.URL_MAP + "?user_hash=" + LocalStorage.get("user_hash") + "&client_token=" + Constants.CLIENT_ID + "&cityName=" + currentCity.name + "&zipCode=" + currentCity.zip;
     if (MapPage.centerLocation.length != 2) {
       Location.requestLocation(function(latitude, longitude) {
-        $('#iframe-map').attr('src', Constants.URL_MAP + "?user_hash=" + LocalStorage.get("user_hash") + "&latLng=" + latitude + "," + longitude);
+        $('#iframe-map').attr('src', mapUrl + "&latLng=" + latitude + "," + longitude);
       }, function(error) {
         console.log(error);
-        //if unable to get location use this src to at display something
-        $('#iframe-map').attr('src', Constants.URL_MAP + "?user_hash=" + LocalStorage.get("user_hash"));
+        //if unable to get location use this src to at least display something
+        $('#iframe-map').attr('src', mapUrl);
       });
     } else {
       var latitude = MapPage.centerLocation[0], longitude = MapPage.centerLocation[1];
       console.log("got latlong (without requesting a second time): " + latitude + "," + longitude);
-      $('#iframe-map').attr('src', Constants.URL_MAP + "?user_hash=" + LocalStorage.get("user_hash") + "&latLng=" + latitude + "," + longitude);
+      $('#iframe-map').attr('src', mapUrl + "&latLng=" + latitude + "," + longitude);
       MapPage.centerLocation = [];
     }
 
     // browser compatibility issues (Yay?)
-    $("#map-panel").find(".ui-btn-active").removeClass("ui-btn-active");
+    $("#map").resize()
   },
 
 

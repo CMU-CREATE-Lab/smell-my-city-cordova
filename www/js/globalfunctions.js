@@ -58,12 +58,15 @@ function openWithPage(pageName, notificationType) {
 
 // when keyboard appears, we want to scroll the focused textfield into view
 function onKeyboardShowInHomePage(keyboardHeight) {
+  console.log("keyboard OPEN");
+  $(".ui-page, body").addClass("keyboard-enabled");
   App.htmlElementToScrollAfterKeyboard.scrollIntoView();
 }
 
 
 function onKeyboardHide(e) {
   console.log("keyboard CLOSE");
+  $(".ui-page, body").removeClass("keyboard-enabled");
   $(App.htmlElementToBlurAfterKeyboardCloses).blur();
 }
 

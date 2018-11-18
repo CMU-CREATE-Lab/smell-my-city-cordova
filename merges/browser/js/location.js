@@ -11,7 +11,8 @@ var Location = {
   },
 
 
-  requestLocation: function(afterSuccess,afterFailure) {
+  // request the users location
+  requestLocation: function(afterSuccess, afterFailure) {
     console.log("requestLocation");
 
     // TODO browser location services

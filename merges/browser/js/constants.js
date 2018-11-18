@@ -6,7 +6,7 @@ var Constants = {
   APP_VERSION: "0.1.0",
   URL_SMELLPGH: "https://localhost",
   STAGING: "https://localhost",
-  URL_MAP: "https://localhost/visualization/v2",
+  URL_MAP: "https://localhost/visualization/",
 
   // Page Ids
   STARTUP_PAGE: "startup",
@@ -37,6 +37,7 @@ var Constants = {
     NOT_REQUESTED: "not requested",
     GRANTED: "granted",
     DENIED: "denied",
+    DENIED_ALWAYS: "denied always",
   },
   AccuracyEnum: {
     ENABLED: "enabled",

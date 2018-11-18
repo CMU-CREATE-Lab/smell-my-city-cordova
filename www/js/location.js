@@ -40,6 +40,6 @@ var Location = {
    */
   stopRequestLocation: function() {
     console.log("stopRequestLocation");
-  }
+  },
 
 }

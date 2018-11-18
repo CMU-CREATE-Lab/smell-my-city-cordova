@@ -19,7 +19,7 @@ var LocalStorage = {
     firsttime_prediction: true,
     // JSON
     smell_notification_values: {"4": true, "5": true},
-    home_city: {name: "", lat: null, lng: null},
+    current_city: {name: "", zip: "", state: "", lat: null, lng: null, lastUpdate: ""},
     // strings
     user_hash: "",
     email: "",
@@ -27,7 +27,6 @@ var LocalStorage = {
     phone: "",
     address: "",
     language: 0,
-    current_city: "",
   },
 
 

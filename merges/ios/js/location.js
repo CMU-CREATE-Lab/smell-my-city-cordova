@@ -11,9 +11,11 @@ var Location = {
       var msg = "An error occurred: " + error;
       console.error(msg);
       alert(msg);
+      App.authorizationStatus = Constants.AuthorizationEnum.DENIED_ALWAYS;
       checkState();
     }
     var handleSuccess = function(str) {
+      App.authorizationStatus = Constants.AuthorizationEnum.GRANTED;
       console.log(str);
     }
     var statusAuthorized = function(status) {
@@ -38,6 +40,7 @@ var Location = {
   },
 
 
+  // request the users location
   requestLocation: function(afterSuccess, afterFailure) {
     console.log("requestLocation");
     if (isConnected()) {
@@ -61,8 +64,12 @@ var Location = {
             if (index == 1) {
               Location.requestLocation(afterSuccess);
             } else {
-               //if getting location failed and they do not want to retry then fire afterFailure callback
-              afterFailure(error)
+              // if getting location failed and they do not want to retry, then fire afterFailure callback
+              if (typeof afterFailure === "function") {
+                afterFailure(error);
+              } else {
+                console.log("requestLocation: afterFailure callback not specified");
+              }
             }
           }
         };

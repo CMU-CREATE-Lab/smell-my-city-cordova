@@ -1,7 +1,7 @@
 var SettingsPage = {
 
   text: null, //the text for the page's template
-
+  didInitialLoad: false,
 
   loadTemplate: function() {
     this.text = App.text.settings;
@@ -32,22 +32,25 @@ var SettingsPage = {
     $("#textfield_address").focus(function() {SettingsPage.onFocusTextbox(this)});
 
     $(".back-x").click(function() {App.navigateToPastPage()});
-    $(".langSelect").change(SettingsPage.langSelect);
+    //$(".langSelect").change(SettingsPage.langSelect);
   },
 
 
   onCreate: function() {
-    this.loadTemplate();
-    this.setListeners();
+    if (!SettingsPage.didInitialLoad) {
+      SettingsPage.didInitialLoad = true;
+      this.loadTemplate();
+      this.setListeners();
 
-    this.refreshNotifications();
-    this.populateFormSettings();
-    this.expandTabs();
-    // if blank values, highlight in red
-    this.highlightMissingRecommended();
+      this.refreshNotifications();
+      this.populateFormSettings();
+      this.expandTabs();
+      // if blank values, highlight in red
+      this.highlightMissingRecommended();
 
-    // NOTE hide notifications options (for now)
-    $("#notificationsCollapsible").hide();
+      // NOTE hide notifications options (for now)
+      $("#notificationsCollapsible").hide();
+    }
   },
 
 
@@ -84,7 +87,7 @@ var SettingsPage = {
   expandTabs: function() {
     $("#notificationsCollapsible").collapsible({collapsed: false});
     $("#reportsCollapsible").collapsible({collapsed: false});
-    $("#langsCollapsible").collapsible({collapsed: false});
+    //$("#langsCollapsible").collapsible({collapsed: false});
   },
 
 

@@ -1,14 +1,17 @@
 #iframe-map-container {
   padding:0;
   margin:0;
+  overflow: hidden;
 }
 
 #iframe-map {
   padding:0;
   margin:0;
+  border:0;
   height: 100%;
   width: 100%;
 }
+
 #new-city-popup{
   background-color:#f9f6f6;
   width:calc(100% - 12px);
@@ -19,8 +22,9 @@
   border-top-left-radius:45px;
   text-align: center;
 }
+
 #close-popup{
-position:absolute;
+  position:absolute;
 	top:3px;
 	right:3px;
 	height:15px;

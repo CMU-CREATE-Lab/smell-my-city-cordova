@@ -12,7 +12,8 @@ var HomePage = {
   openedPredictionNotification: false,
   text: null, //the text for the page's template
   ajaxTimeout: 3000, // the number of milliseconds to wait for the ajax request to timeout (for submitting smell reports)
-
+  cityNameCacheBustTime: 600000, // the number of milliseconds to store a city name until it is deemed stale (10 min)
+  didInitialLoad: false,
 
   loadTemplate: function() {
     this.text = App.text.home;
@@ -41,8 +42,12 @@ var HomePage = {
 
 
   onCreate: function() {
-    this.loadTemplate();
-    this.setListeners();
+    console.log("HomePage.onCreate");
+    if (!HomePage.didInitialLoad) {
+      HomePage.didInitialLoad = true;
+      this.loadTemplate();
+      this.setListeners();
+    }
 
     if (HomePage.returningFromLocationSelectPage) {
       console.log("HomePage.initialize: returningFromLocationSelectPage");
@@ -86,7 +91,14 @@ var HomePage = {
     HomePage.populateOptionsForSelectReportTime();
 
     // browser compatibility issues (Yay?)
-    $("#home-panel").find(".ui-btn-active").removeClass("ui-btn-active");
+    $("#home").resize();
+
+    // Display current city name
+    if (App.authorizationStatus != Constants.AuthorizationEnum.DENIED_ALWAYS) {
+      HomePage.refreshCity();
+    } else {
+      console.log('No location permission, so do not check for city');
+    }
   },
 
 
@@ -330,13 +342,13 @@ var HomePage = {
       "navigator.userAgent": userAgent,
     };
     data["client_token"] = Constants.CLIENT_ID;
-    var url = Constants.URL_SMELLPGH + "/api/v2/smell_reports";
+    var url = Constants.URL_API + "/api/v2/smell_reports";
     HomePage.submitAjaxToUrlWithData(url, data);
   },
 
 
   submitAjaxWithDataToV1Api: function(data) {
-    var url = Constants.URL_SMELLPGH + "/api/v1/smell_reports";
+    var url = Constants.URL_API + "/api/v1/smell_reports";
     HomePage.submitAjaxToUrlWithData(url, data);
   },
 
@@ -402,61 +414,69 @@ var HomePage = {
   },
 
 
-  // // NOTE: refreshes city name (and is disabled for now)
-  // /**
-  //  * gets the city the user is in
-  //  * @param {function} callback - should be HomePage.initialize
-  //  * callback takes no parameters
-  //  * city will be auto loaded into the template text
-  //  */
-  // refreshCity: function(callback) {
-  //   //request users lat lng
-  //   Location.requestLocation(function(latitude, longitude) {
-  //     //get the city name as string
-  //     App.getCity(latitude, longitude, function(city) {
-  //       console.log("refreshCity success");
-  //       HomePage.updateTemplateText(city)
-  //       callback();
-  //     });
-  //   }, function(error) {
-  //     console.log(error);
-  //     callback()//always do callback or app wont load
-  //   });
-  // },
+  /**
+    * gets the city the user is in
+    * @param {function} callback - should be HomePage.initialize
+    * callback takes no parameters
+    * city will be auto loaded into the template text
+   */
+  refreshCity: function() {
+    console.log("requestLocation refreshCity");
+    var currentCity = LocalStorage.get("current_city");
+    // Cache for 10 minutes
+    // TODO: Would be nice to actually determine that the device moved some distance
+    // before attempting to request location again. Instead we set an arbitrary cache time.
+    if (!currentCity.name || new Date().getTime() > currentCity.lastUpdate + HomePage.cityNameCacheBustTime) {
+      Location.requestLocation(function(latitude, longitude) {
+        App.getCityFromLocation(latitude, longitude, function(currentCity) {
+          HomePage.updateTemplateText(currentCity)
+        });
+      }, function(error) {
+        Location.stopRequestLocation();
+        console.log(error);
+      });
+    } else {
+      console.log("Location was pulled less than 10 minutes ago, used cached version.");
+      if ($(".your-city").text() == "your city") {
+        HomePage.updateTemplateText(currentCity)
+      }
+    }
+  },
 
+  /**
+    * Changes template text to reflect current city
+    * @param {string} cityName of city as string
+  */
+  updateTemplateText: function(city) {
+    $(".your-city").text(city.name);
 
-  // // NOTE: this is also disabled since we do not ever update the template (since we aren't requesting location/getting new cities)
-  // /**
-  //  * Changes template text to reflect current city
-  //  * @param {string} city -name of city as string
-  //  * no call back no return basicly a setter
-  //  */
-  // updateTemplateText: function(city) {
-  //   //this string will be frequently used and updated
-  //   var referanceStr = HomePage.text.rating.h3;
-  //
-  //   //the users past city
-  //   var stashedCit = LocalStorage.get("current_city");
-  //    //length of the old city string
-  //   var oldCityLen = 0;
-  //   // is oldcity the same as new city
-  //   if (!MapPage.cityEquality(city)) {
-  //     //tell map page to do new city popup
-  //     MapPage.inNewCity=true;
-  //     //update current city
-  //     LocalStorage.set("current_city",city);
-  //   }//want jquery first time and all subsiquent times to use template
-  //
-  //   oldCityLen = stashedCit.length+1;
-  //   //by default all specific cities are in span tags with class your-city for jquery access
-  //   //instead we want to only use the template str and delet the span
-  //   if (referanceStr.indexOf("<span class='your-city'>") > -1) {
-  //     //first replace
-  //     HomePage.text.rating.h3 = referanceStr.substring(0, referanceStr.indexOf("<span class='your-city'>")) + city + "?";
-  //   } else {
-  //     //subsequent replaces
-  //     HomePage.text.rating.h3 = referanceStr.substring(0, referanceStr.length - oldCityLen) + city + "?";
-  //   }
-  // },
+    // TODO: Maybe cache this for the app session?
+    HomePage.request = $.ajax({
+      type: "GET",
+      dataType: "json",
+      url: Constants.URL_API + "/api/v2/get_city_by_zip" + "?zipCode=" + city.zip,
+      timeout: HomePage.ajaxTimeout,
+
+      success: function(data) {
+        var cityData = data['app_metadata'];
+        $('div[data-role="panel"]').css({
+          "background-image": "url(" + Constants.URL_API + cityData["side_menu_background_url"] + ")",
+          "background-color": Constants.URL_API + cityData["side_menu_background_color"]
+        });
+        $("#textfield_smell_description").attr("placeholder", "e.g. " + cityData["smell_description_placeholder_text"]);
+        $("#textfield_additional_comments").parent().show();
+      },
+
+      error: function(msg) {
+        $('div[data-role="panel"]').css({
+          "background-image": "url(" + Constants.DEFAULT_SIDE_MENU_BG + ")",
+          "background-color": Constants.DEFAULT_SIDE_MENU_BG_COLOR
+        });
+        $("#textfield_smell_description").attr("placeholder", "e.g. " + App.text.home.describe.placeholder);
+        $("#textfield_additional_comments").parent().hide();
+      },
+    });
+
+  },
 
 }
