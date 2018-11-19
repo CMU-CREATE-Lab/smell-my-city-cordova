@@ -125,7 +125,7 @@ var english = {
 		p1: "Thank you for installing the Smell MyCity App!",
     p2: "Smell MyCity is powered by the CMU CREATE Lab and Seventh Generation. It is designed to track pollution odors across our cities. If you detect a foul odor while you're outside, please report it through this app.",
     p3: "We are also taking steps to make Smell MyCity reports available to local regulatory agencies.",
-		footer: "Done",
+		footer: "Continue",
 		lang: {
 			h3: "Language",
 			label: "Select your prefered language",
