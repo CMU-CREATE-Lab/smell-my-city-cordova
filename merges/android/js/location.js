@@ -32,12 +32,12 @@ var Location = {
         case cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED:
           console.log("Permission not requested");
           App.authorizationStatus = Constants.AuthorizationEnum.NOT_REQUESTED;
-          cordova.plugins.diagnostic.requestLocationAuthorization(requestLocationPermission, onError);
+          cordova.plugins.diagnostic.requestLocationAuthorization(Location.requestLocationPermission, onError);
           break;
         case cordova.plugins.diagnostic.permissionStatus.DENIED:
           console.log("Permission denied");
           App.authorizationStatus = Constants.AuthorizationEnum.DENIED;
-          cordova.plugins.diagnostic.requestLocationAuthorization(requestLocationPermission, onError);
+          cordova.plugins.diagnostic.requestLocationAuthorization(Location.requestLocationPermission, onError);
           break;
         case cordova.plugins.diagnostic.permissionStatus.DENIED_ALWAYS:
           console.log("Permission denied always");
@@ -64,7 +64,7 @@ var Location = {
   },
 
 
-  // Request the users location
+  // Request the user's location
   requestLocation: function(afterSuccess, afterFailure) {
     console.log("requestLocation");
 
@@ -116,7 +116,7 @@ var Location = {
           }, function(error) {
             console.log("error code: " + error.code + "\nerror message: " + error.message);
             App.accuracyStatus = Constants.AccuracyEnum.DISABLED;
-            navigator.notification.confirm("The app may not function as expected without the appropiate location settings enabled.", pushLocation, "Failure Changing Location Settings", ["Ok"]);
+            navigator.notification.confirm("The app may not function as expected without the appropriate location settings enabled.", pushLocation, "Failure Changing Location Settings", ["Ok"]);
           }, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
       }
     } else {
@@ -128,7 +128,7 @@ var Location = {
   },
 
 
-  // Stop requesting the users location
+  // Stop requesting the user's location
   stopRequestLocation: function() {
     console.log("requestLocation stopRequestLocation: " + Location.watchIds.length);
     Location.isRequestingLocation = false;
