@@ -8,7 +8,7 @@ var App = {
   authorizationStatus: Constants.AuthorizationEnum.NOT_REQUESTED,
   accuracyStatus: Constants.AccuracyEnum.DISABLED,
   htmlElementToScrollAfterKeyboard: null, // this is the HTML element you want to scroll to after the keyboard has been opened
-  htmlElementToBlurAfterKeyboardCloses: null, // this is the HTML element you need to blur after the keyboard has been closed to avoid weird glitches on using checkboxradio widgets
+  //htmlElementToBlurAfterKeyboardCloses: null, // this is the HTML element you need to blur after the keyboard has been closed to avoid weird glitches on using checkboxradio widgets
   pastPage: Constants.HOME_PAGE,//The page one was on before switching used for x button
   text: getText(LocalStorage.get("language")),//parameter doesnt matter until more languages and method of selecting and getting them is desided
   didFirstTimeLocationCheck: false,

@@ -176,7 +176,7 @@ var SettingsPage = {
 
   onFocusTextbox: function(element) {
     App.htmlElementToScrollAfterKeyboard = element;
-    App.htmlElementToBlurAfterKeyboardCloses = element;
+    //App.htmlElementToBlurAfterKeyboardCloses = element;
     element.scrollIntoView();
   },
 

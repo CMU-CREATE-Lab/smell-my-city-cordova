@@ -405,7 +405,7 @@ var HomePage = {
   // Opening keyboard should focus the label, closing the keyboard should blur the textbox
   onFocusTextboxWithLabel: function(element, label) {
     App.htmlElementToScrollAfterKeyboard = label;
-    App.htmlElementToBlurAfterKeyboardCloses = element;
+    //App.htmlElementToBlurAfterKeyboardCloses = element;
     label.scrollIntoView();
   },
 

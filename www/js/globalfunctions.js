@@ -67,7 +67,7 @@ function onKeyboardShowInHomePage(keyboardHeight) {
 function onKeyboardHide(e) {
   console.log("keyboard CLOSE");
   $(".ui-page, body").removeClass("overlay-enabled");
-  $(App.htmlElementToBlurAfterKeyboardCloses).blur();
+  //$(App.htmlElementToBlurAfterKeyboardCloses).blur();
 }
 
 
