@@ -27,20 +27,21 @@ var Location = {
       }
       App.didFirstTimeLocationCheck = true;
 
+      console.log("Current location auth status: " + status);
       // Check the Location permission status
       switch(status){
         case cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED:
-          console.log("Permission not requested");
+          console.log("Location permission not requested");
           App.authorizationStatus = Constants.AuthorizationEnum.NOT_REQUESTED;
           cordova.plugins.diagnostic.requestLocationAuthorization(Location.requestLocationPermission, onError);
           break;
         case cordova.plugins.diagnostic.permissionStatus.DENIED:
-          console.log("Permission denied");
+          console.log("Location permission denied");
           App.authorizationStatus = Constants.AuthorizationEnum.DENIED;
           cordova.plugins.diagnostic.requestLocationAuthorization(Location.requestLocationPermission, onError);
           break;
         case cordova.plugins.diagnostic.permissionStatus.DENIED_ALWAYS:
-          console.log("Permission denied always");
+          console.log("Location permission denied always");
           App.authorizationStatus = Constants.AuthorizationEnum.DENIED_ALWAYS;
           App.isFinalPermissionPopupActive = true;
           navigator.notification.confirm("Would you like to go to the system settings to manually allow location permissions for this app?", onConfirm, "Location permission is required", ["Yes", "No"]);
@@ -52,11 +53,12 @@ var Location = {
                 ""
               );
             }
+            Location.stopRequestLocation();
             App.isFinalPermissionPopupActive = false;
           }
           break;
         case cordova.plugins.diagnostic.permissionStatus.GRANTED:
-          console.log("Permission granted");
+          console.log("Location permission granted");
           App.authorizationStatus = Constants.AuthorizationEnum.GRANTED;
           break;
       }
@@ -112,7 +114,11 @@ var Location = {
           function(success) {
             App.accuracyStatus = Constants.AccuracyEnum.ENABLED;
             console.log("requestLocation accuracy success");
-            pushLocation();
+            if (App.authorizationStatus == Constants.AuthorizationEnum.DENIED_ALWAYS) {
+              Location.requestLocationPermission();
+            } else {
+              pushLocation();
+            }
           }, function(error) {
             console.log("error code: " + error.code + "\nerror message: " + error.message);
             App.accuracyStatus = Constants.AccuracyEnum.DISABLED;

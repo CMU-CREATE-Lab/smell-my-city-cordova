@@ -94,11 +94,7 @@ var HomePage = {
     $("#home").resize();
 
     // Display current city name
-    if (App.authorizationStatus != Constants.AuthorizationEnum.DENIED_ALWAYS) {
-      HomePage.refreshCity();
-    } else {
-      console.log('No location permission, so do not check for city');
-    }
+    HomePage.refreshCity();
   },
 
 

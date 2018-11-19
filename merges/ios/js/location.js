@@ -34,14 +34,12 @@ var Location = {
                 "After you enable Location permissions, relaunch the app.",
                 function() {
                   Location.fromNativeSettingsMenu = true;
-                  Location.stopRequestLocation();
                   cordova.plugins.diagnostic.switchToSettings();
                 },
                 ""
               );
-            } else {
-              Location.stopRequestLocation();
             }
+            Location.stopRequestLocation();
           }
           break;
         case cordova.plugins.diagnostic.permissionStatus.GRANTED:
