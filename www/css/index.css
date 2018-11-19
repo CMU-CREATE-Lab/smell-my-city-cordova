@@ -89,7 +89,7 @@ div[data-role="panel"] {
   font-size: 16px !important;
 }
 
-.ui-page .ui-footer-fixed.ui-fixed-hidden {
+.ui-page:not(.overlay-enabled) .ui-footer-fixed.ui-fixed-hidden{
   position: fixed !important;
 }
 
@@ -129,18 +129,18 @@ div[data-role="panel"] {
   overflow: hidden;
 }
 
-body:not(.keyboard-enabled) {
+body:not(.overlay-enabled) {
   overflow: hidden;
 }
 
-.ui-page:not(#map):not(.keyboard-enabled) {
+.ui-page:not(#map):not(.overlay-enabled) {
   height: calc(100% - 16px);
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-.ui-page:not(.keyboard-enabled) .ui-content.no-top {
+.ui-page:not(.overlay-enabled) .ui-content.no-top {
   height: 100%;
 }
 
@@ -150,4 +150,9 @@ body:not(.keyboard-enabled) {
 
 h2 {
   margin-top: 0px;
+}
+
+.no-scroll {
+  overflow: hidden !important;
+  position: fixed !important;
 }

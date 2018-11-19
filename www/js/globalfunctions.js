@@ -59,14 +59,14 @@ function openWithPage(pageName, notificationType) {
 // when keyboard appears, we want to scroll the focused textfield into view
 function onKeyboardShowInHomePage(keyboardHeight) {
   console.log("keyboard OPEN");
-  $(".ui-page, body").addClass("keyboard-enabled");
+  $(".ui-page, body").addClass("overlay-enabled");
   App.htmlElementToScrollAfterKeyboard.scrollIntoView();
 }
 
 
 function onKeyboardHide(e) {
   console.log("keyboard CLOSE");
-  $(".ui-page, body").removeClass("keyboard-enabled");
+  $(".ui-page, body").removeClass("overlay-enabled");
   $(App.htmlElementToBlurAfterKeyboardCloses).blur();
 }
 
@@ -74,7 +74,14 @@ function onKeyboardHide(e) {
 function showModal(modalId) {
   var modal = "#"+modalId;
   console.log("showModal "+modal);
-  $(modal).popup();
+  $(modal).popup({
+    afteropen: function() {
+      $(".ui-page, body").addClass("overlay-enabled no-scroll");
+    },
+    afterclose: function() {
+      $(".ui-page, body").removeClass("overlay-enabled no-scroll");
+    }
+  });
   // delays opening to avoid issues with iOS < 9.3
   setTimeout(function() {
     $(modal).popup("open");
