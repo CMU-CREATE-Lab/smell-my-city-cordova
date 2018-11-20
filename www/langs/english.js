@@ -19,6 +19,7 @@ var constants = {
 }
 
 var english = {
+  defaultCityName: "your city",
   home: {
     firstModal: {
       a1: "Close",
@@ -29,7 +30,7 @@ var english = {
       li4: "Endorse your reports - see Settings (recommended)",
       a2: "OK",
     },
-    perditionModal: { //??
+    predictionModal: {
       a1: "Close",
       h1: "Smell Event Predictions",
       p: "We are currently testing a smell prediction model that can alert Pittsburgh residents about a potential smell event in the area. The predictions' accuracy should improve as we receive more smell reports to verify our algorithm. We hope these notifications are useful to you!",
@@ -66,7 +67,7 @@ var english = {
       option: "Now",
     },
     disclaimer: "NOTE: Please only enter information that you are comfortable with sharing anonymously on the public Smell MyCity map.",
-    button: "Send Smell Report",
+    button: "Submit Smell Report",
     footer: constants.defaultFooter
   },
   map: {

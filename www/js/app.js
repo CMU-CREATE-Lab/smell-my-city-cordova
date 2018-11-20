@@ -10,9 +10,13 @@ var App = {
   htmlElementToScrollAfterKeyboard: null, // this is the HTML element you want to scroll to after the keyboard has been opened
   //htmlElementToBlurAfterKeyboardCloses: null, // this is the HTML element you need to blur after the keyboard has been closed to avoid weird glitches on using checkboxradio widgets
   pastPage: Constants.HOME_PAGE,//The page one was on before switching used for x button
-  text: getText(LocalStorage.get("language")),//parameter doesnt matter until more languages and method of selecting and getting them is desided
+  text: getText(LocalStorage.get("language")),//parameter doesnt matter until more languages and method of selecting and getting them is decided
   didFirstTimeLocationCheck: false,
   isFinalPermissionPopupActive: false,
+  cityNameCacheBustTime: 600000, // the number of milliseconds to store a city name until it is deemed stale (10 min)
+  request: null,
+  ajaxTimeout: 3000, // the number of milliseconds to wait for the ajax request to timeout
+
 
   /**
    * The type of callback that is being handled for calls to {@link initializePage}.
@@ -97,6 +101,10 @@ var App = {
         // TODO some default page?
         break;
     }
+
+    // Display current city name
+    App.refreshCity(pageId);
+
   },
 
 
@@ -205,12 +213,103 @@ var App = {
     }
   },
 
-  // /**
-  //  * gets city based on user location
-  //  * @param {float} lat - latitude as float
-  //  * @param {float} lng - longitude as float
-  //  * @param {function} callback - city object
-  //  */
+
+  /**
+    * gets the city the user is in
+    * city will be auto loaded into the template text
+   */
+  refreshCity: function(pageId) {
+    console.log("requestLocation refreshCity");
+    var currentCity = LocalStorage.get("current_city");
+    // Cache for 10 minutes
+    // TODO: Would be nice to actually determine that the device moved some distance
+    // before attempting to request location again. Instead we set an arbitrary cache time.
+    if (!currentCity.name || new Date().getTime() > currentCity.lastUpdate + App.cityNameCacheBustTime) {
+      Location.requestLocation(function(latitude, longitude) {
+        App.getCityFromLocation(latitude, longitude, function(currentCity) {
+          App.getCityTemplateData(currentCity, function(status) {
+            if (status == "success") {
+              App.setCityTemplateBasedOnCurrentCity();
+            } else {
+              App.setGenericCityTemplate();
+            }
+          });
+        });
+      }, function(error) {
+        console.log(error);
+        Location.stopRequestLocation();
+        App.resetCityTemplate();
+      });
+    } else {
+      console.log("Location was pulled less than 10 minutes ago; used cached version.");
+      App.setCityTemplateBasedOnCurrentCity(currentCity);
+    }
+  },
+
+
+  getCityTemplateData: function(city, callback) {
+    App.request = $.ajax({
+      type: "GET",
+      dataType: "json",
+      url: Constants.URL_API + "/api/v2/get_city_by_zip" + "?zipCode=" + city.zip,
+      timeout: App.ajaxTimeout,
+
+      success: function(data) {
+        city.metaData = data['app_metadata'];
+        LocalStorage.set("current_city", city);
+        callback("success");
+      },
+
+      // Called if sever error or if no participating city was found
+      error: function(msg) {
+        city.metaData = null;
+        LocalStorage.set("current_city", city);
+        callback("failure");
+      },
+    });
+
+  },
+
+
+  setCityName: function(cityName) {
+    $(".your-city").text(cityName);
+  },
+
+
+  setGenericCityTemplate: function() {
+    $('div[data-role="panel"]').css({
+      "background-image": "",
+      "background-color": ""
+    });
+    $("#textfield_smell_description").attr("placeholder", "e.g. " + App.text.home.describe.placeholder);
+    $("#textfield_additional_comments").parent().hide();
+  },
+
+
+  resetCityTemplate: function() {
+    App.setCityName(App.text.defaultCityName);
+    App.setGenericCityTemplate();
+  },
+
+
+  setCityTemplateBasedOnCurrentCity: function(city) {
+    city = city ? city : LocalStorage.get("current_city");
+    App.setCityName(city.name);
+    $('div[data-role="panel"]').css({
+      "background-image": "url('" + Constants.URL_API + city.metaData["side_menu_background_url"] + "')",
+      "background-color": Constants.URL_API + city.metaData["side_menu_background_color"]
+    });
+    $("#textfield_smell_description").attr("placeholder", "e.g. " + city.metaData["smell_description_placeholder_text"]);
+    $("#textfield_additional_comments").parent().show();
+  },
+
+
+  /**
+   * gets city based on user location
+   * @param {float} lat - latitude as float
+   * @param {float} lng - longitude as float
+   * @param {function} callback - city object
+  */
   getCityFromLocation: function(lat, lng, callback) {
     App.reverseGeocode(lat, lng, function(geocode) {
       var cityObj = {
