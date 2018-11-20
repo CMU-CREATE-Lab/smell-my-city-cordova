@@ -91,6 +91,9 @@ var HomePage = {
 
     // browser compatibility issues (Yay?)
     $("#home").resize();
+
+    // TODO: App.initialize() is supposed to take care of this but I see cases where App.initialize() doesn't run, so we do it here too.
+    App.refreshCity();
   },
 
 

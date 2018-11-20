@@ -103,7 +103,7 @@ var App = {
     }
 
     // Display current city name
-    App.refreshCity(pageId);
+    App.refreshCity();
 
   },
 
@@ -218,7 +218,7 @@ var App = {
     * gets the city the user is in
     * city will be auto loaded into the template text
    */
-  refreshCity: function(pageId) {
+  refreshCity: function() {
     console.log("requestLocation refreshCity");
     var currentCity = LocalStorage.get("current_city");
     // Cache for 10 minutes
