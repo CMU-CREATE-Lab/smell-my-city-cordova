@@ -281,6 +281,7 @@ var App = {
       "background-image": "",
       "background-color": ""
     });
+    $("#button_submit_report").css("background-color", "");
     $("#textfield_smell_description").attr("placeholder", "e.g. " + App.text.home.describe.placeholder);
     $("#textfield_additional_comments").parent().hide();
   },
@@ -297,8 +298,9 @@ var App = {
     App.setCityName(city.name);
     $('div[data-role="panel"]').css({
       "background-image": "url('" + Constants.URL_API + city.metaData["side_menu_background_url"] + "')",
-      "background-color": Constants.URL_API + city.metaData["side_menu_background_color"]
+      "background-color": city.metaData["side_menu_background_color"]
     });
+    $("#button_submit_report").css("background-color", city.metaData["side_menu_background_color"]);
     $("#textfield_smell_description").attr("placeholder", "e.g. " + city.metaData["smell_description_placeholder_text"]);
     $("#textfield_additional_comments").parent().show();
   },
