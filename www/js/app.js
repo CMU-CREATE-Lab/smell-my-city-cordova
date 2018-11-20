@@ -366,7 +366,18 @@ var App = {
 // HTML body onLoad
 $(function() {
   console.log("onLoad");
-  // avoid click delay on ios
+  // Avoid click delay on ios
   FastClick.attach(document.body);
+  // Allow for tapping outside the panel to close it on ios
+  $(window).on('click', function(e) {
+    var $target = $(e.target);
+    var $closestDivToTarget = $target.closest("div");
+    if ($target.closest(".ui-panel").length == 0) {
+      var $openPanel = $(".ui-panel-open");
+      if ($openPanel && !$closestDivToTarget.hasClass("ui-header")) {
+        $openPanel.panel("close");
+      }
+    }
+  });
   App.initialize();
 });
