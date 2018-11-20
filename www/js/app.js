@@ -374,7 +374,7 @@ $(function() {
     var $closestDivToTarget = $target.closest("div");
     if ($target.closest(".ui-panel").length == 0) {
       var $openPanel = $(".ui-panel-open");
-      if ($openPanel && !$closestDivToTarget.hasClass("ui-header")) {
+      if ($openPanel.length && !$closestDivToTarget.hasClass("ui-header")) {
         $openPanel.panel("close");
       }
     }
