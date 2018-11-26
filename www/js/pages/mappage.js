@@ -31,9 +31,12 @@ var MapPage = {
       LocalStorage.set("firsttime_map",false);
     }
 
-    // don't perform this when you redirect from submitting a smell report
+    var mapUrl = Constants.URL_MAP + "?user_hash=" + LocalStorage.get("user_hash") + "&client_token=" + Constants.CLIENT_ID;
     var currentCity = LocalStorage.get("current_city");
-    var mapUrl = Constants.URL_MAP + "?user_hash=" + LocalStorage.get("user_hash") + "&client_token=" + Constants.CLIENT_ID + "&cityName=" + currentCity.name + "&zipCode=" + currentCity.zip;
+    if (currentCity && currentCity.name) {
+      mapUrl += "&cityName=" + currentCity.name + "&zipCode=" + currentCity.zip;
+    }
+    // don't perform this when you redirect from submitting a smell report
     if (MapPage.centerLocation.length != 2) {
       Location.requestLocation(function(latitude, longitude) {
         $('#iframe-map').attr('src', mapUrl + "&latLng=" + latitude + "," + longitude);
