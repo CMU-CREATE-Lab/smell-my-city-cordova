@@ -216,7 +216,7 @@ var App = {
     // Cache for 10 minutes
     // TODO: Would be nice to actually determine that the device moved some distance
     // before attempting to request location again. Instead we set an arbitrary cache time.
-    if (!currentCity.name || new Date().getTime() > currentCity.lastUpdate + App.cityNameCacheBustTime) {
+    if (!currentCity || !currentCity.name || new Date().getTime() > currentCity.lastUpdate + App.cityNameCacheBustTime) {
       Location.requestLocation(function(latitude, longitude) {
         App.getCityFromLocation(latitude, longitude, function(currentCity) {
           App.getCityTemplateData(currentCity, function(status) {
