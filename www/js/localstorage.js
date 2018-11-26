@@ -35,7 +35,7 @@ var LocalStorage = {
    */
   initialize: function() {
     if (this.get("storage_app_version") == null) {
-      window.localStorage.clear();
+      this.clear();
     }
     for (key in this.DEFAULT_SETTINGS) {
       if (this.get(key) == null) this.set(key, this.DEFAULT_SETTINGS[key]);
@@ -78,6 +78,14 @@ var LocalStorage = {
     userHash = md5(input);
 
     return userHash;
+  },
+
+
+  /**
+   * Clear all key-value pairs for window.localStorage.
+   */
+  clear: function() {
+    window.localStorage.clear();
   },
 
 }
