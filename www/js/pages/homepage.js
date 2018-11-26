@@ -14,6 +14,7 @@ var HomePage = {
   ajaxTimeout: 3000, // the number of milliseconds to wait for the ajax request to timeout (for submitting smell reports)
   didInitialLoad: false,
 
+
   loadTemplate: function() {
     this.text = App.text.home;
     // placeholder set up
@@ -92,7 +93,7 @@ var HomePage = {
     // browser compatibility issues (Yay?)
     $("#home").resize();
 
-    // TODO: App.initialize() is supposed to take care of this but I see cases where App.initialize() doesn't run, so we do it here too.
+    // Update current city name and coressponding info
     App.refreshCity();
   },
 

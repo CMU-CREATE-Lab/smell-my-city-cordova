@@ -1,11 +1,8 @@
 var MapPage = {
 
-  centerLocation: [],
-  maxTimeForPlaces: 24 * 60 * 60,
   text: null, //the text for the page's template
-//  inNewCity: false, // if should make a popup
-  zipcode: "", //the user's current zipcode
-  popupTimer: undefined, //the timer function for the popups
+  centerLocation: [],
+  didInitialLoad: false,
 
 
   loadTemplate: function() {
@@ -22,8 +19,11 @@ var MapPage = {
 
 
   onCreate: function() {
-    this.loadTemplate();
-    this.setListeners();
+    if (!MapPage.didInitialLoad) {
+      MapPage.didInitialLoad = true;
+      this.loadTemplate();
+      this.setListeners();
+    }
 
     // first-time map modals
     if (LocalStorage.get("firsttime_map")) {
@@ -51,6 +51,9 @@ var MapPage = {
 
     // browser compatibility issues (Yay?)
     $("#map").resize()
+
+    // Update current city name and corresponding info
+    App.refreshCity();
   },
 
 

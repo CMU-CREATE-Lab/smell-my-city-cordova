@@ -3,6 +3,7 @@ var AboutPage = {
   text: null, //the text for the page's template
   didInitialLoad: false,
 
+
   loadTemplate: function() {
     this.text = App.text.about;
     var aboutTpl = Handlebars.compile($("#about-tpl").html());
@@ -24,6 +25,9 @@ var AboutPage = {
       this.setListeners();
       this.displayVersionNumber();
     }
+
+    // Update current city name and corresponding info
+    App.refreshCity();
   },
 
 

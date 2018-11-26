@@ -3,6 +3,7 @@ var SettingsPage = {
   text: null, //the text for the page's template
   didInitialLoad: false,
 
+
   loadTemplate: function() {
     this.text = App.text.settings;
     console.log("SettingsPage.initialize");
@@ -51,6 +52,9 @@ var SettingsPage = {
       // NOTE hide notifications options (for now)
       $("#notificationsCollapsible").hide();
     }
+
+    // Update current city name and corresponding info
+    App.refreshCity();
   },
 
 

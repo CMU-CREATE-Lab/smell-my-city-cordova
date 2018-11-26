@@ -84,13 +84,8 @@ var App = {
       case Constants.ABOUT_PAGE:
         AboutPage.initialize();
         break;
-      case "howitworks":
-         var howitworksTpl = Handlebars.compile($("#howitworks-tpl").html());
-         // initialization for howitworks page
-         // mostly the page's template but also the x button
-         $('#howitworks').html(howitworksTpl(App.text.howitworks));
-         $('#howitworks').trigger('create');
-         $(".back-x").click(function() {App.navigateToPastPage()});
+      case Constants.HOW_IT_WORKS_PAGE:
+        HowItWorksPage.initialize();
         break;
       case Constants.LOCATION_SELECT_PAGE:
         if (callbackType == App.CallbackType.CREATE) {
@@ -101,9 +96,6 @@ var App = {
         // TODO some default page?
         break;
     }
-
-    // Display current city name
-    App.refreshCity();
 
   },
 
