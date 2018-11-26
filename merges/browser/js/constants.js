@@ -3,7 +3,7 @@ var Constants = {
   CLIENT_ID: "KEEP-IT-SECRET",
   LOCATION_SERVICES: false,
   PLATFORM_CALLBACK_ONREADY: false,
-  APP_VERSION: "1.0.0",
+  APP_VERSION: "1.0.2",
   URL_API: "http://staging.api.smellpittsburgh.org",
   STAGING: "http://staging.api.smellpittsburgh.org",
   URL_MAP: "http://staging.api.smellpittsburgh.org/visualization",
