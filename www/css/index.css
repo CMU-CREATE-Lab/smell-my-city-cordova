@@ -156,3 +156,7 @@ h2 {
   overflow: hidden !important;
   position: fixed !important;
 }
+
+.ui-footer-fixed {
+  padding-bottom: 0 !important;
+}
