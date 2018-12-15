@@ -287,14 +287,18 @@ var App = {
 
   setCityTemplateBasedOnCurrentCity: function(city) {
     city = city ? city : LocalStorage.get("current_city");
-    App.setCityName(city.name);
-    $('div[data-role="panel"]').css({
-      "background-image": "url('" + Constants.URL_API + city.metaData["side_menu_background_url"] + "')",
-      "background-color": city.metaData["side_menu_background_color"]
-    });
-    $("#button_submit_report").css("background-color", city.metaData["side_menu_background_color"]);
-    $("#textfield_smell_description").attr("placeholder", "e.g. " + city.metaData["smell_description_placeholder_text"]);
-    $("#textfield_additional_comments").parent().show();
+    if (city.name) {
+      App.setCityName(city.name);
+    }
+    if (city.metaData) {
+      $('div[data-role="panel"]').css({
+        "background-image": "url('" + Constants.URL_API + city.metaData["side_menu_background_url"] + "')",
+        "background-color": city.metaData["side_menu_background_color"]
+      });
+      $("#button_submit_report").css("background-color", city.metaData["side_menu_background_color"]);
+      $("#textfield_smell_description").attr("placeholder", "e.g. " + city.metaData["smell_description_placeholder_text"]);
+      $("#textfield_additional_comments").parent().show();
+    }
   },
 
 
