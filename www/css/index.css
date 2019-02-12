@@ -61,7 +61,7 @@ div[data-role="panel"] {
   position: absolute !important;
   width: calc(100% - 60px) !important;
   padding-left: 30px !important;
-  bottom: 10% !important;
+  bottom: 5% !important;
 }
 
 .ui-panel-inner>.ui-listview {

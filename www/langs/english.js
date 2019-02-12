@@ -5,8 +5,8 @@ var constants = {
   defaultPanel: {
     li1: "Overview",
     li2: "How It Works",
-    li3: "About Us",
-    li5: "Settings",
+    li3: "Settings",
+    li4: "About Us",
     a: "Close",
   },
   defaultHeader: {

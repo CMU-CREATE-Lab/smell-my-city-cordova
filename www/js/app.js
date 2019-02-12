@@ -388,6 +388,15 @@ $(function() {
   console.log("onLoad");
   // Avoid click delay on ios
   FastClick.attach(document.body);
+  // Prevent long press from adding active button css
+  $("body").on("taphold", "a.ui-btn", function(e){
+    if ($(this).hasClass("ui-btn-active")) return;
+    $(this).one("touchend", function(e){
+      e.preventDefault();
+      $(this).removeClass("ui-btn-down-a ui-btn-active");
+      return false;
+    });
+  });
   // Allow for tapping outside the panel to close it on ios
   $(window).on('click', function(e) {
     var $target = $(e.target);
