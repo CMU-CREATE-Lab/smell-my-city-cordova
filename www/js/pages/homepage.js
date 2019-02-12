@@ -277,14 +277,15 @@ var HomePage = {
      if (address != "") data["address"] = address;
 
       // set custom location flag, custom time flag
-      var usesCustomTime  = !$("#checkbox_current_time_location").prop("checked") && $("#select-report-time").val() != "0";
+      var usesCustomTime = !$("#checkbox_current_time_location").prop("checked") && $("#select-report-time").val() != "0";
       var usesCustomLocation = !$("#checkbox_current_time_location").prop("checked") && HomePage.isLatLngDefined;
       data["custom_time"] = usesCustomTime ? "true" : "false";
       data["custom_location"] = usesCustomLocation ? "true" : "false";
 
       // determine if using custom time
-      var time = usesCustomTime ? $("#select-report-time").val() : "";
+      var time = usesCustomTime ? $("#select-report-time").val() : (new Date()).toISOString(); //parseInt((new Date).getTime());
       data["observed_at"] = time;
+      data["custom_time"] = usesCustomTime;
 
       // determine if using custom location (and send data)
       if (usesCustomLocation) {

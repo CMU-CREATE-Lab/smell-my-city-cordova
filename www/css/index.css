@@ -95,7 +95,7 @@ div[data-role="panel"] {
 
 .ui-panel-inner .ui-listview a.ui-btn.ui-btn-active, .ui-btn-active {
   background-color: #23373d !important;
-  border-color: #23373d !important;
+  border-color: white !important;
 }
 
 /* Remove title restriction on modal headers */
@@ -159,4 +159,40 @@ h2 {
 
 .ui-footer-fixed {
   padding-bottom: 0 !important;
+}
+
+.custom-ul {
+  padding-left: 16px;
+  margin: 0px 0px 10px 0px;
+}
+
+.ui-popup ul {
+  padding-left: 20px;
+  margin-top: 0px;
+}
+
+.li-parent {
+  margin: 10px 0px 0px 0px;
+}
+
+.requirement-indicator {
+  font-size: 13px;
+  font-style: italic;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.no-top-margin {
+  margin-top: 0px;
+}
+
+.regulatory-agency-note {
+  text-align: justify;
+  text-justify: inter-word;
+  font-style: italic;
+  font-size: 10px;
+  margin-bottom: 10px;
+  display: none;
 }

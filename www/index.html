@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="css/pages/home.css" />
     <link rel="stylesheet" href="css/pages/settings.css" />
     <link rel="stylesheet" href="css/pages/map.css" />
-    <link rel="stylesheet" href="css/pages/about.css" />
-    <link rel="stylesheet" href="css/pages/locationselect.css" />
+    <link rel="stylesheet" href="css/pages/overview.css" />
+    <!-- <link rel="stylesheet" href="css/pages/locationselect.css" /> -->
     <!-- libraries -->
     <script src="lib/jquery-2.2.4.min.js"></script>
     <script src="lib/jquery.mobile-1.4.5.min.js"></script>
@@ -25,7 +25,7 @@
     <!-- app-related scripts -->
     <script src="js/constants.js"></script>
     <script src="langs/english.js"></script>
-    <script src="langs/espanol.js"></script>
+    <!-- <script src="langs/espanol.js"></script> -->
     <script src="js/localstorage.js"></script>
     <script src="js/globalfunctions.js"></script>
     <script src="js/location.js"></script>
@@ -34,8 +34,9 @@
     <script src="js/pages/mappage.js"></script>
     <script src="js/pages/settingspage.js"></script>
     <script src="js/pages/aboutpage.js"></script>
+    <script src="js/pages/overviewpage.js"></script>
     <script src="js/pages/howitworkspage.js"></script>
-    <script src="js/pages/locationselectpage.js"></script>
+    <!-- <script src="js/pages/locationselectpage.js"></script> -->
     <script src="js/firebase.js"></script>
     <script src="js/analytics.js"></script>
     <script src="js/app.js"></script>
@@ -45,22 +46,24 @@
     <script id="home-tpl" type="text/template">
       <!-- modals -->
       <div id="modal-home-firsttime" data-role="popup" data-dismissible="false" data-overlay-theme="b" data-history="false">
-       <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">{{firstModal.a1}}</a>
+       <!-- <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">{{firstModal.a1}}</a> -->
        <div data-role="header" data-theme="a">
          <h1 class="modal-title">{{firstModal.h1}}</h1>
        </div>
        <div role="main" class="ui-content">
-         <ul>
-           <li>{{firstModal.li1}}</li>
-           <li>{{firstModal.li2}}</li>
-           <li>{{firstModal.li3}}</li>
-           <li>{{firstModal.li4}}</li>
+         <ul class="custom-ul">
+           <li class="li-parent">{{firstModal.li1}}</li>
+           <li class="li-parent">{{firstModal.li2}}</li>
+           <li class="li-parent">{{firstModal.li3}}</li>
+           <li class="li-parent">{{firstModal.li4}}</li>
+           <li class="li-parent">{{firstModal.li5}}</li>
+           <li class="li-parent">{{firstModal.li6}}</li>
          </ul>
          <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-rel="back">{{firstModal.a2}}</a>
        </div>
       </div>
       <div id="modal-predict-firsttime" data-role="popup" data-dismissible="false" data-overlay-theme="b" data-history="false">
-       <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">{{predictionModal.a1}}</a>
+       <!-- <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">{{predictionModal.a1}}</a> -->
        <div data-role="header" data-theme="a">
          <h1 class="modal-title">{{predictionModal.h1}}</h1>
        </div>
@@ -72,9 +75,10 @@
       <!-- panel -->
       <div data-role="panel" id="home-panel" data-display="overlay" data-theme="none" data-position-fixed="true">
        <ul data-role="listview" data-inset="false" data-icon="false">
-         <li><a href="#about" data-transition="none">{{panel.li2}}</a></li>
-         <li><a href="#howitworks" data-transition="none">{{panel.li3}}</a></li>
-         <li><a href="#settings" data-transition="none">{{panel.li1}}</a></li>
+         <li><a href="#overview" data-transition="none">{{panel.li1}}</a></li>
+         <li><a href="#howitworks" data-transition="none">{{panel.li2}}</a></li>
+         <li><a href="#settings" data-transition="none">{{panel.li5}}</a></li>
+         <li><a href="#about" data-transition="none">{{panel.li3}}</a></li>
        </ul><br/>
        <!-- <a class="close-button" href="#" data-rel="close" data-role="button" data-icon="carat-l" data-inline="true">{{panel.a}}</a> -->
       </div>
@@ -96,15 +100,15 @@
          </fieldset>
        </div>
        <div class="homepage-section">
-         <label for="textfield_smell_description">{{describe.label}}</label>
+         <label for="textfield_smell_description">{{describe.label}}<span class="requirement-indicator">{{describe.span}}</span></label>
          <input type="text" name="textfield_smell_description" id="textfield_smell_description" value="" placeholder="" data-clear-btn="true" />
        </div>
        <div class="homepage-section">
-         <label for="textfield_feelings_symptoms">{{symptoms.label}}</label>
+         <label for="textfield_feelings_symptoms">{{symptoms.label}}<span class="requirement-indicator">{{symptoms.span}}</span></label>
          <input type="text" name="textfield_feelings_symptoms" id="textfield_feelings_symptoms" value="" placeholder="" data-clear-btn="true" />
        </div>
        <div class="homepage-section">
-         <label for="textfield_additional_comments">{{note.label}}</label>
+         <label for="textfield_additional_comments">{{note.label}}<span class="requirement-indicator">{{note.span}}</span></label>
          <textarea type="text" name="textfield_additional_comments" id="textfield_additional_comments" value="" data-clear-btn="true"></textarea>
        </div>
        <div id="current_time_location">
@@ -123,6 +127,9 @@
          </div>
        </div>
        <br/>
+       <div class="regulatory-agency-note">
+         {{{regulatoryAgencyNote}}}
+       </div>
        <div class="submission-disclaimer">
          {{disclaimer}}
        </div>
@@ -132,7 +139,7 @@
       <div data-role="footer" data-position="fixed" data-id="home_1" data-tap-toggle="false">
        <div data-role="navbar">
          <ul>
-           <li><a href="#home" class="ui-btn-active ui-state-persist" data-transition="none"><span class="ui-icon-edit ui-btn-icon-notext inlineIcon"></span>{{footer.li1}}</a></li>
+           <li><a href="#" class="ui-btn-active ui-state-persist" data-transition="none"><span class="ui-icon-edit ui-btn-icon-notext inlineIcon"></span>{{footer.li1}}</a></li>
            <li><a href="#map" data-transition="none"><span class="ui-icon-user ui-btn-icon-notext inlineIcon"></span>{{footer.li2}}</a></li>
          </ul>
        </div>
@@ -142,17 +149,24 @@
     <script id="map-tpl" type="text/template">
       <!-- modals -->
       <div id="modal-map-firsttime" data-role="popup" data-dismissible="false" data-overlay-theme="b" data-history="false">
-        <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">{{modal.a1}}</a>
+        <!-- <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">{{modal.a1}}</a> -->
         <div data-role="header" data-theme="a">
           <h1 class="modal-title">{{modal.h1}}</h1>
         </div>
         <div role="main" class="ui-content">
-          <ul>
-            <li>{{{modal.li1}}}</li>
-            <li>{{modal.li2}}</li>
-            <li>{{modal.li3}}</li>
-            <li>{{modal.li4}}</li>
-            <li>{{modal.li5}}</li>
+          <ul class="custom-ul">
+            <li class="li-parent">{{{modal.li1}}}</li>
+            <ul class="custom-ul">
+              <li>{{modal.li2}}</li>
+            </ul>
+            <li class="li-parent">{{modal.li3}}</li>
+            <ul class="custom-ul">
+              <li>{{modal.li4}}</li>
+            </ul>
+            <li class="li-parent">{{modal.li5}}</li>
+            <ul class="custom-ul">
+              <li>{{modal.li6}}</li>
+            </ul>
           </ul>
           <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-rel="back">{{modal.a2}}</a>
         </div>
@@ -160,9 +174,10 @@
       <!-- panel -->
       <div data-role="panel" id="map-panel" data-display="overlay" data-theme="none" data-position-fixed="true">
         <ul data-role="listview" data-inset="false" data-icon="false">
-          <li><a href="#about" data-transition="none">{{panel.li2}}</a></li>
-          <li><a href="#howitworks" data-transition="none">{{panel.li3}}</a></li>
-          <li><a href="#settings" data-transition="none">{{panel.li1}}</a></li>
+          <li><a href="#overview" data-transition="none">{{panel.li1}}</a></li>
+          <li><a href="#howitworks" data-transition="none">{{panel.li2}}</a></li>
+          <li><a href="#settings" data-transition="none">{{panel.li5}}</a></li>
+          <li><a href="#about" data-transition="none">{{panel.li3}}</a></li>
         </ul><br/>
         <!-- <a class="close-button" href="#" data-rel="close" data-role="button" data-icon="carat-l" data-inline="true">{{panel.a}}</a> -->
       </div>
@@ -174,7 +189,7 @@
       <!-- main -->
       <div role="main" class="ui-content" id="iframe-map-container">
         <iframe id="iframe-map">
-          <p>{{p_iframe}}</p>
+          <p>{{iframeWarning}}</p>
         </iframe>
       </div>
       <!-- footer -->
@@ -187,7 +202,7 @@
         <div data-role="navbar">
           <ul>
             <li><a href="#home" data-transition="none"><span class="ui-icon-edit ui-btn-icon-notext inlineIcon"></span>{{footer.li1}}</a></li>
-            <li><a href="#map" class="ui-btn-active ui-state-persist" data-transition="none"><span class="ui-icon-user ui-btn-icon-notext inlineIcon"></span>{{footer.li2}}</a></li>
+            <li><a href="#" class="ui-btn-active ui-state-persist" data-transition="none"><span class="ui-icon-user ui-btn-icon-notext inlineIcon"></span>{{footer.li2}}</a></li>
           </ul>
         </div>
       </div>
@@ -197,9 +212,10 @@
       <!-- panel -->
         <div data-role="panel" id="settings-panel" data-display="overlay" data-theme="none" data-position-fixed="true">
           <ul data-role="listview" data-inset="false" data-icon="false">
-            <li><a href="#about" data-transition="none">{{panel.li2}}</a></li>
-            <li><a href="#howitworks" data-transition="none">{{panel.li3}}</a></li>
-            <li><a href="#settings" class="ui-btn ui-btn-active" data-transition="none">{{panel.li1}}</a></li>
+            <li><a href="#overview" data-transition="none">{{panel.li1}}</a></li>
+            <li><a href="#howitworks" data-transition="none">{{panel.li2}}</a></li>
+            <li><a href="#about" data-transition="none">{{panel.li3}}</a></li>
+            <li><a href="#" class="ui-btn ui-btn-active ui-state-persist" data-transition="none">{{panel.li5}}</a></li>
           </ul><br/>
            <!-- <a class="close-button"href="#" data-rel="close" data-role="button" data-icon="carat-l" data-inline="true">{{panel.a}}</a> -->
         </div>
@@ -220,6 +236,8 @@
               <input type="text" name="textfield_address" id="textfield_address" placeholder="{{contact.placeholder3}}" data-clear-btn="true" />
               <input type="text" name="textfield_phone" id="textfield_phone" placeholder="{{contact.placeholder4}}" data-clear-btn="true" />
             </div>
+            <label class="settings-description">{{contact.label2}}</label>
+            <p class="regulatory-agency-note">{{{contact.regulatoryAgencyNote}}}</p>
           </div>
           <div id="notificationsCollapsible" data-role="collapsible">
             <h3>{{notification.h3}}</h3>
@@ -261,7 +279,7 @@
         <h3>{{h3}}</h3>
         <p>{{p1}}</p>
         <p>{{p2}}</p>
-        <p style="font-weight:bold;">{{p3}}</p>
+        <p>{{p3}}</p>
         <div id="langSelectContainer">
           <select class="langSelect">
             <option value="0">{{lang.label}}</option>
@@ -284,9 +302,10 @@
       <!-- panel -->
        <div data-role="panel" id="about-panel" data-display="overlay" data-theme="none" data-position-fixed="true">
          <ul data-role="listview" data-inset="false" data-icon="false">
-           <li><a href="#about" class="ui-btn ui-btn-active" data-transition="none">{{panel.li2}}</a></li>
-           <li><a href="#howitworks" data-transition="none">{{panel.li3}}</a></li>
-           <li><a href="#settings" data-transition="none">{{panel.li1}}</a></li>
+            <li><a href="#overview" data-transition="none">{{panel.li1}}</a></li>
+            <li><a href="#howitworks" data-transition="none">{{panel.li2}}</a></li>
+            <li><a href="#settings" data-transition="none">{{panel.li5}}</a></li>
+            <li><a href="#" class="ui-btn ui-btn-active ui-state-persist"  data-transition="none">{{panel.li3}}</a></li>
          </ul><br/>
          <!-- <a class="close-button" href="#" data-rel="close" data-role="button" data-icon="carat-l" data-inline="true">{{panel.a}}</a> -->
        </div>
@@ -298,34 +317,62 @@
        </div>
        <!-- main -->
        <div role="main" class="ui-content">
-         <h2>{{h2}}</h2>
-         <p>{{p1}}</p>
-         <p>{{p2}}</p>
-         <center class="smell-submit-share">{{center}}</center>
-         <p>{{p3}}</p>
-         <p>{{{p4}}}</p>
-         <h3>{{h3_1}}</h3>
+         <h2>{{h2_1}}</h2>
+         <p>{{{p1}}}</p>
+         <h2>{{h2_2}}</h2>
+         <p>{{{p2}}}</p>
+         <p>{{{p3}}}</p>
+         <p class="bold-text">{{{p4}}}</p>
+         <h2>{{h2_3}}</h2>
          <p>{{p5}}</p>
-         <p><a href="{{link1.url}}" target="_blank">{{link1.p}}</a></p>
-         <h3>{{h3_2}}</h3>
-         <p>{{p6}}</p>
-         <p><a href="{{link2.url}}" target="_blank">{{link2.p}}</a></p>
-         <h3>{{h3_3}}</h3>
-         <p>{{p7}}</p>
          <ul>
            <li>{{li1}}</li>
            <li>{{li2}}</li>
          </ul>
-         <p>{{p8}}</p>
-         <p>{{p9}}</p>
-         <ul>
-           <li>{{li3}}</li>
-           <li>{{li4}}</li>
-           <li>{{li5}}</li>
-           <li>{{li6}}</li>
-           <li>{{li7}}</li>
-         </ul>
-         <div id="about-version-number">
+       </div>
+       <!-- footer -->
+       <div data-role="footer" data-position="fixed" data-id="settings_1" data-tap-toggle="false">
+         <div data-role="navbar">
+           <ul>
+             <li><a href="#home" data-transition="none"><span class="ui-icon-edit ui-btn-icon-notext inlineIcon"></span>{{footer.li1}}</a></li>
+             <li><a href="#map" data-transition="none"><span class="ui-icon-user ui-btn-icon-notext inlineIcon"></span>{{footer.li2}}</a></li>
+           </ul>
+         </div>
+       </div>
+    </script>
+    <!--overview page template-->
+    <script id="overview-tpl" type="text/template">
+      <!-- panel -->
+       <div data-role="panel" id="overview-panel" data-display="overlay" data-theme="none" data-position-fixed="true">
+         <ul data-role="listview" data-inset="false" data-icon="false">
+            <li><a href="#" class="ui-btn ui-btn-active ui-state-persist" data-transition="none">{{panel.li1}}</a></li>
+            <li><a href="#howitworks" data-transition="none">{{panel.li2}}</a></li>
+            <li><a href="#settings" data-transition="none">{{panel.li5}}</a></li>
+            <li><a href="#about" data-transition="none">{{panel.li3}}</a></li>
+         </ul><br/>
+         <!-- <a class="close-button" href="#" data-rel="close" data-role="button" data-icon="carat-l" data-inline="true">{{panel.a}}</a> -->
+       </div>
+       <!-- header -->
+       <div data-role="header" data-position="fixed" data-tap-toggle="false">
+         <a href="#overview-panel" class="ui-btn ui-corner-all ui-shadow ui-icon-bars ui-btn-icon-left">{{header.a}}</a>
+         <h1>{{header.h1}}</h1>
+         <a class="back-x ui-btn ui-btn-right ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-notext"></a>
+       </div>
+       <!-- main -->
+       <div role="main" class="ui-content">
+         <h2>{{h2_1}}</h2>
+         <p>{{p1}}</p>
+         <h2>{{h2_2}}</h2>
+         <p>{{p2}}</p>
+         <h2>{{h2_3}}</h2>
+         <p>{{{p3}}}</p>
+         <h2>{{h2_4}}</h2>
+         <p>{{{p4}}}</p>
+         <p>{{{p5}}}</p>
+         <h2>{{h2_5}}</h2>
+         <p>{{{p6}}}</p>
+         <p>{{p7}}</p>
+         <div id="version-number">
            {{version}}
          </div>
        </div>
@@ -338,16 +385,16 @@
            </ul>
          </div>
        </div>
-
     </script>
     <!--howitworks page template-->
     <script id="howitworks-tpl" type="text/template">
       <!-- panel -->
        <div data-role="panel" id="howitworks-panel" data-display="overlay" data-theme="none" data-position-fixed="true">
          <ul data-role="listview" data-inset="false" data-icon="false">
-           <li><a href="#about" data-transition="none">{{panel.li2}}</a></li>
-           <li><a href="#howitworks" class="ui-btn ui-btn-active" data-transition="none">{{panel.li3}}</a></li>
-           <li><a href="#settings" data-transition="none">{{panel.li1}}</a></li>
+           <li><a href="#overview" data-transition="none">{{panel.li1}}</a></li>
+           <li><a href="#" class="ui-btn ui-btn-active ui-state-persist" data-transition="none">{{panel.li2}}</a></li>
+           <li><a href="#settings" data-transition="none">{{panel.li5}}</a></li>
+           <li><a href="#about" data-transition="none">{{panel.li3}}</a></li>
          </ul><br/>
          <!-- <a class="close-button" href="#" data-rel="close" data-role="button" data-icon="carat-l" data-inline="true">{{panel.a}}</a> -->
        </div>
@@ -359,32 +406,31 @@
        </div>
        <!-- main -->
        <div role="main" class="ui-content">
-         <h2>{{h2}}</h2>
-         <p>{{p1}}</p>
-
-         <p>{{p2}}</p>
-         <ul>
+         <p class="no-top-margin">{{p1}}</p>
+         <ul class="custom-ul">
            <li>{{li1}}</li>
-           <li>{{li2}}</li>
-           <li>{{li3}}</li>
-           <ul>
+           <ul class="custom-ul">
+             <li>{{li2}}</li>
+             <li>{{li3}}</li>
              <li>{{li4}}</li>
              <li>{{li5}}</li>
            </ul>
            <li>{{li6}}</li>
-           <li>{{li7}}</li>
-           <ul>
+           <ul class="custom-ul">
+             <li>{{li7}}</li>
              <li>{{li8}}</li>
              <li>{{li9}}</li>
              <li>{{li10}}</li>
              <li>{{li11}}</li>
-           </ul>
-           <li>{{li12}}</li>
-           <ul>
+             <li>{{li12}}</li>
              <li>{{li13}}</li>
-             <li>{{li14}}</li>
+           </ul>
+           <li>{{li14}}</li>
+           <ul class="custom-ul">
              <li>{{li15}}</li>
              <li>{{li16}}</li>
+             <li>{{li17}}</li>
+             <li>{{li18}}</li>
            </ul>
          </ul>
        </div>
@@ -410,15 +456,18 @@
     </div>
     <div data-role="page" id="about">
     </div>
+    <div data-role="page" id="overview">
+    </div>
     <div data-role="page" id="howitworks">
     </div>
     <div data-role="page" id="locationselect" class="page-fullscreened">
       <!-- panel -->
       <div data-role="panel" id="map-panel" data-display="overlay" data-theme="none" data-position-fixed="true">
         <ul data-role="listview" data-inset="false" data-icon="false">
-          <li><a href="#about" data-transition="none">About</a></li>
-          <li><a href="#howitworks" data-transition="none">How It Works</a></li>
-          <li><a href="#settings" data-transition="none">Settings</a></li>
+           <li><a href="#overview" data-transition="none">{{panel.li1}}</a></li>
+           <li><a href="#howitworks" data-transition="none">{{panel.li2}}</a></li>
+           <li><a href="#settings" data-transition="none">{{panel.li4}}</a></li>
+           <li><a href="#about" data-transition="none">{{panel.li3}}</a></li>
         </ul>
         <br/>
         <!-- <a class="close-button" href="#" data-rel="close" data-role="button" data-icon="carat-l" data-inline="true">Close</a> -->

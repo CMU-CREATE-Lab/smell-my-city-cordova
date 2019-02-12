@@ -130,5 +130,5 @@ function getText(language) {
 function populateLangs() {
   Constants.APP_TEXT = [];
   Constants.APP_TEXT.push(english);
-  Constants.APP_TEXT.push(espanol);
+  //Constants.APP_TEXT.push(espanol);
 }

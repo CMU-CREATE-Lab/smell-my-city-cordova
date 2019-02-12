@@ -81,6 +81,9 @@ var App = {
         window.addEventListener("keyboardDidShow", onKeyboardShowInHomePage);
         window.addEventListener('keyboardDidHide', onKeyboardHide);
         break;
+      case Constants.OVERVIEW_PAGE:
+        OverviewPage.initialize();
+        break;
       case Constants.ABOUT_PAGE:
         AboutPage.initialize();
         break;
@@ -147,6 +150,11 @@ var App = {
     Analytics.logOnResumeEvent();
     var pageId = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
     App.initializePage(pageId, App.CallbackType.RESUME);
+    // Workaround for Android 7+ issue with Cordova
+    // See CB-14132: https://issues.apache.org/jira/browse/CB-14132
+    navigator.connection.getInfo(function(type){
+      navigator.connection.type = type;
+    });
   },
 
 
@@ -243,12 +251,14 @@ var App = {
     App.request = $.ajax({
       type: "GET",
       dataType: "json",
-      url: Constants.URL_API + "/api/v2/get_city_by_zip" + "?zipCode=" + city.zip,
+      url: Constants.URL_API + "/api/v2/get_location_info_by_zip" + "?zipCode=" + city.zip,
       timeout: App.ajaxTimeout,
 
       success: function(data) {
-        city.metaData = data['app_metadata'];
+        city.metaData = data['city']['app_metadata'];
         LocalStorage.set("current_city", city);
+        LocalStorage.set("current_region", data['region']);
+        LocalStorage.set("participating_agency", data['agency']);
         callback("success");
       },
 
@@ -256,6 +266,8 @@ var App = {
       error: function(msg) {
         city.metaData = null;
         LocalStorage.set("current_city", city);
+        LocalStorage.set("current_region", null);
+        LocalStorage.set("participating_agency", null);
         callback("failure");
       },
     });
@@ -276,6 +288,7 @@ var App = {
     $("#button_submit_report").css("background-color", "");
     $("#textfield_smell_description").attr("placeholder", "e.g. " + App.text.home.describe.placeholder);
     $("#textfield_additional_comments").parent().hide();
+    $(".regulatory-agency-note").hide();
   },
 
 
@@ -287,6 +300,8 @@ var App = {
 
   setCityTemplateBasedOnCurrentCity: function(city) {
     city = city ? city : LocalStorage.get("current_city");
+    region = LocalStorage.get("current_region");
+    agency = LocalStorage.get("participating_agency");
     if (city.name) {
       App.setCityName(city.name);
     }
@@ -297,7 +312,16 @@ var App = {
       });
       $("#button_submit_report").css("background-color", city.metaData["side_menu_background_color"]);
       $("#textfield_smell_description").attr("placeholder", "e.g. " + city.metaData["smell_description_placeholder_text"]);
+      if (city.metaData["additional_notes_placeholder_text"]) {
+        $("#textfield_additional_comments").attr("placeholder", "e.g. " + city.metaData["additional_notes_placeholder_text"]);
+      }
       $("#textfield_additional_comments").parent().show();
+    }
+    if (agency && region) {
+      $(".regulatory-agency-note").show();
+      $(".regulatory-region-name").text(region.name);
+      $(".regulatory-agency-website").text(agency.full_name).prop("href", agency.website);
+      $(".regulatory-agency-name").text(agency.full_name);
     }
   },
 

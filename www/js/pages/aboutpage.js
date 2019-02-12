@@ -23,7 +23,6 @@ var AboutPage = {
       AboutPage.didInitialLoad = true;
       this.loadTemplate();
       this.setListeners();
-      this.displayVersionNumber();
     }
 
     // Update current city name and corresponding info
@@ -38,10 +37,5 @@ var AboutPage = {
 
 
   // helper functions
-
-
-  displayVersionNumber: function() {
-    $("#about-version-number").text("version: " + Constants.APP_VERSION);
-  },
 
 }

@@ -7,7 +7,7 @@ var Constants = {
   CLIENT_ID: "e431cd0eb45ae1619d5208410060470c",
   LOCATION_SERVICES: true,
   PLATFORM_CALLBACK_ONREADY: true,
-  APP_VERSION: "1.0.2",
+  APP_VERSION: "1.0.3",
   URL_API: "http://staging.api.smellpittsburgh.org",
   STAGING: "http://staging.api.smellpittsburgh.org",
   URL_MAP: "http://staging.api.smellpittsburgh.org/visualization",
@@ -18,6 +18,7 @@ var Constants = {
   MAP_PAGE: "map",
   SETTINGS_PAGE: "settings",
   ABOUT_PAGE: "about",
+  OVERVIEW_PAGE: "overview",
   LOCATION_SELECT_PAGE: "locationselect",
   HOW_IT_WORKS_PAGE: "howitworks",
 
