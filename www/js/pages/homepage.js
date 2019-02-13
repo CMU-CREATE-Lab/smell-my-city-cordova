@@ -293,11 +293,16 @@ var HomePage = {
         data["longitude"] = HomePage.location["lng"];
         HomePage.submitAjaxWithData(data);
       } else {
-        Location.requestLocation(function(latitude, longitude) {
-          data["latitude"] = latitude;
-          data["longitude"] = longitude;
-          HomePage.submitAjaxWithData(data);
-        });
+        navigator.globalization.getDatePattern(function(dateInfo) {
+          Location.requestLocation(function(latitude, longitude) {
+            data["latitude"] = latitude;
+            data["longitude"] = longitude;
+            data["timezone"] = dateInfo.iana_timezone;
+            HomePage.submitAjaxWithData(data);
+          }, function(error) {
+            alert("There was a problem submitting this report. Error code: S1");
+          });
+        })
         // NOTE no error for failed request location
       }
 
@@ -386,7 +391,7 @@ var HomePage = {
             alert("Request timed out. Please try again.");
             break;
           default:
-            alert("There was a problem submitting this report.");
+            alert("There was a problem submitting this report. Error code: S2");
             break;
         }
       },
