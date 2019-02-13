@@ -159,6 +159,7 @@ h2 {
 
 .ui-footer-fixed {
   padding-bottom: 0 !important;
+  left: -1px;
 }
 
 .custom-ul {
