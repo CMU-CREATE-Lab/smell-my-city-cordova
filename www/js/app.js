@@ -347,10 +347,7 @@ var App = {
   */
   getCityFromLocation: function(lat, lng, callback) {
     App.reverseGeocode(lat, lng, function(geocode) {
-      var streetName = "";
-      if (geocode.thoroughfare) {
-        streetName = geocode.subThoroughfare ? geocode.subThoroughfare + " " + geocode.thoroughfare : geocode.thoroughfare;
-      }
+      var streetName = geocode.thoroughfare ? geocode.thoroughfare : "";
       var cityObj = {
         name: geocode.locality,
         zip: geocode.postalCode,
