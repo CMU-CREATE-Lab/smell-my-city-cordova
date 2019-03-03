@@ -58,6 +58,9 @@ var Location = {
     if (isConnected()) {
       if (!Location.isRequestingLocation) {
         Location.isRequestingLocation = true;
+        if (!HomePage.submittingReport) {
+          showSpinner("Requesting Location\nPlease Wait...");
+        }
         var onSuccess = function(position) {
           Location.coords = position.coords;
           Location.hasLocation = true;
@@ -108,7 +111,9 @@ var Location = {
   stopRequestLocation: function() {
     console.log("stopRequestLocation");
     Location.isRequestingLocation = false;
-    hideSpinner();
+    if (!HomePage.submittingReport) {
+      hideSpinner();
+    }
   }
 
 }

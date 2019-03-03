@@ -13,6 +13,7 @@ var HomePage = {
   text: null, //the text for the page's template
   ajaxTimeout: 3000, // the number of milliseconds to wait for the ajax request to timeout (for submitting smell reports)
   didInitialLoad: false,
+  submittingReport: false,
 
 
   loadTemplate: function() {
@@ -253,6 +254,8 @@ var HomePage = {
 
   onClickSubmit: function() {
     if (isConnected()) {
+      showSpinner("Submitting Report...");
+      HomePage.submittingReport = true;
       var smell_value = HomePage.smellValue;
       var smell_description = $("#textfield_smell_description")[0].value;
       var feelings_symptoms = $("#textfield_feelings_symptoms")[0].value;
@@ -294,18 +297,24 @@ var HomePage = {
         HomePage.submitAjaxWithData(data);
       } else {
         navigator.globalization.getDatePattern(function(dateInfo) {
-          Location.requestLocation(function(latitude, longitude) {
-            data["latitude"] = latitude;
-            data["longitude"] = longitude;
+          // Force city refresh when submitting a report
+          App.refreshCity(true, function(response) {
+            if (response.status == "failure") {
+              alert("There was a problem submitting this report. Error code: S1");
+              return;
+            }
+            var currentCity = LocalStorage.get("current_city");
+            data["latitude"] = currentCity.lat;
+            data["longitude"] = currentCity.lng;
+            // Note: If streetName ends up being empty, we will do a reverse geo lookup on the server,
+            // which seems to always return a street no matter the lat/lng.
+            data["street_name"] = currentCity.streetName;
+            data["zip"] = currentCity.zip;
             data["timezone"] = dateInfo.iana_timezone;
             HomePage.submitAjaxWithData(data);
-          }, function(error) {
-            alert("There was a problem submitting this report. Error code: S1");
           });
-        })
-        // NOTE no error for failed request location
+        });
       }
-
     } else {
       if (App.isDeviceReady) {
         alert("Connect to the internet before submitting a smell report.", null, "No Internet Connection", "Ok");
@@ -356,7 +365,6 @@ var HomePage = {
 
 
   submitAjaxToUrlWithData: function(url, data) {
-    showSpinner("Submitting Report...");
     if (HomePage.request != null) {
       console.log("WARNING: refusing to send with non-null request.");
       return;
@@ -373,6 +381,7 @@ var HomePage = {
         hideSpinner();
         HomePage.clearForm();
         HomePage.request = null;
+        HomePage.submittingReport = false;
         MapPage.centerLocation = [ data["latitude"], data["longitude"] ];
         App.navigateToPage(Constants.MAP_PAGE);
       },
@@ -381,6 +390,7 @@ var HomePage = {
         // TODO in the future we should run the statusText / error code through to Analytics
         hideSpinner();
         HomePage.request = null;
+        HomePage.submittingReport = false;
         switch(msg.statusText) {
           case "Internal Server Error":
             alert("Smell report received but may not have been saved. Please check the map.");

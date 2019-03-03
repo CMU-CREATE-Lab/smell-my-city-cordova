@@ -218,20 +218,27 @@ var App = {
     * gets the city the user is in
     * city will be auto loaded into the template text
    */
-  refreshCity: function() {
+  refreshCity: function(forceRefresh, refreshCityCallback) {
     console.log("requestLocation refreshCity");
     var currentCity = LocalStorage.get("current_city");
     // Cache for 10 minutes
     // TODO: Would be nice to actually determine that the device moved some distance
     // before attempting to request location again. Instead we set an arbitrary cache time.
-    if (!currentCity || !currentCity.name || new Date().getTime() > currentCity.lastUpdate + App.cityNameCacheBustTime) {
+    if (forceRefresh || (!currentCity || !currentCity.name || new Date().getTime() > currentCity.lastUpdate + App.cityNameCacheBustTime)) {
       Location.requestLocation(function(latitude, longitude) {
         App.getCityFromLocation(latitude, longitude, function(currentCity) {
+          // Set current city to latest pull
+          if (currentCity) {
+            LocalStorage.set("current_city", currentCity);
+          }
           App.getCityTemplateData(currentCity, function(status) {
             if (status == "success") {
               App.setCityTemplateBasedOnCurrentCity();
             } else {
               App.setGenericCityTemplate();
+            }
+            if (typeof(refreshCityCallback) === "function") {
+              refreshCityCallback({status: "success"});
             }
           });
         });
@@ -239,10 +246,16 @@ var App = {
         console.log(error);
         Location.stopRequestLocation();
         App.resetCityTemplate();
+        if (typeof(refreshCityCallback) === "function") {
+          refreshCityCallback({status: "failure"});
+        }
       });
     } else {
       console.log("Location was pulled less than 10 minutes ago; used cached version.");
       App.setCityTemplateBasedOnCurrentCity(currentCity);
+      if (typeof(refreshCityCallback) === "function") {
+        refreshCityCallback({status: "success"});
+      }
     }
   },
 
@@ -334,17 +347,22 @@ var App = {
   */
   getCityFromLocation: function(lat, lng, callback) {
     App.reverseGeocode(lat, lng, function(geocode) {
+      var streetName = "";
+      if (geocode.thoroughfare) {
+        streetName = geocode.subThoroughfare ? geocode.subThoroughfare + " " + geocode.thoroughfare : geocode.thoroughfare;
+      }
       var cityObj = {
         name: geocode.locality,
         zip: geocode.postalCode,
         state: geocode.administrativeArea,
+        streetName: streetName,
         lat: lat,
         lng: lng,
         lastUpdate: (new Date()).getTime()
       };
-      LocalStorage.set("current_city", cityObj);
-      console.log("cityObj populated");
       callback(cityObj);
+    }, function(error) {
+      callback(null);
     });
    /*var geocoder = new google.maps.Geocoder;
    var latlng = {lat:lat, lng:lng};//reformat params into google style LatLng object

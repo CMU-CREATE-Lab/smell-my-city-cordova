@@ -109,7 +109,7 @@ div[data-role="panel"] {
 }
 
 /* Tweak hover effect on button classes (except for active buttons), since it glitches on Android otherwise */
-.ui-btn:not(.ui-btn-active):hover, .ui-btn.ui-btn-a:not(.ui-btn-active):hover {
+.ui-btn:not(.ui-btn-active, #button_submit_report):hover, .ui-btn.ui-btn-a:not(.ui-btn-active, #button_submit_report):hover {
   background-color: #f6f6f6 !important;
   border-color: #ddd !important;
   color: inherit !important;

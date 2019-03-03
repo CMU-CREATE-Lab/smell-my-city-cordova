@@ -105,7 +105,9 @@ var Location = {
         };
         var pushLocation = function() {
           console.log('requestLocation pushLocation');
-          showSpinner("Requesting Location\nPlease Wait...");
+          if (!HomePage.submittingReport) {
+            showSpinner("Requesting Location\nPlease Wait...");
+          }
           Location.watchIds.push(navigator.geolocation.watchPosition(onSuccess, onError, { maximumAge: 3000, timeout: 60000, enableHighAccuracy: true }));
         }
 
@@ -138,7 +140,9 @@ var Location = {
   stopRequestLocation: function() {
     console.log("requestLocation stopRequestLocation: " + Location.watchIds.length);
     Location.isRequestingLocation = false;
-    hideSpinner();
+    if (!HomePage.submittingReport) {
+      hideSpinner();
+    }
     var l = Location.watchIds.length;
     for (var i = l-1; i >= 0; i--) {
       navigator.geolocation.clearWatch(Location.watchIds[i]);
