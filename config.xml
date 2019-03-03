@@ -20,6 +20,8 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <allow-navigation href="http://localhost/visualization" />
+    <allow-navigation href="https://api.smellpittsburgh.org/*" />
+    <allow-navigation href="https://staging.api.smellpittsburgh.org/*" />
     <platform name="android">
         <allow-intent href="market:*" />
         <preference name="backgroundColor" value="0xffffffff" />
