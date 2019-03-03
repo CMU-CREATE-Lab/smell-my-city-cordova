@@ -81,23 +81,23 @@
         <icon height="172" src="res/icon/ios/AppIcon86x86@2x.png" width="172" />
         <icon height="196" src="res/icon/ios/AppIcon98x98@2x.png" width="196" />
     </platform>
-    <plugin name="cordova-plugin-device" spec="1.1.2" />
-    <plugin name="cordova-plugin-dialogs" spec="1.2.1" />
-    <plugin name="cordova-plugin-network-information" spec="1.2.1" />
-    <plugin name="cordova-plugin-request-location-accuracy" spec="2.0.0" />
+    <plugin name="cordova-plugin-device" spec="2.0.2" />
+    <plugin name="cordova-plugin-dialogs" spec="2.0.1" />
+    <plugin name="cordova-plugin-network-information" spec="2.0.1" />
+    <plugin name="cordova-plugin-request-location-accuracy" spec="2.2.3" />
     <plugin name="cordova-plugin-spinner" spec="1.1.0" />
     <plugin name="cordova-plugin-statusbar" spec="2" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
-    <plugin name="cordova.plugins.diagnostic" spec="^4.0.10" />
-    <plugin name="cordova-plugin-geolocation" spec="~3.0.0" />
+    <plugin name="cordova.plugins.diagnostic" spec="4.0.11" />
+    <plugin name="cordova-plugin-geolocation" spec="4.0.1" />
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
     <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="SplashScreen" value="screen" />
     <preference name="DisallowOverscroll" value="true" />
-    <plugin name="cordova-plugin-nativegeocoder" spec="^3.1.2" />
+    <plugin name="cordova-plugin-nativegeocoder" spec="3.1.3" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.1.3" />
     <plugin name="cordova-plugin-globalization" spec="^1.11.0" />
     <engine name="browser" spec="^5.0.4" />
     <engine name="ios" spec="^4.5.5" />
-    <engine name="android" spec="^7.0.0" />
+    <engine name="android" spec="^7.1.4" />
 </widget>
