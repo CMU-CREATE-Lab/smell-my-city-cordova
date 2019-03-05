@@ -128,7 +128,7 @@ var Location = {
           }, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
       }
     } else {
-      navigator.notification.confirm("Connect to the Internet then click 'Retry' in order to request location.", alertDismissed, "No Internet Connection", ["Retry"]);
+      navigator.notification.confirm("Enable wifi or data then click 'Retry' in order to request location.", alertDismissed, "No Internet Connection", ["Retry"]);
       function alertDismissed() {
         Location.requestLocation(afterSuccess);
       }

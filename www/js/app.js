@@ -146,15 +146,15 @@ var App = {
    */
   onResume: function() {
     console.log("onResume");
-    Location.requestLocationPermission();
-    Analytics.logOnResumeEvent();
-    var pageId = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
-    App.initializePage(pageId, App.CallbackType.RESUME);
     // Workaround for Android 7+ issue with Cordova
     // See CB-14132: https://issues.apache.org/jira/browse/CB-14132
     navigator.connection.getInfo(function(type){
       navigator.connection.type = type;
+      Location.requestLocationPermission();
     });
+    Analytics.logOnResumeEvent();
+    var pageId = $.mobile.pageContainer.pagecontainer("getActivePage")[0].id;
+    App.initializePage(pageId, App.CallbackType.RESUME);
   },
 
 
