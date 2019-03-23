@@ -19,6 +19,8 @@ var AboutPage = {
 
 
   onCreate: function() {
+    var that = this;
+
     if (!AboutPage.didInitialLoad) {
       AboutPage.didInitialLoad = true;
       this.loadTemplate();
@@ -26,13 +28,28 @@ var AboutPage = {
     }
 
     // Update current city name and corresponding info
-    App.refreshCity();
+    App.refreshCity(null, function(response) {
+      // Update local partner content based on location
+      that.setLocalPartnerContent();
+    });
   },
 
 
   initialize: function () {
     console.log("AboutPage.initialize (deprecated; start using onCreate instead)");
     AboutPage.onCreate();
+  },
+
+  setLocalPartnerContent: function() {
+    var currentCity = LocalStorage.get("current_city");
+    var currentCityMetaData = currentCity.metaData;
+    if (currentCityMetaData && currentCityMetaData["local_partners_content"]) {
+      $(".local-partners-heading, .local-partners-content").show();
+      // While content is not from user input, so it's already safe, use parseHTML to strip out any script tags.
+      $(".local-partners-content").html($.parseHTML(currentCityMetaData["local_partners_content"]));
+    } else {
+      $(".local-partners-heading, .local-partners-content").hide();
+    }
   },
 
 
