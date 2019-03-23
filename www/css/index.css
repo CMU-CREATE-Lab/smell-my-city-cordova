@@ -108,13 +108,20 @@ div[data-role="panel"] {
   margin: 0 10% 0 !important;
 }
 
-/* Tweak hover effect on button classes (except for active buttons), since it glitches on Android otherwise */
-.ui-btn:not(.ui-btn-active, #button_submit_report):hover, .ui-btn.ui-btn-a:not(.ui-btn-active, #button_submit_report):hover {
-  background-color: #f6f6f6 !important;
-  border-color: #ddd !important;
-  color: inherit !important;
-  text-shadow: none !important;
+.ui-btn:hover, .ui-btn.ui-btn-a:hover {
+  background-color: inherit;
+  border-color: inherit;
+  color: inherit;
+  text-shadow: inherit;
 }
+
+.ui-radio-off.ui-btn:hover, .ui-radio-off.ui-btn.ui-btn-a:hover {
+  background-color: #f6f6f6;
+  border-color: #ddd;
+  color: inherit;
+  text-shadow: none;
+}
+
 .close-button{
   position:absolute;
   left:0px;
