@@ -310,6 +310,7 @@ var HomePage = {
             // which seems to always return a street no matter the lat/lng.
             data["street_name"] = currentCity.streetName;
             data["zip"] = currentCity.zip;
+            data["state"] = currentCity.state;
             data["timezone"] = dateInfo.iana_timezone;
             HomePage.submitAjaxWithData(data);
           });
