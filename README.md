@@ -11,7 +11,7 @@ Keep in mind 'cordova-plugin-request-location-accuracy' and 'cordova-plugin-fcm'
 	to
 		framework src="com.google.android.gms:play-services-location:9.2.0"
 
-Currently used library versions (as of app version 2.1.0):
-- cordova: `8.0.0`
-- cordova platform android: `6.3.0`
-- cordova platform ios: `4.5.4`
+Currently used library versions (as of app version 1.0.4):
+- cordova: `8.1.2`
+- cordova platform android: `7.1.4`
+- cordova platform ios: `4.5.5`
