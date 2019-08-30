@@ -4,7 +4,6 @@
  */
 var Firebase = {
 
-  // NOTE: this is a constant value and should be true iff the firebase plugin is included
   isEnabled: true,
   verboseLogging: true,
 
@@ -14,6 +13,7 @@ var Firebase = {
    */
   initialize: function () {
     console.log("Firebase.initialize");
+    Firebase.isEnabled = (device.platform != "browser")
     if (!Firebase.isEnabled) {
       if (Firebase.verboseLogging) console.log("NOTE: !Firebase.isEnabled");
       return;
