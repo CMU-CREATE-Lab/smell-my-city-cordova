@@ -5,7 +5,7 @@
 var Firebase = {
 
   // NOTE: this is a constant value and should be true iff the firebase plugin is included
-  isEnabled: false,
+  isEnabled: true,
   verboseLogging: true,
 
 
@@ -24,33 +24,53 @@ var Firebase = {
       }, function(error) {
         console.error(error);
     });
-    window.FirebasePlugin.onNotificationOpen(function(notification) {
-        console.log(JSON.stringify(notification));
-        Analytics.logOnClickNotificationEvent(notification["notification_type"]);
-        if (notification["open_with_page"]) {
-          openWithPage(notification["open_with_page"], notification["notification_type"]);
+
+    window.FirebasePlugin.onMessageReceived(function(message) {
+      try {
+        console.log("FirebasePlugin.onMessageReceived");
+        if (message.messageType === "notification"){
+          Firebase.handleNotificationMessage(message);
+        } else {
+          Firebase.handleDataMessage(message);
         }
-      }, function(error) {
-        console.error(error);
+      } catch(e){
+        console.error("Exception in FirebasePlugin.onMessageReceived callback: " + e.message);
+      }
+    }, function(error) {
+        console.error("Failed receiving FirebasePlugin message: " + error);
     });
 
     // subscribe to topics
     window.FirebasePlugin.subscribe(Constants.GLOBAL_TOPIC);
-    if (Firebase.verboseLogging) console.log("subcribed to: " + Constants.GLOBAL_TOPIC);
-    if (LocalStorage.get("receive_pghaqi_notifications")) {
-      window.FirebasePlugin.subscribe(Constants.PITTSBURGH_AQI_TOPIC);
-      if (Firebase.verboseLogging) console.log("subcribed to: " + Constants.PITTSBURGH_AQI_TOPIC);
-    }
-    if (LocalStorage.get("receive_smell_notifications")) {
-      window.FirebasePlugin.subscribe(Constants.SMELL_REPORT_TOPIC);
-      if (Firebase.verboseLogging) console.log("subcribed to: " + Constants.SMELL_REPORT_TOPIC);
-    }
+    if (Firebase.verboseLogging) console.log("FirebasePlugin subcribed to: " + Constants.GLOBAL_TOPIC);
+    //if (LocalStorage.get("receive_pghaqi_notifications")) {
+    //  window.FirebasePlugin.subscribe(Constants.PITTSBURGH_AQI_TOPIC);
+    //  if (Firebase.verboseLogging) console.log("subcribed to: " + Constants.PITTSBURGH_AQI_TOPIC);
+    //}
 
     window.FirebasePlugin.grantPermission();
   },
 
 
   // helper functions
+
+  handleNotificationMessage: function(message){
+    if (!Firebase.isEnabled) return;
+    console.log("Firebase.handleNotificationMessage: " + JSON.stringify(message));
+    if (message.tap){
+      console.log("Firebase.handleNotificationMessage tapped");
+      Analytics.logOnClickNotificationEvent(message["notification_type"]);
+      if (message["open_with_page"]) {
+        openWithPage(message["open_with_page"], message["notification_type"]);
+      }
+    }
+  },
+
+
+  handleDataMessage: function(message){
+    if (!Firebase.isEnabled) return;
+    console.log("Firebase.handleDataMessage Data message received: " + JSON.stringify(message));
+  },
 
 
   setUserId: function(userHash) {
