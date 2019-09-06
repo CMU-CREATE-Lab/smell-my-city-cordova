@@ -13,6 +13,7 @@ var Constants = {
   URL_MAP: "https://staging.api.smellpittsburgh.org/visualization",
 
   // Page Ids
+  UPDATES_PAGE: "updates",
   STARTUP_PAGE: "startup",
   HOME_PAGE: "home",
   MAP_PAGE: "map",
@@ -36,7 +37,9 @@ var Constants = {
   GLOBAL_TOPIC: "GlobalTopic",
   PITTSBURGH_AQI_TOPIC: "pghaqi",
   SMELL_REPORT_TOPIC: "SmellReports",
-
+  
+  //Make associated topic on Firebase
+  NOTIFICATION_TOPIC: "Notifications",
   // Location services enums
   AuthorizationEnum: {
     NOT_REQUESTED: "not requested",
@@ -52,5 +55,8 @@ var Constants = {
   //languages
   LANGUAGES: ["English","Español"],
   APP_TEXT: [],
+
+  //string with the date for last version of the app that required showing the user the updated features message
+  UPDATE_NEEDING_NOTIFICATION_DATE : "2019-09-06T00:00:00.000Z"
 
 }

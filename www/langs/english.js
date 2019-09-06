@@ -116,9 +116,9 @@ var english = {
     },
     notification: {
       h3: "Notifications",
-      label1: "Activate smell and air quality notifications that are important to you",
-      label2: "Smell Event Alerts",
-      label3: "(notifications about a potential smell event in the next 4-8 hours)",
+      label1: "Activate notifications that are important to you",
+      label2: "Smell MyCity Notifications",
+      label3: "Note: These notifications will pop up roughly once a week.",
       label4: "Air Quality Index Changes",
       label5: "(notifications about pgh air quality conditions)", //???
     },
@@ -143,6 +143,15 @@ var english = {
       l0: Constants.LANGUAGES[0],
       l1: Constants.LANGUAGES[1],
     },
+  },
+  //Contains only text for HTML objects, use updates.js to change footer link locaitons
+  updates: {
+    header: constants.defaultHeader,
+    h3: "New Update For Smell My City!",
+    p1: "We’ve added notifications to this app! See Settings for more details.",
+    footer: {
+              li1: "See new features",
+              li2: "Ok",}
   },
   overview: {
     panel: constants.defaultPanel,

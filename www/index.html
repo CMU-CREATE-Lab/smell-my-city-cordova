@@ -30,6 +30,7 @@
     <script src="js/globalfunctions.js"></script>
     <script src="js/location.js"></script>
     <script src="js/pages/startuppage.js"></script>
+    <script src="js/pages/updatespage.js"></script>
     <script src="js/pages/homepage.js"></script>
     <script src="js/pages/mappage.js"></script>
     <script src="js/pages/settingspage.js"></script>
@@ -242,11 +243,11 @@
           <div id="notificationsCollapsible" data-role="collapsible">
             <h3>{{notification.h3}}</h3>
             <label class="settings-description">{{notification.label1}}</label>
-            <label for="checkbox_smell_notifications">{{notification.label2}}<label class="settings-description-smaller">{{notification.label3}}</label></label>
-            <input type="checkbox" id="checkbox_smell_notifications" />
-            <label for="checkbox_pghaqi_notifications">{{notification.label4}}<label class="settings-description-smaller">{{notification.label5}}</label></label>
-            <input type="checkbox" id="checkbox_pghaqi_notifications" />
+            <label for="checkbox_notifications">{{notification.label2}}<label class="settings-description-smaller">{{notification.label3}}</label></label>
+            <input type="checkbox" id="checkbox_notifications" />
           </div>
+
+      </div>
           <div id="langsCollapsible" data-role="collapsible">
             <h3>{{lang.h3}}</h3>
             <div>
@@ -293,6 +294,26 @@
         <div data-role="navbar">
           <ul>
             <li><a href="#settings" id="startup-to-settings" data-transition="none"><span class="ui-icon-carat-r ui-btn-icon-notext inlineIcon"></span>{{footer}}</a></li>
+          </ul>
+        </div>
+      </div>
+    </script>
+    <!--updates page template-->
+    <script id="updates-tpl" type="text/template"><!-- header -->
+      <div data-role="header" data-position="fixed" data-tap-toggle="false">
+        <h1>{{header.h1}}</h1>
+      </div>
+      <!-- main -->
+      <div role="main" class="ui-content">
+        <h3>{{h3}}</h3>
+        <p>{{p1}}</p>
+      </div>
+      <!-- footer -->
+      <div data-role="footer" data-position="fixed" data-id="updates_1" data-tap-toggle="false">
+        <div data-role="navbar">
+          <ul>
+            <li><a href="" id="see-new-updates" data-transition="none"><span class="ui-icon-carat-r ui-btn-icon-notext inlineIcon"></span>{{footer.li1}}</a></li>
+            <li><a href="" id="take-me-back" data-transition="none"><span class="ui-icon-carat-r ui-btn-icon-notext inlineIcon"></span>{{footer.li2}}</a></li>
           </ul>
         </div>
       </div>
@@ -449,6 +470,8 @@
     <div data-role="page" id="settings">
     </div>
     <div data-role="page" id="startup">
+    </div>
+    <div data-role="page" id="updates">
     </div>
     <div data-role="page" id="about">
     </div>

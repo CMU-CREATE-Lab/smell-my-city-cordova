@@ -54,9 +54,11 @@ var App = {
 
     // set Screen name for Firebase Analytics (NOTE: pageId might be nonsense)
     Analytics.setScreenName(pageId);
-
     // Use this if the page needs initialized everytime the page is viewed
     switch (pageId) {
+      case Constants.UPDATES_PAGE:
+        UpdatesPage.initialize();
+        break;
       case Constants.STARTUP_PAGE:
         StartupPage.initialize();
         break;
@@ -130,13 +132,28 @@ var App = {
     // listen for keyboard events
     window.addEventListener("keyboardDidShow", onKeyboardShowInHomePage);
     window.addEventListener('keyboardDidHide', onKeyboardHide);
+
+    //Logic for deciding when to display the new update features page
+    if(new Date(LocalStorage.get("last_update_notification")) < (new Date(Constants.UPDATE_NEEDING_NOTIFICATION_DATE))){
+      LocalStorage.set("last_update_notification", Constants.UPDATE_NEEDING_NOTIFICATION_DATE);
+      LocalStorage.set("new_user_update",true);
+    }
     if (LocalStorage.get("firsttime_startup")) {
       App.navigateToPage(Constants.STARTUP_PAGE);
+      //No update news for new users
+      LocalStorage.set("new_user_update",false);
     } else {
+      //Redicrect current users to the update news
+      if(LocalStorage.get("new_user_update")){
+          App.navigateToPage(Constants.UPDATES_PAGE);
+          LocalStorage.set("new_user_update",false);
+      }
       if ($.mobile.pageContainer.pagecontainer("getActivePage")[0].id == Constants.HOME_PAGE) {
         HomePage.initialize();
       }
+
     }
+
 
   },
 
@@ -361,6 +378,7 @@ var App = {
     }, function(error) {
       callback(null);
     });
+
    /*var geocoder = new google.maps.Geocoder;
    var latlng = {lat:lat, lng:lng};//reformat params into google style LatLng object
    var city2;// the 2 at the end of the variable name, dont worry about it

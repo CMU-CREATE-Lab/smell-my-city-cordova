@@ -12,8 +12,10 @@ var LocalStorage = {
     storage_app_version: "1.1",
     // boolean values
     receive_smell_notifications: true,
+    receive_notifications: true,
     receive_pghaqi_notifications: true,
     firsttime_startup: true,
+    new_user_update: true,
     firsttime_home: true,
     firsttime_map: true,
     firsttime_prediction: true,
@@ -27,6 +29,8 @@ var LocalStorage = {
     phone: "",
     address: "",
     language: 0,
+    //string containing date that the app last showed the user the updated features message
+    last_update_notification: "1970-01-01T00:00:00.000Z",
   },
 
 
