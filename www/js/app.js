@@ -17,7 +17,6 @@ var App = {
   request: null,
   ajaxTimeout: 3000, // the number of milliseconds to wait for the ajax request to timeout
 
-
   /**
    * The type of callback that is being handled for calls to {@link initializePage}.
    * @enum {number}
@@ -113,7 +112,6 @@ var App = {
    */
   onDeviceReady: function () {
     console.log("onDeviceReady");
-
     // bind App events
     $(document).on("resume", App.onResume);
     $(document).on("pause", App.onPause);
@@ -207,7 +205,21 @@ var App = {
     $.mobile.pageContainer.pagecontainer("change", "#" + pageId, { changeHash: true, transition: "none" });
   },
 
-
+  /**
+   * changes html and css for popup div, making it temporarily visible before transitioning to invisible again.
+   * using visibility:hidden rather than display:none, as display:none messes with transition
+   */
+  showPopup: function(divId, time){
+    $("#"+divId).css("visibility","visible");
+    $('#'+divId).css("transition", "opacity " +(time/1000) + "s cubic-bezier(1, 0.5, 0.1, 0.1)");
+    $("#"+divId).css("opacity","0");
+    $("#"+divId).one("click", function(){$(this).css("visibility","hidden")});
+    popUpTimer = setTimeout(function(){
+      $('#'+divId).css("transition", "");
+      $("#"+divId).css("visibility","hidden");
+      $("#"+divId).css("opacity","1");
+    },time);
+  },
   /**
    * goes back to the previous page, most likely called when back/X button is clicked.
    */
