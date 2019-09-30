@@ -233,3 +233,10 @@ a.ui-btn {
 .ui-input-has-clear input {
   padding-right: 2.375em;
 }
+
+.popup-fadeout{
+  opacity:0 !important;
+  visibility: visible !important;
+  transition-timing-function: cubic-bezier(1, 0.5, 0.1, 0.1) !important;
+  transition-property: opacity !important;
+}

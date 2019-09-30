@@ -210,14 +210,11 @@ var App = {
    * using visibility:hidden rather than display:none, as display:none messes with transition
    */
   showPopup: function(divId, time){
-    $("#"+divId).css("visibility","visible");
-    $('#'+divId).css("transition", "opacity " +(time/1000) + "s cubic-bezier(1, 0.5, 0.1, 0.1)");
-    $("#"+divId).css("opacity","0");
+    $('#'+divId).css("transition-duration", (time/1000) + "s");
     $("#"+divId).one("click", function(){$(this).css("visibility","hidden")});
+    $("#"+divId).addClass("popup-fadeout");
     popUpTimer = setTimeout(function(){
-      $('#'+divId).css("transition", "");
-      $("#"+divId).css("visibility","hidden");
-      $("#"+divId).css("opacity","1");
+      $("#"+divId).removeClass("popup-fadeout");
     },time);
   },
   /**
