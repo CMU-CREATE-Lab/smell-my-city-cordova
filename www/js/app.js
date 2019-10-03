@@ -211,7 +211,7 @@ var App = {
    */
   showPopup: function(divId, time){
     $('#'+divId).css("transition-duration", (time/1000) + "s");
-    $("#"+divId).one("click", function(){$(this).css("visibility","hidden")});
+    $("#"+divId).one("click", function(){$("#"+divId).one("click", function(){ $("#"+divId).removeClass("popup-fadeout"); $(this).css("visibility","hidden")}); $(this).css("visibility","hidden")});
     $("#"+divId).addClass("popup-fadeout");
     popUpTimer = setTimeout(function(){
       $("#"+divId).removeClass("popup-fadeout");
