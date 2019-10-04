@@ -39,7 +39,7 @@ var Constants = {
   SMELL_REPORT_TOPIC: "SmellReports",
   
   //Make associated topic on Firebase
-  NOTIFICATION_TOPIC: "Notifications",
+  REMINDER_NOTIFICATION_TOPIC: "ReminderNotification",
   // Location services enums
   AuthorizationEnum: {
     NOT_REQUESTED: "not requested",
