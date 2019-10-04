@@ -116,12 +116,12 @@ var SettingsPage = {
   
     if (LocalStorage.get("receive_notifications")) {
       LocalStorage.set("receive_notifications", false);
-      // Firebase.unsubscribe(topicName);
-      // Analytics.logOnUnsubscribeEvent(topicName);
+      Firebase.unsubscribe(topicName);
+      Analytics.logOnUnsubscribeEvent(topicName);
     } else {
       LocalStorage.set("receive_notifications", true);
-      // Firebase.subscribe(topicName);
-      // Analytics.logOnSubscribeEvent(topicName);
+      Firebase.subscribe(topicName);
+      Analytics.logOnSubscribeEvent(topicName);
     }
   },
   onToggleSmellNotifications: function() {
