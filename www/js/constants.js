@@ -7,7 +7,7 @@ var Constants = {
   CLIENT_ID: "e431cd0eb45ae1619d5208410060470c",
   LOCATION_SERVICES: true,
   PLATFORM_CALLBACK_ONREADY: true,
-  APP_VERSION: "1.0.4",
+  APP_VERSION: "1.1.0",
   URL_API: "https://staging.api.smellpittsburgh.org",
   STAGING: "https://staging.api.smellpittsburgh.org",
   URL_MAP: "https://staging.api.smellpittsburgh.org/visualization",
