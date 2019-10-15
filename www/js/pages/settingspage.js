@@ -112,8 +112,8 @@ var SettingsPage = {
   // callbacks
   //REMEMBER TO TURN ON FIREBASE SUBSCRIPTION ONCE TOPICS ARE MADE
   onToggleNotifications: function() {
-    var topicName = Constants.NOTIFICATION_TOPIC;
-  
+    var topicName = Constants.REMINDER_NOTIFICATION_TOPIC;
+
     if (LocalStorage.get("receive_notifications")) {
       LocalStorage.set("receive_notifications", false);
       Firebase.unsubscribe(topicName);
@@ -126,7 +126,7 @@ var SettingsPage = {
   },
   onToggleSmellNotifications: function() {
     var topicName = Constants.SMELL_REPORT_TOPIC;
-  
+
     if (LocalStorage.get("receive_smell_notifications")) {
       LocalStorage.set("receive_smell_notifications", false);
       // Firebase.unsubscribe(topicName);
@@ -141,7 +141,7 @@ var SettingsPage = {
   //Renaming onTogglePittsburghAqiNotifications function to onToggleSmellMyCity
   onToggleSmellMyCityAqiNotifications: function() {
     var topicName = Constants.PITTSBURGH_AQI_TOPIC;
-  
+
     if (LocalStorage.get("receive_smcaqi_notifications")) {
       LocalStorage.set("receive_smcaqi_notifications", false);
       // Firebase.unsubscribe(topicName);

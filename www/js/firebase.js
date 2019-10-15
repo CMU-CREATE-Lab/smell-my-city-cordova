@@ -43,10 +43,10 @@ var Firebase = {
     // subscribe to topics
     window.FirebasePlugin.subscribe(Constants.GLOBAL_TOPIC);
     if (Firebase.verboseLogging) console.log("FirebasePlugin subcribed to: " + Constants.GLOBAL_TOPIC);
-    //if (LocalStorage.get("receive_pghaqi_notifications")) {
-    //  window.FirebasePlugin.subscribe(Constants.PITTSBURGH_AQI_TOPIC);
-    //  if (Firebase.verboseLogging) console.log("subcribed to: " + Constants.PITTSBURGH_AQI_TOPIC);
-    //}
+    if (LocalStorage.get("receive_notifications")) {
+     window.FirebasePlugin.subscribe(Constants.REMINDER_NOTIFICATION_TOPIC);
+     if (Firebase.verboseLogging) console.log("subcribed to: " + Constants.REMINDER_NOTIFICATION_TOPIC);
+    }
 
     window.FirebasePlugin.grantPermission();
   },
