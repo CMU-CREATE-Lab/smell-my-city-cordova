@@ -7,7 +7,7 @@ var Constants = {
   CLIENT_ID: "e431cd0eb45ae1619d5208410060470c",
   LOCATION_SERVICES: true,
   PLATFORM_CALLBACK_ONREADY: true,
-  APP_VERSION: "1.1.0",
+  APP_VERSION: "1.1.2",
   URL_API: "https://staging.api.smellpittsburgh.org",
   STAGING: "https://staging.api.smellpittsburgh.org",
   URL_MAP: "https://staging.api.smellpittsburgh.org/visualization",
@@ -37,7 +37,7 @@ var Constants = {
   GLOBAL_TOPIC: "GlobalTopic",
   PITTSBURGH_AQI_TOPIC: "pghaqi",
   SMELL_REPORT_TOPIC: "SmellReports",
-  
+
   //Make associated topic on Firebase
   REMINDER_NOTIFICATION_TOPIC: "ReminderNotification",
   // Location services enums
