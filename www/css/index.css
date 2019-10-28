@@ -74,6 +74,9 @@ div[data-role="panel"] {
   width: calc(100% - 60px) !important;
   padding-left: 30px !important;
   bottom: 5% !important;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
 }
 
 .ui-panel-inner>.ui-listview {
