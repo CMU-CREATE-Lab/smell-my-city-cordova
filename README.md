@@ -7,7 +7,7 @@ This application was designed using [Cordova](https://cordova.apache.org/). It u
 
 Note: If you try to build in Android Studio, you may need to click the link in the error message that comes up to "move" the minSdk. Follow the instructions the IDE gives. It can actually be helpful at times. This may (hopefully) become unnecessary after future cordova android platform updates.
 
-Currently used library versions (as of app version 1.0.5):
+Currently used library versions (as of app version 1.1.2):
 - cordova: `9.0.0`
-- cordova platform android: `8.0.0`
-- cordova platform ios: `4.5.5`
+- cordova platform android: `8.1.0`
+- cordova platform ios: `5.0.1`
