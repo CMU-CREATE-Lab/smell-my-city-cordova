@@ -3,8 +3,8 @@ var Location = {
   hasLocation: false,
   isRequestingLocation: false,
   coords: {},
-
-  watchIds: [],
+  afterSuccessCallbackQueue: [],
+  afterFailureCallbackQueue: [],
 
 
   // Request location permission
@@ -66,52 +66,61 @@ var Location = {
   },
 
 
+  handleOnSuccessCallbacks: function(position) {
+    for (var i = 0; i < Location.afterSuccessCallbackQueue.length; i++) {
+      if (typeof(Location.afterSuccessCallbackQueue[i]) === "function") {
+        Location.afterSuccessCallbackQueue[i](position);
+      }
+    }
+    Location.afterSuccessCallbackQueue = [];
+    Location.afterFailureCallbackQueue = [];
+    Location.hasLocation = true;
+    Location.stopRequestLocation();
+  },
+
+
+  handleOnFailureCallbacks: function(position) {
+    for (var i = 0; i < Location.afterFailureCallbackQueue.length; i++) {
+      if (typeof(Location.afterFailureCallbackQueue[i]) === "function") {
+        Location.afterFailureCallbackQueue[i](position);
+      }
+    }
+    Location.afterFailureCallbackQueue = [];
+    Location.stopRequestLocation();
+  },
+
+
   // Request the user's location
   requestLocation: function(afterSuccess, afterFailure) {
     console.log("requestLocation");
-
     if (isConnected()) {
-      if (!Location.isRequestingLocation) {
-        console.log("in requestLocation: " + Location.watchIds.length);
-        Location.isRequestingLocation = true;
+      var onSuccess = function(position) {
+        Location.coords = position.coords;
+        console.log("requestLocation got coords: " + Location.coords.latitude + ", " + Location.coords.longitude);
+        var latitude = (Location.coords != null) ? Location.coords.latitude : 0;
+        var longitude = (Location.coords != null) ? Location.coords.longitude : 0;
+        afterSuccess(latitude,longitude);
+      };
+      Location.afterSuccessCallbackQueue.push(onSuccess);
 
-        var onSuccess = function(position) {
-          Location.coords = position.coords;
-          Location.hasLocation = true;
-          console.log("requestLocation got coords: " + Location.coords.latitude + ", " + Location.coords.longitude);
-          Location.stopRequestLocation();
-          var latitude = (Location.coords != null) ? Location.coords.latitude : 0;
-          var longitude = (Location.coords != null) ? Location.coords.longitude : 0;
-          afterSuccess(latitude,longitude);
-        };
-        var onError = function (error) {
-          console.log("requestLocation error code: " + error.code);
-          console.log("requestLocation error message: " + error.message);
-          Location.stopRequestLocation();
-          afterFailure(error);
-          /*navigator.notification.confirm("Would you like to retry?", onConfirm, "Failure Requesting Location", ["Retry", "Cancel"]);
-          function onConfirm(index) {
-            if (index == 1) {
-               Location.requestLocation(afterSuccess);
-            } else {
-              // if getting location failed and they do not want to retry, then fire afterFailure callback
-              if (typeof afterFailure === "function") {
-                afterFailure(error);
-              } else {
-                console.log("requestLocation: afterFailure callback not specified");
-              }
-            }
-          }*/
-        };
-        var pushLocation = function() {
-          console.log('requestLocation pushLocation');
-          if (!HomePage.submittingReport) {
-            showSpinner("Requesting Location\nPlease Wait...");
-          }
-          Location.watchIds.push(navigator.geolocation.watchPosition(onSuccess, onError, { maximumAge: 3000, timeout: 60000, enableHighAccuracy: true }));
+      var onError = function (error) {
+        console.log("requestLocation error code: " + error.code);
+        console.log("requestLocation error message: " + error.message);
+        afterFailure(error);
+      };
+      Location.afterFailureCallbackQueue.push(onError);
+
+      var getLocation = function() {
+        console.log('requestLocation getLocation');
+        if (!HomePage.submittingReport) {
+          showSpinner("Requesting Location\nPlease Wait...");
         }
+        navigator.geolocation.getCurrentPosition( Location.handleOnSuccessCallbacks, Location.handleOnFailureCallbacks, { maximumAge: 3000, timeout: 60000, enableHighAccuracy: true } );
+      }
 
-        // Request change settings if we need to
+      // Request change settings if we need to
+      if (!Location.isRequestingLocation) {
+        Location.isRequestingLocation = true;
         cordova.plugins.locationAccuracy.request(
           function(success) {
             App.accuracyStatus = Constants.AccuracyEnum.ENABLED;
@@ -119,13 +128,16 @@ var Location = {
             if (App.authorizationStatus == Constants.AuthorizationEnum.DENIED_ALWAYS) {
               Location.requestLocationPermission();
             } else {
-              pushLocation();
+              getLocation();
             }
           }, function(error) {
             console.log("error code: " + error.code + "\nerror message: " + error.message);
+            if (error.message == "A request is already in progress") return;
             App.accuracyStatus = Constants.AccuracyEnum.DISABLED;
-            navigator.notification.confirm("The app may not function as expected without the appropriate location settings enabled.", pushLocation, "Failure Changing Location Settings", ["Ok"]);
+            navigator.notification.confirm("The app may not function as expected without the appropriate location settings enabled.", getLocation, "Failure Changing Location Settings", ["Ok"]);
           }, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
+      } else {
+        console.log('Already requesting location. Added callback to queue.');
       }
     } else {
       navigator.notification.confirm("Enable wifi or data then click 'Retry' in order to request location.", alertDismissed, "No Internet Connection", ["Retry"]);
@@ -138,15 +150,10 @@ var Location = {
 
   // Stop requesting the user's location
   stopRequestLocation: function() {
-    console.log("requestLocation stopRequestLocation: " + Location.watchIds.length);
+    console.log("stopRequestLocation");
     Location.isRequestingLocation = false;
     if (!HomePage.submittingReport) {
       hideSpinner();
-    }
-    var l = Location.watchIds.length;
-    for (var i = l-1; i >= 0; i--) {
-      navigator.geolocation.clearWatch(Location.watchIds[i]);
-      Location.watchIds.pop();
     }
   }
 
