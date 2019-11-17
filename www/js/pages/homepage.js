@@ -370,7 +370,7 @@ var HomePage = {
       console.log("WARNING: refusing to send with non-null request.");
       return;
     }
-    
+
     HomePage.request = $.ajax({
       type: "POST",
       dataType: "json",
@@ -387,7 +387,7 @@ var HomePage = {
         MapPage.centerLocation = [ data["latitude"], data["longitude"] ];
         App.navigateToPage(Constants.MAP_PAGE);
         //Popup notifying user of successful submission
-        App.showPopup("success-popup",5000);
+        App.showPopup("success-popup",4000);
       },
 
       error: function(msg) {
