@@ -249,3 +249,11 @@ a.ui-btn {
   transition-timing-function: cubic-bezier(1, 0, 0, 0) !important;
   transition-property: opacity !important;
 }
+
+.ui-footer {
+  border-bottom: none !important;
+}
+
+.ui-footer-fixed {
+  bottom: 0px !important;
+}

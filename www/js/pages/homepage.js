@@ -93,6 +93,7 @@ var HomePage = {
 
     // browser compatibility issues (Yay?)
     $("#home").resize();
+    $("#home .ui-panel-inner").find(".ui-btn-active").removeClass("ui-btn-active");
 
     // Update current city name and coressponding info
     App.refreshCity();

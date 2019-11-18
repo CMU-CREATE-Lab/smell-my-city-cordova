@@ -33,6 +33,9 @@ var MapPage = {
 
     var mapUrl = Constants.URL_MAP + "?user_hash=" + LocalStorage.get("user_hash") + "&client_token=" + Constants.CLIENT_ID;
 
+    // browser compatibility issues (Yay?)
+    $("#map .ui-panel-inner").find(".ui-btn-active").removeClass("ui-btn-active");
+
     // Update current city name and corresponding info
     App.refreshCity(null, function() {
       var currentCity = LocalStorage.get("current_city");
