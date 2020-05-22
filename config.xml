@@ -30,7 +30,7 @@
         <splash density="port-ldpi" src="res/screen/android/splash-port-ldpi.png" />
         <splash density="port-mdpi" src="res/screen/android/splash-port-mdpi.png" />
         <splash density="port-xhdpi" src="res/screen/android/splash-port-xhdpi.png" />
-        /* App Icons */
+        <!-- App Icons -->
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" />
         </edit-config>
@@ -44,8 +44,8 @@
         <resource-file src="res/icon/android/mipmap-xxhdpi/ic_launcher_round.png" target="app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" />
         <resource-file src="res/icon/android/mipmap-xxxhdpi/ic_launcher.png" target="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" />
         <resource-file src="res/icon/android/mipmap-xxxhdpi/ic_launcher_round.png" target="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" />
-        /* End App icons */
-        /* Notification Icons */
+        <!-- End App icons -->
+        <!-- Notification Icons -->
         <resource-file src="res/colors.xml" target="app/src/main/res/values/colors.xml"/>
         <resource-file src="res/icon/android/drawable-mdpi/notification_icon.png" target="app/src/main/res/drawable-mdpi/notification_icon.png" />
         <resource-file src="res/icon/android/drawable-hdpi/notification_icon.png" target="app/src/main/res/drawable-hdpi/notification_icon.png" />
@@ -55,7 +55,7 @@
         <config-file target="app/src/main/AndroidManifest.xml" parent="/manifest/application">
             <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/notification_icon" />
         </config-file>
-        /* End Notification Icons */
+        <!-- End Notification Icons -->
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
@@ -113,10 +113,11 @@
     <plugin name="cordova-plugin-nativegeocoder" spec="3.4.1" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="2.1.3" />
     <plugin name="cordova-plugin-globalization" spec="^1.11.0" />
-    /* Any version higher causes a Multidex build error because of the addtional firebase methods added.
+    <!--
+       Any version higher causes a Multidex build error because of the addtional firebase methods added.
        We can either use the https://github.com/adriano-di-giovanni/cordova-plugin-enable-multidex plugin
        or wait until the firebase plugin gets split up into modules.
-     */
+    -->
     <plugin name="cordova-plugin-firebasex" spec="7.0.2" />
     <plugin name="cordova-plugin-androidx" spec="1.0.2" />
     <plugin name="cordova-plugin-androidx-adapter" spec="1.1.1" />
