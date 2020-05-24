@@ -131,27 +131,33 @@ var App = {
     window.addEventListener("keyboardDidShow", onKeyboardShowInHomePage);
     window.addEventListener('keyboardDidHide', onKeyboardHide);
 
-    //Logic for deciding when to display the new update features page
+    // Logic for deciding when to display the new update features page
     if(new Date(LocalStorage.get("last_update_notification")) < (new Date(Constants.UPDATE_NEEDING_NOTIFICATION_DATE))){
       LocalStorage.set("last_update_notification", Constants.UPDATE_NEEDING_NOTIFICATION_DATE);
       LocalStorage.set("new_user_update",true);
     }
     if (LocalStorage.get("firsttime_startup")) {
       App.navigateToPage(Constants.STARTUP_PAGE);
-      //No update news for new users
+      // No update news for new users
       LocalStorage.set("new_user_update",false);
     } else {
-      //Redicrect current users to the update news
-      if(LocalStorage.get("new_user_update")){
+      // Redirect current users to the update news
+      if (LocalStorage.get("new_user_update")) {
           App.navigateToPage(Constants.UPDATES_PAGE);
           LocalStorage.set("new_user_update",false);
       }
       if ($.mobile.pageContainer.pagecontainer("getActivePage")[0].id == Constants.HOME_PAGE) {
         HomePage.initialize();
       }
-
     }
 
+    // iOS fix for links
+    $(document).on("click touchend", "a[target='_blank']", function(e) {
+      e.preventDefault();
+      var el = $(this);
+      var link = el.attr("href");
+      window.location = link;
+    });
 
   },
 
@@ -350,9 +356,14 @@ var App = {
         "background-color": city.metaData["side_menu_background_color"]
       });
       $("#button_submit_report").css("background-color", city.metaData["side_menu_background_color"]);
-      $("#textfield_smell_description").attr("placeholder", "e.g. " + city.metaData["smell_description_placeholder_text"]);
+      if (city.metaData["smell_description_placeholder_text"]) {
+        $("#textfield_smell_description").attr("placeholder", city.metaData["smell_description_placeholder_text"]);
+      }
+      if (city.metaData["feelings_symptoms_placeholder_text"]) {
+        $("#textfield_feelings_symptoms").attr("placeholder", city.metaData["feelings_symptoms_placeholder_text"]);
+      }
       if (city.metaData["additional_notes_placeholder_text"]) {
-        $("#textfield_additional_comments").attr("placeholder", "e.g. " + city.metaData["additional_notes_placeholder_text"]);
+        $("#textfield_additional_comments").attr("placeholder", city.metaData["additional_notes_placeholder_text"]);
       }
       $("#textfield_additional_comments").parent().show();
     }
