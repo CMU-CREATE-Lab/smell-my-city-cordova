@@ -153,6 +153,13 @@ var english = {
               li1: "See new features",
               li2: "Ok",}
   },
+  maperror: {
+    panel: constants.defaultPanel,
+    header: constants.defaultHeader,
+    h3: "Map Service Unavailable",
+    p1: "Sorry, it seems we're experiencing issues with loading the map. Please try again later.",
+    footer: constants.defaultFooter,
+  },
   overview: {
     panel: constants.defaultPanel,
     header: {

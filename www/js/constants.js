@@ -22,6 +22,7 @@ var Constants = {
   OVERVIEW_PAGE: "overview",
   LOCATION_SELECT_PAGE: "locationselect",
   HOW_IT_WORKS_PAGE: "howitworks",
+  MAP_ERROR_PAGE: "maperror",
 
   // Local Storage keys
   USER_HASH_KEY: "user_hash",
@@ -49,7 +50,7 @@ var Constants = {
   },
   AccuracyEnum: {
     ENABLED: "enabled",
-    DISABLED: "disabled"
+    DISABLED: "disabled",
   },
 
   //languages
