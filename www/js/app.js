@@ -155,7 +155,7 @@ var App = {
     }
 
     // iOS fix for links
-    $(document).on("click touchend", "a[target='_blank']", function(e) {
+    $(document).on("click", "a[target='_blank']", function(e) {
       e.preventDefault();
       var el = $(this);
       var link = el.attr("href");
