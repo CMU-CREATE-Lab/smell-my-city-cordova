@@ -113,8 +113,6 @@ div[data-role="panel"] {
   border-color: white !important;
 }
 
-
-
 /* Remove title restriction on modal headers */
 .modal-title {
   margin: 0 10% 0 !important;

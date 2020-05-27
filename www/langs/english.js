@@ -72,7 +72,7 @@ var english = {
       label4: "Report Time",
       option: "Now",
     },
-    disclaimer: "NOTE: Please only enter information that you are comfortable with sharing anonymously on the public Smell MyCity map.",
+    disclaimer: "Please only enter information that you are comfortable with sharing anonymously on the public Smell MyCity map.<br><br>Also, please refrain from using offensive language in your report. We are replacing expletives with asterisks to keep this space safe for all.",
     regulatoryAgencyNote: "All smell reports within <span class='regulatory-region-name'></span> will be forwarded to the <span class='regulatory-agency-name'></span>. If you'd like to receive correspondence from them, enter your contact info in the settings tab.",
     button: "Submit Smell Report",
     footer: constants.defaultFooter
@@ -152,6 +152,13 @@ var english = {
     footer: {
               li1: "See new features",
               li2: "Ok",}
+  },
+  maperror: {
+    panel: constants.defaultPanel,
+    header: constants.defaultHeader,
+    h3: "Map Service Unavailable",
+    p1: "Sorry, it seems we're experiencing issues with loading the map. Please try again later.",
+    footer: constants.defaultFooter,
   },
   overview: {
     panel: constants.defaultPanel,

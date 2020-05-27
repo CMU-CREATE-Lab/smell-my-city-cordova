@@ -3,6 +3,25 @@ var MapPage = {
   text: null, //the text for the page's template
   centerLocation: [],
   didInitialLoad: false,
+  initialIFrameLoaded: false,
+  timer: null,
+  iFrameTimeoutInMs: 8000,
+
+
+
+  mapCheck: function() {
+    console.log("Checking if map loaded");
+    MapPage.initialIFrameLoaded = true;
+    var $iframe = $($("#iframe-map")[0].contentWindow.document.body.innerHTML);
+    if ($iframe) {
+      if ($iframe.find("#map-container").length == 0) {
+        console.log("Map Error");
+        App.navigateToPage(Constants.MAP_ERROR_PAGE);
+      } else {
+        console.log("Map Loaded");
+      }
+    }
+  },
 
 
   loadTemplate: function() {
@@ -15,10 +34,24 @@ var MapPage = {
 
   setListeners: function() {
     // (future listeners will go here)
+
+    // If IFrame has loaded
+    $('#iframe-map').load(function(e) {
+      console.log("IFrame has loaded");
+      clearTimeout(MapPage.timer);
+      // Check if map page is not 404
+      if (!MapPage.initialIFrameLoaded) {
+        MapPage.mapCheck();
+      }
+    });
   },
 
 
   onCreate: function() {
+    // IFrame Loading Check
+    MapPage.initialIFrameLoaded = false;
+    MapPage.timer = setTimeout(MapPage.mapCheck, MapPage.iFrameTimeoutInMs);
+
     if (!MapPage.didInitialLoad) {
       MapPage.didInitialLoad = true;
       this.loadTemplate();
@@ -42,7 +75,8 @@ var MapPage = {
       if (currentCity && currentCity.name) {
         mapUrl += "&cityName=" + currentCity.name + "&zipCode=" + currentCity.zip;
       }
-      $('#iframe-map').attr('src', mapUrl + "&latLng=" + currentCity.lat + "," + currentCity.lng);
+      mapUrl += "&latLng=" + currentCity.lat + "," + currentCity.lng;
+      $('#iframe-map').attr('src', mapUrl);
 
       // browser compatibility issues (Yay?)
       $("#map").resize();
