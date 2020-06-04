@@ -255,3 +255,21 @@ a.ui-btn {
 .ui-footer-fixed {
   bottom: 0px !important;
 }
+
+/* Unfortunately, these cannot be combined into a single selector.
+   Chrome and perhaps other browsers are unable to parse them that way. */
+::-webkit-input-placeholder {
+    opacity: 0.5 !important;
+}
+
+::-moz-placeholder {
+    opacity: 0.5 !important;
+}
+
+::-ms-placeholder {
+    opacity: 0.5 !important;
+}
+
+::placeholder {
+    opacity: 0.5 !important;
+}
