@@ -385,6 +385,8 @@ var HomePage = {
         HomePage.clearForm();
         HomePage.request = null;
         HomePage.submittingReport = false;
+
+
         if(data.error){
           alert(data.error);
         }else{
