@@ -7,6 +7,7 @@ var constants = {
     li2: "How It Works",
     li3: "Settings",
     li4: "About Us",
+    li5: "Community Guidelines",
     a: "Close",
   },
   defaultHeader: {
@@ -223,6 +224,18 @@ var english = {
     li16: "The location of the smell (based on the GPS location of your phone)",
     li17: "Date, time and rating of the smell report",
     li18: "Description, symptoms and notes included in the smell report, if any.",
+    footer: constants.defaultFooter,
+  },
+  communityguidelines: {
+    panel: constants.defaultPanel,
+    header: {
+      h1: "Guidelines",
+      a: constants.defaultHeader.a,
+    },
+    h2_1: "Community Guidelines",
+    p1: "The Smell MyCity app was developed with and for the community. As such, the app reports and data are publicly sourced, collaboratively curated, and collectively utilized by neighbors across the country. <b>We rely on trust within this community to engage with the Smell MyCity app in such a way that is respectful, kind and honest.</b>",
+    p2: "Our goal is to build and maintain a platform that is welcoming and safe for all users. In this spirit, we kindly ask that you are considerate and mindful with the language you use in comments posted through the app. To enable everyone to freely express themselves, while also ensuring that the app continues to be a welcoming platform for everyone, we will be redacting offensive or harmful language on the public Smell MyCity map and in data downloads.",
+    note: "<i>* Note that we will retain a copy of the original text in order to verify that our redaction process is functioning accurately.</i>",
     footer: constants.defaultFooter,
   }
 }

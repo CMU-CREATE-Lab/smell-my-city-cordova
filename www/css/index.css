@@ -73,7 +73,7 @@ div[data-role="panel"] {
   position: absolute !important;
   width: calc(100% - 60px) !important;
   padding-left: 30px !important;
-  bottom: 5% !important;
+  bottom: -6px !important;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
