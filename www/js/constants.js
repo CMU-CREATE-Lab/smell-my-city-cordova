@@ -45,7 +45,9 @@ var Constants = {
   // Locations
   BAYAREA_TOPIC: "BA",
   LOUISVILLE_TOPIC: "LOU",
-  PITTSBURGH_TOPIC: "PGH",
+  
+  // Todo: Change to PGH for consistency, currently pghaqi for backcompatability
+  PITTSBURGH_TOPIC: "pghaqi",
   PORTLAND_TOPIC: "PDX",
 
  //Notification Types 
