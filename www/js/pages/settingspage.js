@@ -82,6 +82,7 @@ var SettingsPage = {
 
 
   refreshNotifications: function() {
+    // Refresh checkbox tick for each location from server
     $("#locNotificationsCollapsible input[type=checkbox]").each(function(){
       $(this).prop('checked', LocalStorage.get($(this).id)).checkboxradio("refresh");
     });
@@ -99,10 +100,10 @@ var SettingsPage = {
     $("#textfield_phone").prop("value", LocalStorage.get("phone"));
     $("#textfield_address").prop("value", LocalStorage.get("address"));
 
-    $("#bayarea_notifications").prop("checked", LocalStorage.get("bayarea_notifications"))
-    $("#louisville_notifications").prop("checked", LocalStorage.get("louisville_notifications"))
-    $("#pittsburgh_notifications").prop("checked", LocalStorage.get("pittsburgh_notifications"))
-    $("#portland_notifications").prop("checked", LocalStorage.get("portland_notifications"))
+    // Set checkbox tick for each location from server
+    $("#locNotificationsCollapsible input[type=checkbox]").each(function(){
+      $(this).prop('checked', LocalStorage.get($(this).id))
+    });
 
     $("#reminder_notifications").prop("checked", LocalStorage.get("reminder_notifications"))
     $("#aqi_notifications").prop("checked", LocalStorage.get("aqi_notifications"))
