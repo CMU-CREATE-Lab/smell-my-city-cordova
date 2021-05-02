@@ -12,17 +12,26 @@ var SettingsPage = {
     $('#settings').trigger('create');
   },
 
+  loadCities: function(){
+    var url = Constants.URL_API + "/api/v2/cities/hashes";
+    var container = $("#locNotificationsCollapsible").find(".ui-collapsible-content")
+    $.get(url,function(data){
+        data.forEach(function(city){
+          temp = $('<div />', {class: "ui-checkbox"})
+          $('<input />', { type: 'checkbox', id: `${city.name}_notification`}).appendTo(temp);
+          $('<label />', { 'for': `${city.name}_notification`, text: city.name, class: "ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-checkbox-off" }).appendTo(temp);
+          temp.appendTo(container);
+          $(`#${city.name}_notification`).click(function(){SettingsPage.onToggleNotifications(city.hashed,`#${city.name}_notification`)});
+        });
+    });
+  },
 
   setListeners: function() {
     // avoid seeing the collapsed tabs on the first page transition
     this.expandTabs();
 
     // click listeners
-    // ticking (checkbox) listeners
-    $("#bayarea_notifications").click(function(){SettingsPage.onToggleNotifications(Constants.BAYAREA_TOPIC,"bayarea_notifications")});
-    $("#louisville_notifications").click(function(){SettingsPage.onToggleNotifications(Constants.LOUISVILLE_TOPIC,"louisville_notifications")});
-    $("#pittsburgh_notifications").click(function(){SettingsPage.onToggleNotifications(Constants.PITTSBURGH_TOPIC,"pittsburgh_notifications")});
-    $("#portland_notifications").click(function(){SettingsPage.onToggleNotifications(Constants.PORTLAND_TOPIC,"portland_notifications")});    
+    // ticking (checkbox) listeners 
 
     $("#reminder_notifications").click(function(){SettingsPage.onToggleNotifications(Constants.REMINDER_TOPIC,"reminder_notifications")});
     $("#aqi_notifications").click(function(){SettingsPage.onToggleNotifications(Constants.AQI_TOPIC,"aqi_notifications")});
@@ -49,6 +58,7 @@ var SettingsPage = {
     if (!SettingsPage.didInitialLoad) {
       SettingsPage.didInitialLoad = true;
       this.loadTemplate();
+      this.loadCities();
       this.setListeners();
       this.refreshNotifications();
       this.populateFormSettings();
@@ -72,11 +82,9 @@ var SettingsPage = {
 
 
   refreshNotifications: function() {
-
-    $("#bayarea_notifications").prop("checked", LocalStorage.get("bayarea_notifications")).checkboxradio("refresh");
-    $("#louisville_notifications").prop("checked", LocalStorage.get("louisville_notifications")).checkboxradio("refresh");
-    $("#pittsburgh_notifications").prop("checked", LocalStorage.get("pittsburgh_notifications")).checkboxradio("refresh");
-    $("#portland_notifications").prop("checked", LocalStorage.get("portland_notifications")).checkboxradio("refresh");
+    $("#locNotificationsCollapsible input[type=checkbox]").each(function(){
+      $(this).prop('checked', LocalStorage.get($(this).id)).checkboxradio("refresh");
+    });
 
     $("#reminder_notifications").prop("checked", LocalStorage.get("reminder_notifications")).checkboxradio("refresh");
     $("#aqi_notifications").prop("checked", LocalStorage.get("aqi_notifications")).checkboxradio("refresh");

@@ -42,13 +42,14 @@ var Constants = {
   SMELL_REPORT_TOPIC: "SmellReports",
 
 
-  // Locations
-  BAYAREA_TOPIC: "BA",
-  LOUISVILLE_TOPIC: "LOU",
+  // No Longer needed as we now pull locations from the server
+  // // Locations
+  // BAYAREA_TOPIC: "BA",
+  // LOUISVILLE_TOPIC: "LOU",
   
-  // Todo: Change to PGH for consistency, currently pghaqi for backcompatability
-  PITTSBURGH_TOPIC: "pghaqi",
-  PORTLAND_TOPIC: "PDX",
+  // // Todo: Change to PGH for consistency, currently pghaqi for backcompatability
+  // PITTSBURGH_TOPIC: "pghaqi",
+  // PORTLAND_TOPIC: "PDX",
 
  //Notification Types 
   REMINDER_TOPIC: "RMD",

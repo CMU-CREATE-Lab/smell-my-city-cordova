@@ -120,10 +120,6 @@ var english = {
       label1: "Activate notifications that are important to you",
       head2: "Subscribed Locations",
       label2: "Locations you wish to get notifications for",  
-      label3: "Bay Area",
-      label4: "Louisville",
-      label5: "Pittsburgh",
-      label6: "Portland",
       head3: "Notification Types",
       label7: "Types of notifications you wish to get",
       label8: "Remind me to use the app!",
@@ -131,6 +127,7 @@ var english = {
       label10: "Provide hourly and daily reports",
       label11: "Predict changes in air quality",
       label12: "Currently only for Pittsburgh",
+      head4: "General Notifications"
     },
     lang: {
       h3: "Language",
