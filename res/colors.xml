@@ -4,4 +4,6 @@
     <color name="primary">#193a45</color>
     <color name="primary_dark">#FF220022</color>
     <color name="accent">#FF00FFFF</color>
+    <color name="cdv_splashscreen_background">#234c59</color>
+    <color name="cdv_splashscreen_icon_background">#234c59</color>
 </resources>
