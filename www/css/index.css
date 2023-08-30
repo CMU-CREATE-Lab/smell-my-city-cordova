@@ -224,6 +224,10 @@ h2 {
   display: none;
 }
 
+.disabled {
+  display: none;
+}
+
 a.ui-btn {
   -webkit-touch-callout: none !important;
   -webkit-user-drag: none !important;

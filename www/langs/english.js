@@ -149,7 +149,7 @@ var english = {
   updates: {
     header: constants.defaultHeader,
     h3: "New Update For Smell My City!",
-    p1: "We’ve added notifications to this app! See Settings for more details.",
+    p1: "We've added notifications to this app! See Settings for more details.",
     footer: {
               li1: "See new features",
               li2: "Ok",}
