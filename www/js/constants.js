@@ -46,6 +46,7 @@ var Constants = {
   AuthorizationEnum: {
     NOT_REQUESTED: "not requested",
     GRANTED: "granted",
+    GRANTED_WHEN_IN_USE: "authorized_when_in_use",
     DENIED: "denied",
     DENIED_ALWAYS: "denied always",
   },
